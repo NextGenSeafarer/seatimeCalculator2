@@ -18,11 +18,11 @@ public class SeaTimeCountingLogic {
     }
 
 
-    public String countTheSeaTime(LocalDate beginContractDate, LocalDate endContractDate, String vessel_name) {
-        if (checkVesselName(vessel_name)) {
-            return formattingTheResultString(beginContractDate, endContractDate);
-        }
-        return NOT_CORRECT_VESSEL_NAME;
+    public String countTheSeaTime(LocalDate beginContractDate, LocalDate endContractDate) {
+
+        return formattingTheResultString(beginContractDate, endContractDate);
+
+
     }
 
     private boolean validityOfEnteredDatesCheck(LocalDate beginContractDate, LocalDate endContractDate) {
@@ -96,10 +96,5 @@ public class SeaTimeCountingLogic {
 
         return resultYear + resultMonth + resultDay;
     }
-
-    private boolean checkVesselName(String vessel_name) {
-        return vessel_name != null && !vessel_name.isBlank();
-    }
-
 
 }

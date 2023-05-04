@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<head>
+    <title>Registration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+</head>
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+    <body class="d-flex h-100 text-center text-bg-dark">
+
+
+    <div th:insert="~{blocks/header :: header}"></div>
+
+
+    <div class="justify-content-center">
+        <h1 class="display-4 py-4">Registration</h1>
+        <br>
+        <form th:action="@{/registration}" th:object="${user}" method="post">
+            <br>
+
+            <th:block th:if="${#fields.hasErrors('firstname')}">
+                <div th:each="el : ${#fields.detailedErrors('firstname')}" class="me-2">
+                    <h6 class="text-warning" th:text="${el.getMessage()}"></h6>
+                </div>
+            </th:block>
+
+            <div>
+                <label>
+                    <input type="text" class="form-control my-3" th:field="*{firstname}" placeholder="first name">
+                </label>
+            </div>
+
+            <th:block th:if="${#fields.hasErrors('lastname')}">
+                <div th:each="el : ${#fields.detailedErrors('lastname')}" class="me-2">
+                    <h6 class="text-warning" th:text="${el.getMessage()}"></h6>
+                </div>
+            </th:block>
+
+            <div>
+                <label>
+                    <input type="text" class="form-control my-3" th:field="*{lastname}" placeholder="last name">
+                </label>
+            </div>
+
+            <th:block th:if="${#fields.hasErrors('email')}">
+                <div th:each="el : ${#fields.detailedErrors('email')}" class="me-2">
+                    <h6 class="text-warning" th:text="${el.getMessage()}"></h6>
+                </div>
+            </th:block>
+            <th:block th:if="${email_taken}">
+                <h6 class="text-warning" th:text="'Email is already taken, forgot password ? =link for restore'"></h6>
+<!--                TODO: add link for password reset-->
+            </th:block>
+
+            <div>
+                <label>
+                    <input type="email" class="form-control my-3" th:field="*{email}" placeholder="email">
+                </label>
+
+            </div>
+
+            <th:block th:if="${#fields.hasErrors('password')}">
+                <div th:each="el : ${#fields.detailedErrors('password')}" class="me-2">
+                    <h6 class="text-warning" th:text="${el.getMessage()}"></h6>
+                </div>
+            </th:block>
+
+            <div class="my-3">
+                <label>
+                    <input type="password" class="form-control" th:field="*{password}" placeholder="password">
+                </label>
+            </div>
+            <br>
+            <div>
+                <button class="btn btn-warning btn-ld btn-block" name="register" type="submit">
+                    Register
+                </button>
+            </div>
+        </form>
+
+    </div>
+
+    <div th:insert="~{blocks/footer :: footer}"></div>
+
+    </body>
+</div>

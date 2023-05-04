@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+</head>
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+    <body class="d-flex h-100 text-center text-bg-dark">
+
+
+    <div th:insert="~{blocks/header :: header}"></div>
+
+
+    <div class="justify-content-center">
+        <form th:action="@{/login}" th:object="${user}" method="post">
+
+            <h1 class="display-4 py-4">Sign in</h1>
+            <div th:if="${param.error}">
+                <p class="text-warning my-3">Incorrect username / password</p>
+            </div>
+            <br>
+            <div>
+                <label>
+                    <input type="text" class="form-control" th:field="*{username}" placeholder="username" required>
+                </label>
+            </div>
+
+            <div class="my-3">
+                <label>
+                    <input type="password" class="form-control" th:field="*{password}" placeholder="password" required>
+                </label>
+            </div>
+            <br>
+
+            <button class="btn btn-warning" name="Sign in" type="submit">
+                Login
+            </button>
+
+
+        </form>
+        <form class="mt-2" th:action="@{/registration}" method="get">
+            <div>
+                <button class="btn btn-secondary" name="Sign in" type="submit">
+                    Create account
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div th:insert="~{blocks/footer :: footer}"></div>
+
+    </body>
+</div>

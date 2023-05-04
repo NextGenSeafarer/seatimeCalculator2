@@ -16,11 +16,11 @@
     <main class="px-7 pt-5">
         <p class="text-muted">Your contracts:</p>
         <div class="container mt-5">
-            <h4 class="mb-5 text-warning" th:text="${entries == null ? 'You dont have any trips yet' : null}"></h4>
-            <div th:each="el : ${entries}" class="alert alert-info mt-2">
-                <h6 th:text="${el.signOnDate}"></h6>
-                <h6 th:text="${el.signOffDate}"></h6>
-                <h6 th:text="${el.shipName}"></h6>
+            <h4 class="mb-5 text-warning" th:text="${entries.size() == 0 ? 'You dont have any trips yet' : null}"></h4>
+            <div th:each="el : ${entries}" class="me-2">
+                <h6 th:text="'Sign on: ' + ${el.signOnDate}"></h6>
+                <h6 th:text="'Sign off: ' +${el.signOffDate}"></h6>
+                <h6 th:text="'Ship: ' +${el.shipName}"></h6>
                 <h5 th:text="${el.contractLength}"></h5>
             </div>
         </div>

@@ -78,7 +78,7 @@ class SeatimecalculatorCounterLogicTest {
             int day = random.nextInt(1, LocalDate.of(year, month, 1).lengthOfMonth());
             LocalDate sign_on = LocalDate.of(year, month, day);
             LocalDate sign_off = sign_on.plusMonths(1);
-            assertEquals(seaTimeCountingLogic.countTheSeaTime(sign_on, sign_off, ship_name), NOT_CORRECT_VESSEL_NAME);
+            assertEquals(seaTimeCountingLogic.countTheSeaTime(sign_on, sign_off), NOT_CORRECT_VESSEL_NAME);
         }
     }
 
