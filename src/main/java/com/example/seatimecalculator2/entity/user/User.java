@@ -29,12 +29,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Column(name = "first_name")
-    @NotBlank(message = "First name is not to be blank")
-    String firstname;
-    @Column(name = "last_name")
-    @NotBlank(message = "Last name is not to be blank")
-    String lastname;
+
     @Column(name = "email", unique = true)
     @NotBlank(message = "Enter valid email")
     @Email
@@ -42,13 +37,20 @@ public class User implements UserDetails {
     @Column(name = "password")
     @Size(min = 8, message = "Password must be 8 symbols or more")
     String password;
+    @Transient
+    String passwordConfirm;
     @Enumerated(EnumType.STRING)
     Role role;
+    @Column(name = "first_name")
+    String firstname;
+    @Column(name = "last_name")
+    String lastname;
     @Column(name = "registration_date_time")
     LocalDateTime registrationDateAndTime;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
+    @ToString.Exclude
     List<SeaTimeEntity> seaTimeEntityList;
 
     public void addSeaTimeEntityToTheList(SeaTimeEntity seaTimeEntity) {
@@ -94,11 +96,11 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(firstname, user.firstname) && Objects.equals(lastname, user.lastname) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && role == user.role && Objects.equals(registrationDateAndTime, user.registrationDateAndTime);
+        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstname, lastname, email, password, role, registrationDateAndTime);
+        return Objects.hash(id, email, password);
     }
 }

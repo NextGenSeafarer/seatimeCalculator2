@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,17 +33,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean registerUser(String first_name, String last_name, String email, String password) {
-        if (isUserExistsWithSameEmail(email)) {
+    public boolean registerUser(String first_name, String last_name, String email, String password, String passwordConfirm) {
+        if (!password.equals(passwordConfirm)) {
             return false;
         }
         User user = new User();
         user.setFirstname(first_name);
         user.setLastname(last_name);
         user.setEmail(email);
+        user.setRegistrationDateAndTime(LocalDateTime.now());
         user.setPassword(encryptPassword(password));
         user.setRole(Role.USER);
-        user.setRegistrationDateAndTime(LocalDateTime.now());
         userRepository.save(user);
         log.info("User with id: {} saved to DB successfully", user.getId());
         return true;
@@ -54,19 +57,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addSeaTimeToUser(Long id,
-                                 LocalDate sign_on,
-                                 LocalDate sign_off,
-                                 String ship_name,
-                                 String contract_length) {
+                                 SeaTimeEntity seaTimeEntity) {
         User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        SeaTimeEntity seaTimeEntity = new SeaTimeEntity();
-        seaTimeEntity.setSignOnDate(sign_on);
-        seaTimeEntity.setSignOffDate(sign_off);
-        seaTimeEntity.setShipName(ship_name);
-        seaTimeEntity.setContractLength(contract_length);
-
         user.addSeaTimeEntityToTheList(seaTimeEntity);
-
         userRepository.save(user);
 
 
@@ -77,6 +70,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User found found"))
                 .getSeaTimeEntityList();
+    }
+
+    @Override
+    public SeaTimeEntity getSingleSeaTime(Long user_id, Long sea_time_entity_id) {
+        return getListOfSeaTimeEntities(user_id).stream().filter(x -> x.getId() == sea_time_entity_id).toList().get(0);
     }
 
     @Override

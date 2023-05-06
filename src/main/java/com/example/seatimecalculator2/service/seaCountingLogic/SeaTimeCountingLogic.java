@@ -19,10 +19,7 @@ public class SeaTimeCountingLogic {
 
 
     public String countTheSeaTime(LocalDate beginContractDate, LocalDate endContractDate) {
-
         return formattingTheResultString(beginContractDate, endContractDate);
-
-
     }
 
     private boolean validityOfEnteredDatesCheck(LocalDate beginContractDate, LocalDate endContractDate) {

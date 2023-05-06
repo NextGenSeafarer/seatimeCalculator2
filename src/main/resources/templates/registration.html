@@ -14,7 +14,7 @@
     <div th:insert="~{blocks/header :: header}"></div>
 
 
-    <div class="justify-content-center">
+    <div class="justify-content-center mx-auto">
         <h1 class="display-4 py-4">Registration</h1>
         <br>
         <form th:action="@{/registration}" th:object="${user}" method="post">
@@ -26,9 +26,12 @@
                 </div>
             </th:block>
 
-            <div>
-                <label>
-                    <input type="text" class="form-control my-3" th:field="*{firstname}" placeholder="first name">
+            <div class="my-3">
+                <label class="text-warning" for="firstname">First name
+                    <div class="input-group">
+                        <input class="form-control" id="firstname" th:field="*{firstname}"
+                               type="text" placeholder="Name" required/>
+                    </div>
                 </label>
             </div>
 
@@ -38,9 +41,12 @@
                 </div>
             </th:block>
 
-            <div>
-                <label>
-                    <input type="text" class="form-control my-3" th:field="*{lastname}" placeholder="last name">
+            <div class="my-3">
+                <label class="text-warning" for="lastname">Last name
+                    <div class="input-group">
+                        <input class="form-control" id="lastname" th:field="*{lastname}"
+                               type="text" placeholder="Surname" required/>
+                    </div>
                 </label>
             </div>
 
@@ -49,16 +55,19 @@
                     <h6 class="text-warning" th:text="${el.getMessage()}"></h6>
                 </div>
             </th:block>
+
             <th:block th:if="${email_taken}">
                 <h6 class="text-warning" th:text="'Email is already taken, forgot password ? =link for restore'"></h6>
-<!--                TODO: add link for password reset-->
+                <!--                TODO: add link for password reset-->
             </th:block>
 
-            <div>
-                <label>
-                    <input type="email" class="form-control my-3" th:field="*{email}" placeholder="email">
+            <div class="my-3">
+                <label class="text-warning" for="email">Email
+                    <div class="input-group">
+                        <input class="form-control" id="email" th:field="*{email}"
+                               type="email" placeholder="arc7@gmail.com" required/>
+                    </div>
                 </label>
-
             </div>
 
             <th:block th:if="${#fields.hasErrors('password')}">
@@ -66,12 +75,30 @@
                     <h6 class="text-warning" th:text="${el.getMessage()}"></h6>
                 </div>
             </th:block>
+            <th:block th:if="*{password != passwordConfirm}">
+                <h6 class="text-danger me-2" th:text="'Passwords are not matching'"></h6>
+            </th:block>
 
             <div class="my-3">
-                <label>
-                    <input type="password" class="form-control" th:field="*{password}" placeholder="password">
+                <label class="text-warning" for="password">Password
+                    <div class="input-group">
+                        <input class="form-control" id="password" th:field="*{password}"
+                               type="password" placeholder="********" required/>
+                    </div>
                 </label>
             </div>
+
+
+            <div class="my-3">
+                <label class="text-warning" for="passwordConfirmation">Password confirm
+                    <div class="input-group">
+                        <input class="form-control" id="passwordConfirmation" th:field="*{passwordConfirm}"
+                               type="password" placeholder="********" required/>
+                    </div>
+                </label>
+            </div>
+
+
             <br>
             <div>
                 <button class="btn btn-warning btn-ld btn-block" name="register" type="submit">

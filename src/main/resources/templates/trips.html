@@ -18,10 +18,16 @@
         <div class="container mt-5">
             <h4 class="mb-5 text-warning" th:text="${entries.size() == 0 ? 'You dont have any trips yet' : null}"></h4>
             <div th:each="el : ${entries}" class="me-2">
-                <h6 th:text="'Sign on: ' + ${el.signOnDate}"></h6>
-                <h6 th:text="'Sign off: ' +${el.signOffDate}"></h6>
-                <h6 th:text="'Ship: ' +${el.shipName}"></h6>
-                <h5 th:text="${el.contractLength}"></h5>
+
+                <a class="text-warning mx-3" href="#" th:text="${el.shipName}"
+                   th:href="@{http://localhost:8080/trips/{id}(id=${el.getId()})}"></a>
+<!--                TODO: Think how to replace localhost ot normal link relative-->
+                <div th:if="${single_seatime!=null && el.getId() == sea_time_id}">
+                    <h4 th:text="'Ship: ' + ${single_seatime.shipName}"></h4>
+                    <h4 th:text="'Sign on: ' + ${single_seatime.signOnDate}"></h4>
+                    <h4 th:text="'Sign off: ' + ${single_seatime.signOffDate}"></h4>
+                    <h4 th:text="'Length: ' + ${single_seatime.contractLength}"></h4>
+                </div>
             </div>
         </div>
 

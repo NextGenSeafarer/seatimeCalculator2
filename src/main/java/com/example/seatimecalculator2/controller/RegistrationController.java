@@ -28,8 +28,15 @@ public class RegistrationController {
         if (bindingResult.hasErrors()) {
             return "registration";
         }
-        if(!userService.registerUser(user.getFirstname(), user.getLastname(), user.getEmail(), user.getPassword())){
-            model.addAttribute("email_taken", "Email is already taken");
+        if (userService.isUserExistsWithSameEmail(user.getEmail())) {
+            model.addAttribute("email_taken", true);
+        }
+        if (!userService.registerUser(
+                user.getFirstname(),
+                user.getLastname(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getPasswordConfirm())) {
             return "registration";
         }
 

@@ -1,21 +1,24 @@
 package com.example.seatimecalculator2.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "seatime")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
 @AllArgsConstructor
+@ToString
 public class SeaTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

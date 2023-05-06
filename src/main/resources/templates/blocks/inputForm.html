@@ -38,13 +38,21 @@
         padding-left: 12px;
 
     }</style>
-    <!-- HTML Form (wrapped in a .bootstrap-iso div) -->
+
     <div class="bootstrap-iso">
         <div class="col-md-12 col-sm-12 col-xs-12">
 
-            <h4 class="mb-5 text-warning" th:text="${currentSeaTime == null ? 'Enter dates below' : currentSeaTime}"></h4>
+            <h4 class="mb-5 text-warning"
+                th:text="${currentSeaTime == null ? 'Enter dates below' : currentSeaTime}"></h4>
+            <form th:action="@{/}" th:object="${seatime}" method="post">
 
-            <form action="/" method="post">
+
+                <th:block th:if="${#fields.hasErrors('signOnDate')}">
+                    <div th:each="el : ${#fields.detailedErrors('signOnDate')}" class="me-2">
+                        <h6 class="text-warning" th:text="${el.getMessage()}"></h6>
+                    </div>
+                </th:block>
+
                 <div class="form-group form-group-lg">
                     <label class="control-label " for="sign_on">
                         Joining Date
@@ -54,12 +62,17 @@
                             <i class="fa fa-calendar">
                             </i>
                         </div>
-                        <input class="form-control" id="sign_on" name="sign_on"
+                        <input class="form-control" id="sign_on" th:field="*{signOnDate}"
                                type="date" required/>
                     </div>
                     <br>
                 </div>
 
+                <th:block th:if="${#fields.hasErrors('signOffDate')}">
+                    <div th:each="el : ${#fields.detailedErrors('signOffDate')}" class="me-2">
+                        <h6 class="text-warning" th:text="${el.getMessage()}"></h6>
+                    </div>
+                </th:block>
 
                 <div class="form-group form-group-lg">
                     <label class="control-label " for="sign_off">
@@ -70,12 +83,11 @@
                             <i class="fa fa-calendar">
                             </i>
                         </div>
-                        <input class="form-control" id="sign_off" name="sign_off"
+                        <input class="form-control" id="sign_off" th:field="*{signOffDate}"
                                type="date" required/>
                     </div>
                     <br>
                 </div>
-
 
                 <div class="form-group form-group-lg">
                     <label class="control-label " for="vessel_name">
@@ -87,14 +99,12 @@
                             <i class="fa fa-ship">
                             </i>
                         </div>
-                        <input class="form-control" id="vessel_name" name="vessel_name" placeholder="Enter vessel name"
+                        <input class="form-control" id="vessel_name" th:field="*{shipName}"
+                               placeholder="Enter vessel name"
                                type="text" maxlength="20"/>
                     </div>
                     <br>
-
-
                 </div>
-
 
                 <div class="form-group">
                     <div>
