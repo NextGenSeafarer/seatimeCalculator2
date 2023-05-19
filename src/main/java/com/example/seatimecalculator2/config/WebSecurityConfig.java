@@ -4,6 +4,7 @@ import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,11 +26,11 @@ public class WebSecurityConfig {
 
 
         http
-                .csrf().disable() // TODO : read about csrf and cors to be able to lock certain post methods
+                .cors().and().csrf().disable() // TODO : read about csrf and cors to be able to lock certain post methods
                 .authorizeHttpRequests((requests) -> {
                             try {
                                 requests
-                                        .requestMatchers("/", "/about", "/contacts", "/registration").permitAll()
+                                        .requestMatchers("/", "/about", "/contacts", "/registration", "/static/**").permitAll()
                                         .anyRequest().authenticated();
 //                                        .and()
 //                                        .sessionManagement()
@@ -37,7 +38,7 @@ public class WebSecurityConfig {
 //                                        .and()
 //                                        .authenticationProvider(authenticationProvider);
 //                                        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-                                        
+
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
@@ -48,7 +49,6 @@ public class WebSecurityConfig {
                         .permitAll()
                 )
                 .logout().logoutSuccessUrl("/").permitAll();
-
         return http.build();
     }
 }

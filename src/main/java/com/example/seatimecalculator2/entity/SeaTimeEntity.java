@@ -1,14 +1,12 @@
 package com.example.seatimecalculator2.entity;
 
+import com.example.seatimecalculator2.entity.user.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -24,13 +22,22 @@ public class SeaTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @Column(name = "sign_on_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate signOnDate;
     @Column(name = "sign_off_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate signOffDate;
-    @Column(name = "ship_name", length = 100)
+    @Column(name = "ship_name", length = 50)
     String shipName;
     @Column(name = "contractLength")
     String contractLength;
+    @Column(name = "days_total")
+    int daysTotal;
+    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    @ToString.Exclude
+    User user;
+
 
     @Override
     public boolean equals(Object o) {

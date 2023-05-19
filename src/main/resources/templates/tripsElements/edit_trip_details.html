@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+    <body class="d-flex h-100 text-center text-bg-dark">
+
+    <div th:insert="~{blocks/header :: header}"></div>
+
+    <h1 class="text-warning mb-3 mt-5" th:text="${single_seatime.shipName}"></h1>
+
+
+    <div class="justify-content-center mx-auto">
+        <th:block th:if="${error_editing}">
+            <h6 class="text-danger" th:text="'Ckeck your entry'"></h6>
+        </th:block>
+
+        <form th:method="PATCH" th:action="@{/trips/edit/{id}(id=${single_seatime.getId()})}"
+              th:object="${single_seatime}">
+            <input th:field="*{contractLength}" type="hidden"/>
+            <input th:field="*{id}" th:value="${single_seatime.id}" type="hidden"/>
+            <input th:field="*{daysTotal}" th:value="${single_seatime.daysTotal}" type="hidden">
+
+            <div class="form-group form-group-lg">
+                <label class="control-label " for="sign_on">
+                    Joining Date
+                </label>
+
+                <input class="form-control" id="sign_on"
+                       th:field="*{signOnDate}" type="date" min="1990-01-01" max="2050-01-01" required/>
+                <br>
+            </div>
+
+            <div class="form-group form-group-lg">
+                <label class="control-label " for="sign_off">
+                    Sign off Date
+                </label>
+
+                <input type="date" class="form-control" id="sign_off"
+                       th:field="*{signOffDate}" min="1990-01-01" max="2050-01-01" required/>
+                <br>
+            </div>
+
+            <div class="form-group form-group-lg">
+                <label class="control-label " for="vessel_name">
+                    Vessel name
+                </label>
+
+                <input class="form-control" id="vessel_name"
+                       th:field="*{shipName}"
+                       placeholder="Enter vessel name"
+                       type="text" maxlength="20"/>
+
+                <br>
+                <input class="btn btn-outline-info" type="submit" value="Save"/>
+            </div>
+        </form>
+    </div>
+
+<div th:insert="~{blocks/footer :: footer}"></div>
+
+</body>
+</div>

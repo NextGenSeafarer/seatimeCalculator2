@@ -1,0 +1,27 @@
+<div th:fragment="delete_modal">
+    <!-- Button trigger modal -->
+    <form th:action="@{/trips/delete/{id}(id=${single_seatime.getId()})}"
+          th:method="DELETE" type="button" class="btn btn-outline-danger mx-1" data-bs-toggle="modal"
+          data-bs-target="#deleteModal">
+        Delete
+        <!-- Modal -->
+        <div class="modal fade" style="margin-top: 15%" id="deleteModal" tabindex="-1"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h5 class="modal-title text-dark" id="exampleModalLabel"
+                            th:text="${'Delete ' + single_seatime.shipName +' ?'}"></h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
+                        </button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

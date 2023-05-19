@@ -1,7 +1,5 @@
 <div th:fragment="input_about">
 
-
-
     <!-- Inline CSS based on choices in "Settings" tab -->
     <style>.bootstrap-iso .form-group button, .bootstrap-iso form input.form-control, .bootstrap-iso form textarea.form-control, .bootstrap-iso form select.form-control, .bootstrap-iso form .form-group-lg input.form-control, .bootstrap-iso form .form-group-lg textarea.form-control, .bootstrap-iso form .form-group-lg select.form-control, .bootstrap-iso form .form-group-sm input.form-control, .bootstrap-iso form .form-group-sm textarea.form-control, .bootstrap-iso form .form-group-sm select.form-control {
         -webkit-border-radius: 20px;
@@ -48,7 +46,7 @@
                     <label class="control-label col-sm-2" for="name">
                         Name
                     </label>
-                    <div class="col-sm-10">
+                    <div class="">
                         <input class="form-control" id="name" name="name" placeholder="Mr. Popeye" type="text" maxlength="30"
                                required/>
                     </div>
@@ -57,7 +55,7 @@
                     <label class="control-label col-sm-2" for="email">
                         Email
                     </label>
-                    <div class="col-sm-10">
+                    <div class="">
                         <input class="form-control" id="email" name="email" placeholder="mr.popeye@gmail.com"
                                type="email" required/>
                     </div>
@@ -66,23 +64,19 @@
                     <label class="control-label col-sm-2" for="message">
                         Message
                     </label>
-                    <div class="col-sm-10">
+                    <div class="">
                         <textarea class="form-control" cols="40" id="message" name="message" rows="10"
                                   placeholder="Ideas or any feedback for the project?" maxlength="300" required></textarea>
                     </div>
                 </div>
 
-
-
                 <div class="form-group">
-                    <div class="col-sm-10 col-sm-offset-2">
+                    <div class="mt-3">
                         <button class="btn btn-custom btn-lg btn-block" name="submit" type="submit">
                             Contact Us!
                         </button>
                     </div>
                 </div>
-
-
             </form>
         </div>
     </div>

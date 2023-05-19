@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,11 +47,10 @@ public class User implements UserDetails {
     String firstname;
     @Column(name = "last_name")
     String lastname;
-    @Column(name = "registration_date_time")
+    @Column(name = "registration_date_time", updatable = false)
     LocalDateTime registrationDateAndTime;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     @ToString.Exclude
     List<SeaTimeEntity> seaTimeEntityList;
 
@@ -58,6 +59,7 @@ public class User implements UserDetails {
             seaTimeEntityList = new ArrayList<>();
         }
         seaTimeEntityList.add(seaTimeEntity);
+        seaTimeEntity.setUser(this);
     }
 
 

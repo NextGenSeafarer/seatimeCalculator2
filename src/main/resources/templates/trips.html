@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"></html>
 <head>
-
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 
@@ -9,24 +8,35 @@
 
     <body class="d-flex h-100 text-center text-bg-dark">
 
-
     <div th:insert="~{blocks/header :: header}"></div>
 
+    <main class="mt-5 justify-content-center">
 
-    <main class="px-7 pt-5">
-        <p class="text-muted">Your contracts:</p>
-        <div class="container mt-5">
-            <h4 class="mb-5 text-warning" th:text="${entries.size() == 0 ? 'You dont have any trips yet' : null}"></h4>
-            <div th:each="el : ${entries}" class="me-2">
+        <h1>Your contracts:</h1>
+        <div class="d-flex flex-row justify-content-center">
+            <div class="col-md-3 col-sm-3 col-xs-3 justify-content-center">
+                <h4 class="mb-10 text-warning mt-5"
+                    th:text="${entries.toList().size() == 0 ? 'You dont have any trips yet' : null}">
+                </h4>
+                <th:block th:if="${deleted_success}">
+                    <h6 class="text-success" th:text="'Entry successfully deleted!'"></h6>
+                    <br>
+                </th:block>
+                <div th:each="el : ${entries}">
+                    <div style="padding: 10px">
+                        <a class="text-warning" style="font-size: 35px;" href="#" th:text="${el.shipName} "
+                           th:href="@{/trips/{id}(id=${el.id})}"></a>
+                    </div>
+                </div>
+                <label for="pages" class="mt-3">
+                    Page:
+                </label>
 
-                <a class="text-warning mx-3" href="#" th:text="${el.shipName}"
-                   th:href="@{http://localhost:8080/trips/{id}(id=${el.getId()})}"></a>
-<!--                TODO: Think how to replace localhost ot normal link relative-->
-                <div th:if="${single_seatime!=null && el.getId() == sea_time_id}">
-                    <h4 th:text="'Ship: ' + ${single_seatime.shipName}"></h4>
-                    <h4 th:text="'Sign on: ' + ${single_seatime.signOnDate}"></h4>
-                    <h4 th:text="'Sign off: ' + ${single_seatime.signOffDate}"></h4>
-                    <h4 th:text="'Length: ' + ${single_seatime.contractLength}"></h4>
+                <div id="pages" th:if="${entries.totalPages > 0}" class="container-fluid d-inline"
+                     th:each="pageNumber : ${pageNumbers}">
+                    <a style="font-size: 20px" th:href="@{/trips(size=${entries.size}, page=${pageNumber})}"
+                       th:text="${pageNumber}"
+                       th:class="${pageNumber==entries.number+1} ? active"></a>
                 </div>
             </div>
         </div>

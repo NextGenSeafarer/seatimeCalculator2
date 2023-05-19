@@ -3,23 +3,24 @@ package com.example.seatimecalculator2.controller;
 import com.example.seatimecalculator2.entity.SeaTimeEntity;
 import com.example.seatimecalculator2.entity.user.User;
 import com.example.seatimecalculator2.service.authentificatedUser.UserService;
-import jakarta.validation.Valid;
+import com.example.seatimecalculator2.service.total_time_counter.TotalTimeCounterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
 public class HomePageController {
 
     private final UserService userService;
+    private final TotalTimeCounterService totalTimeCounterService;
 
     private boolean isUserAuthenticated() {
         return SecurityContextHolder.getContext().getAuthentication() != null &&
@@ -28,26 +29,35 @@ public class HomePageController {
     }
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(Model model, @RequestParam(required = false) String param) {
         model.addAttribute("seatime", new SeaTimeEntity());
+        if (param != null && param.equals("sparrow")) {
+            model.addAttribute("total_counter", totalTimeCounterService.getAllSeaTime());
+        }
         return "home";
     }
 
     @PostMapping("/")
-    public String seaTimeCalculatorMainPage(@Valid @ModelAttribute("seatime") SeaTimeEntity seaTimeEntity,
-                                            BindingResult bindingResult,
+    public String seaTimeCalculatorMainPage(@ModelAttribute("seatime") SeaTimeEntity seaTimeEntity,
                                             Model model,
                                             @AuthenticationPrincipal User user) {
-        if (bindingResult.hasErrors()) {
-            return "home";
-        }
-        String calculatedTime = userService.calculateContractLength(seaTimeEntity.getSignOnDate(), seaTimeEntity.getSignOffDate());
-        seaTimeEntity.setContractLength(calculatedTime);
-        model.addAttribute("currentSeaTime", calculatedTime);
-        if (isUserAuthenticated()) {
-            userService.addSeaTimeToUser(user.getId(), seaTimeEntity);
+        if (userService.isSeaTimeEnteredValid(seaTimeEntity)) {
+            String calculatedTime = userService.calculateContractLength(seaTimeEntity);
+            seaTimeEntity.setContractLength(calculatedTime);
+            seaTimeEntity.setDaysTotal(userService.calculateContractLengthInDays(seaTimeEntity));
+            model.addAttribute("currentSeaTime", calculatedTime);
+            if (isUserAuthenticated()) {
+                userService.addSeaTimeToUser(user.getId(), seaTimeEntity);
+            }
+        } else {
+            model.addAttribute("currentSeaTime", "Check your dates");
         }
         return "home";
+    }
+
+    @ModelAttribute(name = "home_page")
+    boolean homePage() {
+        return true;
     }
 
 

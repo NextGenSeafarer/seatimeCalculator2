@@ -1,11 +1,5 @@
 <div th:fragment="input_form">
 
-    <!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
-    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso16.css"/>
-
-    <!--Font Awesome (added because you use icons in your prepend/append)-->
-    <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css"/>
-
     <!-- Inline CSS based on choices in "Settings" tab -->
     <style>.bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form {
         font-family: Tahoma, Geneva, sans-serif;
@@ -41,17 +35,9 @@
 
     <div class="bootstrap-iso">
         <div class="col-md-12 col-sm-12 col-xs-12">
-
             <h4 class="mb-5 text-warning"
                 th:text="${currentSeaTime == null ? 'Enter dates below' : currentSeaTime}"></h4>
             <form th:action="@{/}" th:object="${seatime}" method="post">
-
-
-                <th:block th:if="${#fields.hasErrors('signOnDate')}">
-                    <div th:each="el : ${#fields.detailedErrors('signOnDate')}" class="me-2">
-                        <h6 class="text-warning" th:text="${el.getMessage()}"></h6>
-                    </div>
-                </th:block>
 
                 <div class="form-group form-group-lg">
                     <label class="control-label " for="sign_on">
@@ -63,16 +49,10 @@
                             </i>
                         </div>
                         <input class="form-control" id="sign_on" th:field="*{signOnDate}"
-                               type="date" required/>
+                               type="date" min="1990-01-01" max="2050-01-01" required autofocus/>
                     </div>
                     <br>
                 </div>
-
-                <th:block th:if="${#fields.hasErrors('signOffDate')}">
-                    <div th:each="el : ${#fields.detailedErrors('signOffDate')}" class="me-2">
-                        <h6 class="text-warning" th:text="${el.getMessage()}"></h6>
-                    </div>
-                </th:block>
 
                 <div class="form-group form-group-lg">
                     <label class="control-label " for="sign_off">
@@ -84,7 +64,7 @@
                             </i>
                         </div>
                         <input class="form-control" id="sign_off" th:field="*{signOffDate}"
-                               type="date" required/>
+                               type="date" min="1990-01-01" max="2050-01-01" required/>
                     </div>
                     <br>
                 </div>

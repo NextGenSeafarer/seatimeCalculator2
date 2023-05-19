@@ -1,10 +1,11 @@
 package com.example.seatimecalculator2.service.authentificatedUser;
 
 import com.example.seatimecalculator2.entity.SeaTimeEntity;
+import com.example.seatimecalculator2.entity.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
 
@@ -20,11 +21,21 @@ public interface UserService {
 
     void addSeaTimeToUser(Long id, SeaTimeEntity seaTimeEntity);
 
-    List<SeaTimeEntity> getListOfSeaTimeEntities(Long id);
+    void updateSeaTime(SeaTimeEntity seaTimeEntity);
 
-    SeaTimeEntity getSingleSeaTime(Long user_id, Long sea_time_entity_id);
+    void deleteSeaTime(Long sea_time_entity_id);
 
-    String calculateContractLength(LocalDate beginContractDate, LocalDate endContractDate);
+    boolean isSeaTimeEnteredValid(SeaTimeEntity seaTimeEntity);
+
+    Page<SeaTimeEntity> getListOfSeaTimeEntities(User user, Pageable pageable);
+
+    SeaTimeEntity getSingleSeaTime(Long sea_time_entity_id);
+
+    String calculateContractLength(SeaTimeEntity seaTimeEntity);
+
+    int calculateContractLengthInDays(SeaTimeEntity seaTimeEntity);
+
+    boolean findAllByUserAndCheckIfContainsEntity(User user, Long sea_time_entity_id);
 
     Long getUserId(String email);
 
