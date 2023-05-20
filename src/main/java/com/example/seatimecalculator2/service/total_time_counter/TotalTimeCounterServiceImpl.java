@@ -20,6 +20,7 @@ public class TotalTimeCounterServiceImpl implements TotalTimeCounterService {
 
     @Override
     public Long getAllSeaTime() {
+        log.info("Calculating total sea_time for all users");
         List<SeaTimeEntity> allEntries = seaTimeRepository.findAll();
         AtomicInteger days = new AtomicInteger();
         allEntries.stream().map(SeaTimeEntity::getDaysTotal).forEach(days::addAndGet);

@@ -30,6 +30,7 @@ public class RegistrationController {
         }
         if (userService.isUserExistsWithSameEmail(user.getEmail())) {
             model.addAttribute("email_taken", true);
+            return "registration";
         }
         if (!userService.registerUser(
                 user.getFirstname(),
@@ -39,7 +40,6 @@ public class RegistrationController {
                 user.getPasswordConfirm())) {
             return "registration";
         }
-
         return "login";
     }
 }

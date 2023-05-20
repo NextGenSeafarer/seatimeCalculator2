@@ -4,11 +4,10 @@ import com.example.seatimecalculator2.entity.SeaTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,19 +32,28 @@ public class User implements UserDetails {
     Long id;
 
     @Column(name = "email", unique = true)
-    @NotBlank(message = "Enter valid email")
+    @NotBlank(message = "Email is not to be blank")
+    @NotEmpty (message = "Email is not to be empty")
     @Email
     String email;
+
     @Column(name = "password")
+    @NotBlank(message = "Password is not to be blank")
+    @NotEmpty(message = "Password is not to be empty")
     @Size(min = 8, message = "Password must be 8 symbols or more")
     String password;
+
     @Transient
     String passwordConfirm;
     @Enumerated(EnumType.STRING)
     Role role;
     @Column(name = "first_name")
+    @NotBlank(message = "First name is not to be blank")
+    @NotEmpty(message = "First name is not to be empty")
     String firstname;
     @Column(name = "last_name")
+    @NotBlank(message = "Last name is not to be blank")
+    @NotEmpty(message = "Last name is not to be empty")
     String lastname;
     @Column(name = "registration_date_time", updatable = false)
     LocalDateTime registrationDateAndTime;

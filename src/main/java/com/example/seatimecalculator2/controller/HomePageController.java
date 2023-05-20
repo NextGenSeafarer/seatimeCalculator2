@@ -29,11 +29,9 @@ public class HomePageController {
     }
 
     @GetMapping("/")
-    public String home(Model model, @RequestParam(required = false) String param) {
+    public String home(Model model) {
         model.addAttribute("seatime", new SeaTimeEntity());
-        if (param != null && param.equals("sparrow")) {
-            model.addAttribute("total_counter", totalTimeCounterService.getAllSeaTime());
-        }
+        model.addAttribute("total_counter", totalTimeCounterService.getAllSeaTime());
         return "home";
     }
 

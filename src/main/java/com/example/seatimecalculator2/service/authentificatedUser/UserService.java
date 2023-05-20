@@ -37,6 +37,5 @@ public interface UserService {
 
     boolean findAllByUserAndCheckIfContainsEntity(User user, Long sea_time_entity_id);
 
-    Long getUserId(String email);
 
 }

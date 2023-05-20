@@ -4,41 +4,45 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+<div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
 
-    <body class="d-flex h-100 text-center text-bg-dark">
+    <body class="d-flex h-100 text-center">
 
     <div th:insert="~{blocks/header :: header}"></div>
 
-    <main class="mt-5 justify-content-center">
+    <main class="mt-5">
 
         <h1>Your contracts:</h1>
-        <div class="d-flex flex-row justify-content-center">
-            <div class="col-md-3 col-sm-3 col-xs-3 justify-content-center">
-                <h4 class="mb-10 text-warning mt-5"
-                    th:text="${entries.toList().size() == 0 ? 'You dont have any trips yet' : null}">
-                </h4>
-                <th:block th:if="${deleted_success}">
-                    <h6 class="text-success" th:text="'Entry successfully deleted!'"></h6>
-                    <br>
-                </th:block>
-                <div th:each="el : ${entries}">
-                    <div style="padding: 10px">
-                        <a class="text-warning" style="font-size: 35px;" href="#" th:text="${el.shipName} "
-                           th:href="@{/trips/{id}(id=${el.id})}"></a>
-                    </div>
-                </div>
-                <label for="pages" class="mt-3">
-                    Page:
-                </label>
 
-                <div id="pages" th:if="${entries.totalPages > 0}" class="container-fluid d-inline"
-                     th:each="pageNumber : ${pageNumbers}">
-                    <a style="font-size: 20px" th:href="@{/trips(size=${entries.size}, page=${pageNumber})}"
-                       th:text="${pageNumber}"
-                       th:class="${pageNumber==entries.number+1} ? active"></a>
+        <div class="row justify-content-center">
+            <h4 class="text-warning"
+                th:text="${entries.toList().size() == 0 ? 'You dont have any trips yet' : null}">
+            </h4>
+
+            <th:block th:if="${deleted_success}">
+                <h6 class="text-success" th:text="'Entry successfully deleted!'"></h6>
+                <br>
+            </th:block>
+
+            <div class="col-auto" th:each="el : ${entries}">
+                <div style="padding: 10px">
+                    <a class="text-warning" style="font-size: 35px;" href="#" th:text="${el.shipName} "
+                       th:href="@{/trips/{id}(id=${el.id})}"></a>
                 </div>
             </div>
+        </div>
+        <div th:if="${entries.totalPages > 1}">
+        <label for="pages" class="mt-3">
+            Page:
+        </label>
+
+        <div id="pages" class="container-fluid d-inline"
+
+             th:each="pageNumber : ${pageNumbers}">
+            <a style="font-size: 20px" th:href="@{/trips(size=${entries.size}, page=${pageNumber})}"
+               th:text="${pageNumber}"
+               th:class="${pageNumber==entries.number+1} ? active"></a>
+        </div>
         </div>
 
     </main>

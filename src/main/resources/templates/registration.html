@@ -6,7 +6,7 @@
 
 </head>
 
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+<div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
 
     <body class="d-flex h-100 text-center text-bg-dark">
 
@@ -16,17 +16,17 @@
 
     <div class="justify-content-center mx-auto">
         <h1 class="display-4 py-4">Registration</h1>
-        <br>
+
         <form th:action="@{/registration}" th:object="${user}" method="post">
             <br>
 
             <th:block th:if="${#fields.hasErrors('firstname')}">
                 <div th:each="el : ${#fields.detailedErrors('firstname')}" class="me-2">
-                    <h6 class="text-warning" th:text="${el.getMessage()}"></h6>
+                    <h6 class="text-danger" th:text="${el.getMessage()}"></h6>
                 </div>
             </th:block>
 
-            <div class="my-3">
+            <div class="my-1">
                 <label class="text-warning" for="firstname">First name
                     <div class="input-group">
                         <input class="form-control" id="firstname" th:field="*{firstname}"
@@ -37,11 +37,11 @@
 
             <th:block th:if="${#fields.hasErrors('lastname')}">
                 <div th:each="el : ${#fields.detailedErrors('lastname')}" class="me-2">
-                    <h6 class="text-warning" th:text="${el.getMessage()}"></h6>
+                    <h6 class="text-danger" th:text="${el.getMessage()}"></h6>
                 </div>
             </th:block>
 
-            <div class="my-3">
+            <div class="my-1">
                 <label class="text-warning" for="lastname">Last name
                     <div class="input-group">
                         <input class="form-control" id="lastname" th:field="*{lastname}"
@@ -52,53 +52,50 @@
 
             <th:block th:if="${#fields.hasErrors('email')}">
                 <div th:each="el : ${#fields.detailedErrors('email')}" class="me-2">
-                    <h6 class="text-warning" th:text="${el.getMessage()}"></h6>
+                    <h6 class="text-danger" th:text="${el.getMessage()}"></h6>
                 </div>
             </th:block>
 
             <th:block th:if="${email_taken}">
-                <h6 class="text-warning" th:text="'Email is already taken, forgot password ? =link for restore'"></h6>
+                <h6 class="text-danger" th:text="'Email is already taken, forgot password ? =link for restore'"></h6>
                 <!--                TODO: add link for password reset-->
             </th:block>
 
-            <div class="my-3">
+            <div class="my-1">
                 <label class="text-warning" for="email">Email
                     <div class="input-group">
                         <input class="form-control" id="email" th:field="*{email}"
-                               type="email" placeholder="arc7@gmail.com" required/>
+                               type="email" placeholder="arc7@gmail.com" required readonly onfocus="this.removeAttribute('readonly');"/>
                     </div>
                 </label>
             </div>
 
             <th:block th:if="${#fields.hasErrors('password')}">
                 <div th:each="el : ${#fields.detailedErrors('password')}" class="me-2">
-                    <h6 class="text-warning" th:text="${el.getMessage()}"></h6>
+                    <h6 class="text-danger" th:text="${el.getMessage()}"></h6>
                 </div>
             </th:block>
             <th:block th:if="*{password != passwordConfirm}">
                 <h6 class="text-danger me-2" th:text="'Passwords are not matching'"></h6>
             </th:block>
 
-            <div class="my-3">
+            <div class="my-1">
                 <label class="text-warning" for="password">Password
                     <div class="input-group">
                         <input class="form-control" id="password" th:field="*{password}"
-                               type="password" placeholder="********" required/>
+                               type="password" placeholder="********" required readonly onfocus="this.removeAttribute('readonly');"/>
                     </div>
                 </label>
             </div>
 
-
-            <div class="my-3">
+            <div class="my-1">
                 <label class="text-warning" for="passwordConfirmation">Password confirm
                     <div class="input-group">
                         <input class="form-control" id="passwordConfirmation" th:field="*{passwordConfirm}"
-                               type="password" placeholder="********" required/>
+                               type="password" placeholder="********" required readonly onfocus="this.removeAttribute('readonly');"/>
                     </div>
                 </label>
             </div>
-
-
             <br>
             <div>
                 <button class="btn btn-warning btn-ld btn-block" name="register" type="submit">
@@ -106,6 +103,7 @@
                 </button>
             </div>
         </form>
+
 
     </div>
 

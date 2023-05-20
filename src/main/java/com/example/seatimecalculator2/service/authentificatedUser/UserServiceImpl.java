@@ -149,9 +149,4 @@ public class UserServiceImpl implements UserService {
         log.info("Checking if user with id: {} has the entity with id: {}", user.getId(), sea_time_entity_id);
         return seaTimeRepo.findAllByUser(user).stream().map(SeaTimeEntity::getId).anyMatch(x -> x.equals(sea_time_entity_id));
     }
-
-    @Override
-    public Long getUserId(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User is not found")).getId();
-    }
 }

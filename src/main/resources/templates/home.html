@@ -6,24 +6,23 @@
 
 </head>
 
-<div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
 
-    <body class="w-100 h-100 p-3 mx-auto text-center text-bg-dark">
+<div class="flex-wrap flex-column">
+
+    <body class="text-center">
 
 
     <div th:insert="~{blocks/header :: header}"></div>
 
-    <main class="px-7 pt-5">
-
+    <main>
         <h1>Sea time calculator</h1>
-        <p class="text-muted">Simple & Fast counting of your contract duration</p>
+        <p>Simple & Fast counting of your contract duration</p>
         <br>
         <div class="d-flex flex-row justify-content-center">
             <div th:insert="~{blocks/inputForm :: input_form}"></div>
         </div>
-
         <br>
     </main>
-    <div th:insert="~{blocks/footer :: footer}"></div>
     </body>
 </div>
+
