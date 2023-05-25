@@ -1,11 +1,14 @@
 package com.example.seatimecalculator2.service.authentificatedUser;
 
 import com.example.seatimecalculator2.entity.SeaTimeEntity;
+import com.example.seatimecalculator2.entity.TotalSeaTimeCounter;
 import com.example.seatimecalculator2.entity.user.Role;
 import com.example.seatimecalculator2.entity.user.User;
 import com.example.seatimecalculator2.repository.SeaTimeRepository;
+import com.example.seatimecalculator2.repository.TotalSeaTimeCounterRepository;
 import com.example.seatimecalculator2.repository.UserRepository;
 import com.example.seatimecalculator2.service.seaCountingLogic.SeaTimeCountingLogic;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,12 +31,61 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final SeaTimeCountingLogic countingLogic;
     private final SeaTimeRepository seaTimeRepo;
+    private final TotalSeaTimeCounterRepository totalSeaTimeCounterRepository;
 
+
+    // Initial DB filling
+//    @PostConstruct
+//    public void fillDb() {
+//        Random random = new Random();
+//        List<LocalDate> signOnDate = new ArrayList<>();
+//        User user = userRepository.findById(4L).get();
+//        for (int i = 0; i < 150; i++) {
+//            signOnDate.add(
+//                    LocalDate.of(
+//                            random.nextInt(2000, 2025),
+//                            random.nextInt(1, 12),
+//                            random.nextInt(1, 25)));
+//        }
+//        List<LocalDate> signOffDate = new ArrayList<>();
+//        for (LocalDate localDate : signOnDate) {
+//            signOffDate
+//                    .add(localDate
+//                            .plusDays(random.nextInt(1, 260)));
+//        }
+//        List<String> ships = new ArrayList<>();
+//        for (int i = 0; i < 400; i++) {
+//            ships.add("Ship #" + random.nextInt(0, 1000));
+//        }
+//
+//        List<SeaTimeEntity> list = IntStream.rangeClosed(1, 1000000)
+//                .mapToObj(i -> new SeaTimeEntity(
+//                        signOnDate.get(random.nextInt(signOnDate.size())),
+//                        signOffDate.get(random.nextInt(signOffDate.size())),
+//                        ships.get(random.nextInt(ships.size())),
+//                        "1 month", 150,
+//                        user)).toList();
+//        user.setSeaTimeEntityList(list);
+//        userRepository.save(user);
+//
+//    }
+    @PostConstruct
+    public void createTotalCounterEntry() {
+        if (totalSeaTimeCounterRepository.findById(1)
+                                         .isPresent()) {
+            return;
+        }
+        TotalSeaTimeCounter totalSeaTimeCounter = new TotalSeaTimeCounter();
+        totalSeaTimeCounter.setLast_updated_at(LocalDateTime.now());
+        totalSeaTimeCounter.setCounter(0L);
+        totalSeaTimeCounterRepository.save(totalSeaTimeCounter);
+    }
 
     @Override
     public boolean isUserExistsWithSameEmail(String email) {
         log.info("Checking if user with email: {} exists", email);
-        return userRepository.findByEmail(email).isPresent();
+        return userRepository.findByEmail(email)
+                             .isPresent();
     }
 
     @Override
@@ -63,25 +115,41 @@ public class UserServiceImpl implements UserService {
     public void addSeaTimeToUser(Long id,
                                  SeaTimeEntity seaTimeEntity) {
         log.info("Adding sea time {} to user with id: {}", seaTimeEntity, id);
-        User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        seaTimeEntity.setDaysTotal(calculateContractLengthInDays(seaTimeEntity));
+        User user = userRepository.findById(id)
+                                  .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        int days = calculateContractLengthInDays(seaTimeEntity);
+        seaTimeEntity.setDaysTotal(days);
         user.addSeaTimeEntityToTheList(seaTimeEntity);
+        totalSeaTimeCounterRepository.findById(1)
+                                     .orElseThrow()
+                                     .updateTotalCounter(days);
         seaTimeRepo.save(seaTimeEntity);
     }
 
     @Override
     public void updateSeaTime(SeaTimeEntity seaTimeEntity) {
         log.info("Updating seatime: {}", seaTimeEntity);
-        SeaTimeEntity existed = seaTimeRepo.findById(seaTimeEntity.getId()).orElseThrow();
+        SeaTimeEntity existed = seaTimeRepo.findById(seaTimeEntity.getId())
+                                           .orElseThrow();
         seaTimeEntity.setUser(existed.getUser());
         if (existed.equals(seaTimeEntity)) {
             log.info("No calculations required for seatime: {}", seaTimeEntity);
             return;
         }
-        if (!(existed.getSignOnDate().equals(seaTimeEntity.getSignOnDate())) ||
-                !(existed.getSignOffDate().equals(seaTimeEntity.getSignOffDate()))) {
+        if (!(existed.getSignOnDate()
+                     .equals(seaTimeEntity.getSignOnDate())) ||
+                !(existed.getSignOffDate()
+                         .equals(seaTimeEntity.getSignOffDate()))) {
             seaTimeEntity.setContractLength(calculateContractLength(seaTimeEntity));
-            seaTimeEntity.setDaysTotal(calculateContractLengthInDays(seaTimeEntity));
+            int days = calculateContractLengthInDays(seaTimeEntity);
+            seaTimeEntity.setDaysTotal(days);
+            TotalSeaTimeCounter totalSeaTimeCounter = totalSeaTimeCounterRepository.findById(1)
+                                                                                   .orElseThrow();
+            long daysForUpdate = totalSeaTimeCounter.getCounter();
+            daysForUpdate = daysForUpdate - existed.getDaysTotal();
+            daysForUpdate = daysForUpdate + days;
+            totalSeaTimeCounter.setCounter(daysForUpdate);
+            totalSeaTimeCounterRepository.save(totalSeaTimeCounter);
         }
         seaTimeRepo.save(seaTimeEntity);
 
@@ -90,18 +158,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteSeaTime(Long sea_time_entity_id) {
         log.info("Deleting sea time with id: {}", sea_time_entity_id);
+        int days = seaTimeRepo.findById(sea_time_entity_id)
+                              .orElseThrow()
+                              .getDaysTotal();
+        totalSeaTimeCounterRepository.findById(1)
+                                     .orElseThrow()
+                                     .updateTotalCounter(-days);
         seaTimeRepo.deleteById(sea_time_entity_id);
     }
 
     @Override
     public boolean isSeaTimeEnteredValid(SeaTimeEntity seaTimeEntity) {
         log.info("Checking if seatime: {} valid", seaTimeEntity);
-        return countingLogic.validityOfEnteredDatesCheck(seaTimeEntity) && seaTimeEntity.getShipName().length() > 2;
+        return countingLogic.validityOfEnteredDatesCheck(seaTimeEntity) && seaTimeEntity.getShipName()
+                                                                                        .length() > 2;
     }
 
     @Override
     public Page<SeaTimeEntity> getListOfSeaTimeEntities(User user, Pageable pageable) {
-        List<SeaTimeEntity> listOfEntities = userRepository.findById(user.getId()).orElseThrow().getSeaTimeEntityList();
+        List<SeaTimeEntity> listOfEntities = userRepository.findById(user.getId())
+                                                           .orElseThrow()
+                                                           .getSeaTimeEntityList();
         log.info("Getting list of seatime for user with id: {} page: {}, page_size: {}",
                 user.getId(),
                 pageable.getPageNumber(),
@@ -123,7 +200,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public SeaTimeEntity getSingleSeaTime(Long sea_time_entity_id) {
         log.info("Getting single seatime with id: {}", sea_time_entity_id);
-        return seaTimeRepo.findById(sea_time_entity_id).orElseThrow();
+        return seaTimeRepo.findById(sea_time_entity_id)
+                          .orElseThrow();
     }
 
     @Override
@@ -147,6 +225,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean findAllByUserAndCheckIfContainsEntity(User user, Long sea_time_entity_id) {
         log.info("Checking if user with id: {} has the entity with id: {}", user.getId(), sea_time_entity_id);
-        return seaTimeRepo.findAllByUser(user).stream().map(SeaTimeEntity::getId).anyMatch(x -> x.equals(sea_time_entity_id));
+        return seaTimeRepo.findAllByUser(user)
+                          .stream()
+                          .map(SeaTimeEntity::getId)
+                          .anyMatch(x -> x.equals(sea_time_entity_id));
     }
 }

@@ -2,8 +2,8 @@ package com.example.seatimecalculator2.controller;
 
 import com.example.seatimecalculator2.entity.SeaTimeEntity;
 import com.example.seatimecalculator2.entity.user.User;
+import com.example.seatimecalculator2.repository.TotalSeaTimeCounterRepository;
 import com.example.seatimecalculator2.service.authentificatedUser.UserService;
-import com.example.seatimecalculator2.service.total_time_counter.TotalTimeCounterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,14 +13,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
 public class HomePageController {
 
     private final UserService userService;
-    private final TotalTimeCounterService totalTimeCounterService;
+    private final TotalSeaTimeCounterRepository totalSeaTimeCounterRepository;
 
     private boolean isUserAuthenticated() {
         return SecurityContextHolder.getContext().getAuthentication() != null &&
@@ -31,7 +30,6 @@ public class HomePageController {
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("seatime", new SeaTimeEntity());
-        model.addAttribute("total_counter", totalTimeCounterService.getAllSeaTime());
         return "home";
     }
 
@@ -56,6 +54,11 @@ public class HomePageController {
     @ModelAttribute(name = "home_page")
     boolean homePage() {
         return true;
+    }
+
+    @ModelAttribute(name = "total_counter")
+    Long getCounter() {
+        return totalSeaTimeCounterRepository.findById(1).orElseThrow().getCounter();
     }
 
 

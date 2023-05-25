@@ -3,23 +3,20 @@
 <head>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Login</title>
 
 </head>
 
-<div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
-
-    <body class="d-flex h-100 text-center text-bg-dark">
-
+<div class="cover-container d-flex w-100 h-100 mx-auto flex-column text-center">
 
     <div th:insert="~{blocks/header :: header}"></div>
-
 
     <div class="justify-content-center">
         <form id="login" th:action="@{/login}" th:object="${user}" method="post">
 
             <h1 class="display-4 py-4">Sign in</h1>
             <div th:if="${param.error}">
-                <p class="text-warning my-3">Incorrect username / password</p>
+                <h6 class="my-3">Incorrect username / password</h6>
             </div>
             <br>
             <div>
@@ -46,12 +43,5 @@
                 Create account
             </button>
         </div>
-
-
     </div>
-
-
-    <div th:insert="~{blocks/footer :: footer}"></div>
-
-    </body>
 </div>

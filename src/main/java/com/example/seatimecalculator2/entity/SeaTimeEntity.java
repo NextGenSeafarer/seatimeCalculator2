@@ -4,6 +4,7 @@ import com.example.seatimecalculator2.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.Hibernate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -29,26 +30,27 @@ public class SeaTimeEntity {
     LocalDate signOffDate;
     @Column(name = "ship_name", length = 50)
     String shipName;
-    @Column(name = "contractLength")
-    String contractLength;
-    @Column(name = "days_total")
-    int daysTotal;
-    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    @ToString.Exclude
-    User user;
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         SeaTimeEntity that = (SeaTimeEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(signOnDate, that.signOnDate) && Objects.equals(signOffDate, that.signOffDate) && Objects.equals(shipName, that.shipName);
+        return getId() != null && Objects.equals(getId(), that.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, signOnDate, signOffDate, shipName);
+        return getClass().hashCode();
     }
+
+    @Column(name = "contract_length")
+    String contractLength;
+    @Column(name = "days_total")
+    int daysTotal;
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    @ToString.Exclude
+    User user;
+
 }

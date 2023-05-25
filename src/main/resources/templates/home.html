@@ -1,28 +1,20 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"></html>
 <head>
-
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
+    <title>Home</title>
 </head>
 
 
 <div class="flex-wrap flex-column">
-
-    <body class="text-center">
-
-
     <div th:insert="~{blocks/header :: header}"></div>
-
-    <main>
+    <main class="text-center">
         <h1>Sea time calculator</h1>
-        <p>Simple & Fast counting of your contract duration</p>
         <br>
         <div class="d-flex flex-row justify-content-center">
             <div th:insert="~{blocks/inputForm :: input_form}"></div>
         </div>
         <br>
     </main>
-    </body>
 </div>
 

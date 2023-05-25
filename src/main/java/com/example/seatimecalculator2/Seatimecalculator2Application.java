@@ -7,5 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Seatimecalculator2Application {
     public static void main(String[] args) {
         SpringApplication.run(Seatimecalculator2Application.class, args);
+
     }
 }

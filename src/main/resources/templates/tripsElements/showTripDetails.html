@@ -2,18 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org"></html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Contract</title>
 </head>
 
-<div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
-
-    <body class="d-flex h-100 text-center text-bg-dark">
+<div class="cover-container d-flex w-100 h-100 mx-auto flex-column text-center">
 
     <div th:insert="~{blocks/header :: header}"></div>
 
     <main class="mt-5">
-        <h1 class="text-warning mb-3" th:text="${single_seatime.shipName}"></h1>
+        <h1 class="mb-3" th:text="${single_seatime.shipName}"></h1>
         <th:block th:if="${success_editing}">
-            <h6 class="text-success" th:text="'Changes saved successfully!'"></h6>
+            <h6 th:text="'Changes saved successfully!'"></h6>
         </th:block>
         <div class="d-flex flex-row justify-content-center">
             <div class="row mt-3">
@@ -33,7 +32,5 @@
             </div>
         </div>
     </main>
-    <div th:insert="~{blocks/footer :: footer}"></div>
-    </body>
 </div>
 

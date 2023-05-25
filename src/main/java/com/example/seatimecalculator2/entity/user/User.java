@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,7 +34,7 @@ public class User implements UserDetails {
 
     @Column(name = "email", unique = true)
     @NotBlank(message = "Email is not to be blank")
-    @NotEmpty (message = "Email is not to be empty")
+    @NotEmpty(message = "Email is not to be empty")
     @Email
     String email;
 
@@ -104,13 +105,13 @@ public class User implements UserDetails {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(password, user.password);
+        return getId() != null && Objects.equals(getId(), user.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password);
+        return getClass().hashCode();
     }
 }

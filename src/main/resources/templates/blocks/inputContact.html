@@ -1,24 +1,4 @@
 <div th:fragment="input_about">
-
-    <!-- Inline CSS based on choices in "Settings" tab -->
-    <style>.bootstrap-iso .form-group button, .bootstrap-iso form input.form-control, .bootstrap-iso form textarea.form-control, .bootstrap-iso form select.form-control, .bootstrap-iso form .form-group-lg input.form-control, .bootstrap-iso form .form-group-lg textarea.form-control, .bootstrap-iso form .form-group-lg select.form-control, .bootstrap-iso form .form-group-sm input.form-control, .bootstrap-iso form .form-group-sm textarea.form-control, .bootstrap-iso form .form-group-sm select.form-control {
-
-
-    }
-
-
-
-    .bootstrap-iso .form-control:focus {
-        border-color: #b087e1;
-        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(137, 82, 200, 0.6);
-        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(137, 82, 200, 0.6);
-    }
-
-
-
-    </style>
-
-    <!-- HTML Form (wrapped in a .bootstrap-iso div) -->
     <div class="bootstrap-iso">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <form class="form-horizontal" method="post">
@@ -27,7 +7,8 @@
                         Name
                     </label>
                     <div class="">
-                        <input class="form-control mb-2" id="name" name="name" placeholder="Jack Sparrow" type="text" maxlength="30"
+                        <input class="form-control mb-2" id="name" name="name" placeholder="Jack Sparrow" type="text"
+                               maxlength="30"
                                required/>
                     </div>
                 </div>
@@ -46,7 +27,8 @@
                     </label>
                     <div class="">
                         <textarea class="form-control" cols="40" id="message" name="message" rows="10"
-                                  placeholder="Ideas or any feedback for the project?" maxlength="300" required></textarea>
+                                  placeholder="Ideas or any feedback for the project?" maxlength="300"
+                                  required></textarea>
                     </div>
                 </div>
 

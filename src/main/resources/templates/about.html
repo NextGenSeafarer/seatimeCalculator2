@@ -4,13 +4,12 @@
 <head>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>About</title>
 
 </head>
 
 
-<div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
-
-    <body class="d-flex h-100 text-center text-bg-dark">
+<div class="cover-container d-flex w-100 h-100 mx-auto flex-column text-center">
 
 
     <div th:insert="~{blocks/header :: header}"></div>
@@ -22,26 +21,22 @@
         </p>
 
         <p class="pt-3 fs-3">Service calculate days from sign-on to sign-off date inclusively
-            <em class="fw-light fs-6">*considering leap years*</em>
+            <em>*considering leap years*</em>
         </p>
+
 
         <p class="pt-3 fs-3">Full month are counted 1st day of the month to 1st day of the next month</p>
         <p class="pt-3 fs-3">Not full month is counted according to 30 days/month system</p>
 
         <p class="pt-3 fs-3">Valid dates and vessel name are required
-            <em class="text-light fs-6">*data is collected for statistics only*</em>
+            <em>*data is collected for statistics only*</em>
         </p>
 
         <p>
             <a href="https://github.com/NextGenSeafarer " target="_blank">
-                <i class="fab fa-github fa-5x"></i>
+
             </a>
         </p>
     </main>
 
-
-    <div th:insert="~{blocks/footer :: footer}"></div>
-
-
-    </body>
 </div>

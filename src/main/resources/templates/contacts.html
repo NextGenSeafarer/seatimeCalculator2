@@ -2,21 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org"></html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Contacts</title>
 </head>
 
-<div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
-
-    <body class="d-flex text-center text-bg-dark">
-
+<div class="cover-container d-flex w-100 h-100 mx-auto flex-column text-center">
 
     <div th:insert="~{blocks/header :: header}"></div>
-
 
     <main class="px-7 pt-5">
         <div class="d-flex flex-row justify-content-center">
             <div th:insert="~{blocks/inputContact :: input_about}"></div>
         </div>
     </main>
-    <div th:insert="~{blocks/footer :: footer}"></div>
-    </body>
+
+
 </div>
