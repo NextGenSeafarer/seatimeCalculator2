@@ -1,6 +1,7 @@
 package com.example.seatimecalculator2.entity.user;
 
 import com.example.seatimecalculator2.entity.SeaTimeEntity;
+import com.example.seatimecalculator2.entity.user.activationToken.AccountActivationToken;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -46,18 +47,26 @@ public class User implements UserDetails {
 
     @Transient
     String passwordConfirm;
+
     @Enumerated(EnumType.STRING)
     Role role;
+
     @Column(name = "first_name")
     @NotBlank(message = "First name is not to be blank")
     @NotEmpty(message = "First name is not to be empty")
     String firstname;
+
     @Column(name = "last_name")
     @NotBlank(message = "Last name is not to be blank")
     @NotEmpty(message = "Last name is not to be empty")
     String lastname;
+
     @Column(name = "registration_date_time", updatable = false)
     LocalDateTime registrationDateAndTime;
+
+    @Column(name = "activation_code")
+    String activationCode;
+
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     @ToString.Exclude

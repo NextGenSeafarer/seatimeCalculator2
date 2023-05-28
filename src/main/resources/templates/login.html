@@ -18,6 +18,9 @@
             <div th:if="${param.error}">
                 <h6 class="my-3">Incorrect username / password</h6>
             </div>
+            <div th:if="${success_registered}">
+                <h6 class="my-3">You are registered successfully</h6>
+            </div>
             <br>
             <div>
                 <label>

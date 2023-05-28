@@ -5,17 +5,11 @@ import com.example.seatimecalculator2.entity.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 public interface UserService {
 
     boolean isUserExistsWithSameEmail(String email);
 
-    boolean registerUser(String first_name,
-                         String last_name,
-                         String email,
-                         String password,
-                         String passwordConfirm);
+    String registerUser(User user);
 
     String encryptPassword(String password);
 
@@ -36,5 +30,10 @@ public interface UserService {
     int calculateContractLengthInDays(SeaTimeEntity seaTimeEntity);
 
     boolean findAllByUserAndCheckIfContainsEntity(User user, Long sea_time_entity_id);
+
+    void sendActivationCode(User user);
+
+    boolean activateAccount(String token);
+
 
 }

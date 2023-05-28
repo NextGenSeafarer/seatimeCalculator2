@@ -1,28 +1,37 @@
 package com.example.seatimecalculator2.service.authentificatedUser;
 
+import com.example.seatimecalculator2.entity.EmailDetails;
 import com.example.seatimecalculator2.entity.SeaTimeEntity;
 import com.example.seatimecalculator2.entity.TotalSeaTimeCounter;
 import com.example.seatimecalculator2.entity.user.Role;
 import com.example.seatimecalculator2.entity.user.User;
+import com.example.seatimecalculator2.entity.user.activationToken.AccountActivationToken;
+import com.example.seatimecalculator2.repository.ActivationTokenRepository;
 import com.example.seatimecalculator2.repository.SeaTimeRepository;
 import com.example.seatimecalculator2.repository.TotalSeaTimeCounterRepository;
 import com.example.seatimecalculator2.repository.UserRepository;
+import com.example.seatimecalculator2.service.activationToken.ActivationTokenService;
+import com.example.seatimecalculator2.service.mailSender.EmailServiceImpl;
 import com.example.seatimecalculator2.service.seaCountingLogic.SeaTimeCountingLogic;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +41,8 @@ public class UserServiceImpl implements UserService {
     private final SeaTimeCountingLogic countingLogic;
     private final SeaTimeRepository seaTimeRepo;
     private final TotalSeaTimeCounterRepository totalSeaTimeCounterRepository;
+    private final EmailServiceImpl emailService;
+    private final ActivationTokenService activationTokenService;
 
 
     // Initial DB filling
@@ -72,7 +83,7 @@ public class UserServiceImpl implements UserService {
     @PostConstruct
     public void createTotalCounterEntry() {
         if (totalSeaTimeCounterRepository.findById(1)
-                                         .isPresent()) {
+                .isPresent()) {
             return;
         }
         TotalSeaTimeCounter totalSeaTimeCounter = new TotalSeaTimeCounter();
@@ -85,24 +96,23 @@ public class UserServiceImpl implements UserService {
     public boolean isUserExistsWithSameEmail(String email) {
         log.info("Checking if user with email: {} exists", email);
         return userRepository.findByEmail(email)
-                             .isPresent();
+                .isPresent();
     }
 
     @Override
-    public boolean registerUser(String first_name, String last_name, String email, String password, String passwordConfirm) {
-        if (!password.equals(passwordConfirm)) {
-            return false;
+    public String registerUser(User user) {
+        if (isUserExistsWithSameEmail(user.getEmail())) {
+            return "userExists";
         }
-        User user = new User();
-        user.setFirstname(first_name);
-        user.setLastname(last_name);
-        user.setEmail(email);
+        if (!user.getPassword().equals(user.getPasswordConfirm())) {
+            return "passwords not matching";
+        }
         user.setRegistrationDateAndTime(LocalDateTime.now());
-        user.setPassword(encryptPassword(password));
+        user.setPassword(encryptPassword(user.getPassword()));
         user.setRole(Role.USER);
         userRepository.save(user);
         log.info("User with id: {} saved to DB successfully", user.getId());
-        return true;
+        return "success";
 
     }
 
@@ -116,13 +126,13 @@ public class UserServiceImpl implements UserService {
                                  SeaTimeEntity seaTimeEntity) {
         log.info("Adding sea time {} to user with id: {}", seaTimeEntity, id);
         User user = userRepository.findById(id)
-                                  .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         int days = calculateContractLengthInDays(seaTimeEntity);
         seaTimeEntity.setDaysTotal(days);
         user.addSeaTimeEntityToTheList(seaTimeEntity);
         totalSeaTimeCounterRepository.findById(1)
-                                     .orElseThrow()
-                                     .updateTotalCounter(days);
+                .orElseThrow()
+                .updateTotalCounter(days);
         seaTimeRepo.save(seaTimeEntity);
     }
 
@@ -130,21 +140,21 @@ public class UserServiceImpl implements UserService {
     public void updateSeaTime(SeaTimeEntity seaTimeEntity) {
         log.info("Updating seatime: {}", seaTimeEntity);
         SeaTimeEntity existed = seaTimeRepo.findById(seaTimeEntity.getId())
-                                           .orElseThrow();
+                .orElseThrow();
         seaTimeEntity.setUser(existed.getUser());
         if (existed.equals(seaTimeEntity)) {
             log.info("No calculations required for seatime: {}", seaTimeEntity);
             return;
         }
         if (!(existed.getSignOnDate()
-                     .equals(seaTimeEntity.getSignOnDate())) ||
+                .equals(seaTimeEntity.getSignOnDate())) ||
                 !(existed.getSignOffDate()
-                         .equals(seaTimeEntity.getSignOffDate()))) {
+                        .equals(seaTimeEntity.getSignOffDate()))) {
             seaTimeEntity.setContractLength(calculateContractLength(seaTimeEntity));
             int days = calculateContractLengthInDays(seaTimeEntity);
             seaTimeEntity.setDaysTotal(days);
             TotalSeaTimeCounter totalSeaTimeCounter = totalSeaTimeCounterRepository.findById(1)
-                                                                                   .orElseThrow();
+                    .orElseThrow();
             long daysForUpdate = totalSeaTimeCounter.getCounter();
             daysForUpdate = daysForUpdate - existed.getDaysTotal();
             daysForUpdate = daysForUpdate + days;
@@ -159,11 +169,11 @@ public class UserServiceImpl implements UserService {
     public void deleteSeaTime(Long sea_time_entity_id) {
         log.info("Deleting sea time with id: {}", sea_time_entity_id);
         int days = seaTimeRepo.findById(sea_time_entity_id)
-                              .orElseThrow()
-                              .getDaysTotal();
+                .orElseThrow()
+                .getDaysTotal();
         totalSeaTimeCounterRepository.findById(1)
-                                     .orElseThrow()
-                                     .updateTotalCounter(-days);
+                .orElseThrow()
+                .updateTotalCounter(-days);
         seaTimeRepo.deleteById(sea_time_entity_id);
     }
 
@@ -171,14 +181,14 @@ public class UserServiceImpl implements UserService {
     public boolean isSeaTimeEnteredValid(SeaTimeEntity seaTimeEntity) {
         log.info("Checking if seatime: {} valid", seaTimeEntity);
         return countingLogic.validityOfEnteredDatesCheck(seaTimeEntity) && seaTimeEntity.getShipName()
-                                                                                        .length() > 2;
+                .length() > 2;
     }
 
     @Override
     public Page<SeaTimeEntity> getListOfSeaTimeEntities(User user, Pageable pageable) {
         List<SeaTimeEntity> listOfEntities = userRepository.findById(user.getId())
-                                                           .orElseThrow()
-                                                           .getSeaTimeEntityList();
+                .orElseThrow()
+                .getSeaTimeEntityList();
         log.info("Getting list of seatime for user with id: {} page: {}, page_size: {}",
                 user.getId(),
                 pageable.getPageNumber(),
@@ -201,7 +211,7 @@ public class UserServiceImpl implements UserService {
     public SeaTimeEntity getSingleSeaTime(Long sea_time_entity_id) {
         log.info("Getting single seatime with id: {}", sea_time_entity_id);
         return seaTimeRepo.findById(sea_time_entity_id)
-                          .orElseThrow();
+                .orElseThrow();
     }
 
     @Override
@@ -226,8 +236,51 @@ public class UserServiceImpl implements UserService {
     public boolean findAllByUserAndCheckIfContainsEntity(User user, Long sea_time_entity_id) {
         log.info("Checking if user with id: {} has the entity with id: {}", user.getId(), sea_time_entity_id);
         return seaTimeRepo.findAllByUser(user)
-                          .stream()
-                          .map(SeaTimeEntity::getId)
-                          .anyMatch(x -> x.equals(sea_time_entity_id));
+                .stream()
+                .map(SeaTimeEntity::getId)
+                .anyMatch(x -> x.equals(sea_time_entity_id));
     }
+
+    @Value("${web.site.link}")
+    String link;
+
+    @Override
+    @Async
+    public void sendActivationCode(User user) {
+        if (user.getActivationCode() != null && user.getActivationCode().equals("activated")) {
+            return;
+        }
+        AccountActivationToken activationToken = activationTokenService.createToken(user);
+        if (activationToken.getCounterSendToEmail() >= 3) {
+            return;
+        }
+        EmailDetails emailDetails = new EmailDetails();
+        emailDetails.setTo(user.getEmail());
+        emailDetails.setSubject("Activation code for seatimecalculator.ru");
+        emailDetails.setMessage("Hello," + user.getFirstname() + "!" +
+                "\n\nHere is your activation code: " +
+                link + activationToken.getToken());
+        emailService.sendSimpleMail(emailDetails);
+        activationTokenService.increaseCounterTimesSendToEmail(activationToken.getToken());
+    }
+
+    @Override
+    public boolean activateAccount(String token) {
+        if (token.equals("activated")) {
+            return false;
+        }
+        AccountActivationToken tkn = activationTokenService.findByToken(token).orElseThrow();
+        if (tkn.getExpires_at().isAfter(LocalDateTime.now())) {
+            User user = tkn.getUser();
+            user.setActivationCode("activated");
+            tkn.setConfirmed_at(LocalDateTime.now());
+            activationTokenService.saveToken(tkn);
+            userRepository.save(user);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }

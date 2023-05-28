@@ -7,12 +7,7 @@
 </head>
 
 <div class="cover-container d-flex w-100 h-100 mx-auto flex-column text-center">
-
-
-
     <div th:insert="~{blocks/header :: header}"></div>
-
-
     <div class="justify-content-center mx-auto">
         <h1 class="display-4 py-4">Registration</h1>
 
@@ -26,12 +21,11 @@
             </th:block>
 
             <div class="my-1">
-                <label for="firstname">First name
-                    <div class="input-group">
-                        <input class="form-control" id="firstname" th:field="*{firstname}"
-                               type="text" placeholder="Jack" required/>
-                    </div>
-                </label>
+                <label for="firstname">First name</label>
+                <div class="input-group">
+                    <input class="form-control" id="firstname" th:field="*{firstname}"
+                           type="text" placeholder="Jack" required/>
+                </div>
             </div>
 
             <th:block th:if="${#fields.hasErrors('lastname')}">
@@ -41,12 +35,11 @@
             </th:block>
 
             <div class="my-1">
-                <label for="lastname">Last name
-                    <div class="input-group">
-                        <input class="form-control" id="lastname" th:field="*{lastname}"
-                               type="text" placeholder="Sparrow" required/>
-                    </div>
-                </label>
+                <label for="lastname">Last name</label>
+                <div class="input-group">
+                    <input class="form-control" id="lastname" th:field="*{lastname}"
+                           type="text" placeholder="Sparrow" required/>
+                </div>
             </div>
 
             <th:block th:if="${#fields.hasErrors('email')}">
@@ -61,12 +54,12 @@
             </th:block>
 
             <div class="my-1">
-                <label for="email">Email
-                    <div class="input-group">
-                        <input class="form-control" id="email" th:field="*{email}"
-                               type="email" placeholder="caramba@gmail.com" required readonly onfocus="this.removeAttribute('readonly');"/>
-                    </div>
-                </label>
+                <label for="email">Email</label>
+                <div class="input-group">
+                    <input class="form-control" id="email" th:field="*{email}"
+                           type="email" placeholder="caramba@gmail.com" required readonly
+                           onfocus="this.removeAttribute('readonly');"/>
+                </div>
             </div>
 
             <th:block th:if="${#fields.hasErrors('password')}">
@@ -80,20 +73,21 @@
 
             <div class="my-1">
                 <label for="password">Password
-                    <div class="input-group">
-                        <input class="form-control" id="password" th:field="*{password}"
-                               type="password" placeholder="********" required readonly onfocus="this.removeAttribute('readonly');"/>
-                    </div>
                 </label>
+                <div class="input-group">
+                    <input class="form-control" id="password" th:field="*{password}"
+                           type="password" placeholder="********" required readonly
+                           onfocus="this.removeAttribute('readonly');"/>
+                </div>
             </div>
 
             <div class="my-1">
-                <label for="passwordConfirmation">Password confirm
-                    <div class="input-group">
-                        <input class="form-control" id="passwordConfirmation" th:field="*{passwordConfirm}"
-                               type="password" placeholder="********" required readonly onfocus="this.removeAttribute('readonly');"/>
-                    </div>
-                </label>
+                <label for="passwordConfirmation">Password confirm</label>
+                <div class="input-group">
+                    <input class="form-control" id="passwordConfirmation" th:field="*{passwordConfirm}"
+                           type="password" placeholder="********" required readonly
+                           onfocus="this.removeAttribute('readonly');"/>
+                </div>
             </div>
             <br>
             <div>
@@ -105,8 +99,6 @@
 
 
     </div>
-
-
 
 
 </div>

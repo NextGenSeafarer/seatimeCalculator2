@@ -32,6 +32,11 @@
                                 <input class="btn me-2 btn-outline-warning" type="submit" value="Your trips"/>
                             </form>
                         </div>
+                        <div sec:authorize="isAuthenticated()">
+                            <form th:action="@{/account}" method="get">
+                                <input class="btn me-2 btn-outline-info" type="submit" value="Account info"/>
+                            </form>
+                        </div>
                     </div>
                     <div th:if="${home_page}">
                         <button type="button" class="btn btn-outline-light mx-2" id="liveToastBtn">Part of the ship

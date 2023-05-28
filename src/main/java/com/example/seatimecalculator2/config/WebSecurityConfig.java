@@ -30,7 +30,13 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> {
                             try {
                                 requests
-                                        .requestMatchers("/", "/about", "/contacts", "/registration", "/static/**").permitAll()
+                                        .requestMatchers(
+                                                "/",
+                                                "/about",
+                                                "/contacts",
+                                                "/registration",
+                                                "/account/activation/*",
+                                                "/static/**").permitAll()
                                         .anyRequest().authenticated();
 //                                        .and()
 //                                        .sessionManagement()

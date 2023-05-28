@@ -12,14 +12,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 public class LoginController {
 
     private boolean isUserAuthenticated() {
-        return SecurityContextHolder.getContext().getAuthentication() != null &&
-                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-                !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
+        return SecurityContextHolder.getContext()
+                                    .getAuthentication() != null &&
+                SecurityContextHolder.getContext()
+                                     .getAuthentication()
+                                     .isAuthenticated() &&
+                !(SecurityContextHolder.getContext()
+                                       .getAuthentication() instanceof AnonymousAuthenticationToken);
     }
 
     @GetMapping("/login")
     public String login(@ModelAttribute User user, Model model) {
-       model.addAttribute("user", new User());
+        model.addAttribute("user", new User());
         if (isUserAuthenticated()) {
             return "redirect:/";
         }

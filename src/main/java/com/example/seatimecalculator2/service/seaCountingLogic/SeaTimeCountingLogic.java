@@ -19,6 +19,7 @@ public class SeaTimeCountingLogic {
         return seaTimeEntity.getSignOnDate().isBefore(seaTimeEntity.getSignOffDate())
                 || seaTimeEntity.getSignOnDate().isEqual(seaTimeEntity.getSignOffDate());
     }
+
     private String contractLengthCalculation(LocalDate sign_on, LocalDate sign_off) {
         if (sign_on.isEqual(sign_off)) {
             return "0:0:1";
@@ -48,7 +49,6 @@ public class SeaTimeCountingLogic {
             month++;
         }
         return years + ":" + month + ":" + days;
-
     }
 
     private String formattingTheResultString(LocalDate beginContractDate, LocalDate endContractDate) {
@@ -79,7 +79,6 @@ public class SeaTimeCountingLogic {
             resultMonth = month == 0 ? "" : month + monthOrMonths + ", ";
             resultDay = day + dayOrDays;
         }
-
         return resultYear + resultMonth + resultDay;
     }
 

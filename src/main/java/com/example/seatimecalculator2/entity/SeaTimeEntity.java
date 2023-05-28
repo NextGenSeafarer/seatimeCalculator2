@@ -25,11 +25,6 @@ public class SeaTimeEntity {
     @Column(name = "sign_on_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate signOnDate;
-    @Column(name = "sign_off_date")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    LocalDate signOffDate;
-    @Column(name = "ship_name", length = 50)
-    String shipName;
 
     @Override
     public boolean equals(Object o) {
@@ -43,6 +38,12 @@ public class SeaTimeEntity {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+    @Column(name = "sign_off_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    LocalDate signOffDate;
+    @Column(name = "ship_name", length = 50)
+    String shipName;
 
     @Column(name = "contract_length")
     String contractLength;

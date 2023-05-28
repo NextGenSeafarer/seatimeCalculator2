@@ -25,14 +25,14 @@ public class TripsController {
     @GetMapping("/trips")
     public String showAllTrips(@AuthenticationPrincipal User user,
                                @RequestParam(name = "page", defaultValue = "1", required = false) int page,
-                               @RequestParam(name = "size", defaultValue = "9", required = false) int size,
+                               @RequestParam(name = "size", defaultValue = "6", required = false) int size,
                                Model model) {
         Page<SeaTimeEntity> pageList = userService.getListOfSeaTimeEntities(user, PageRequest.of(page - 1, size));
         int totalPages = pageList.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                                                 .boxed()
-                                                 .toList();
+                    .boxed()
+                    .toList();
             model.addAttribute("pageNumbers", pageNumbers);
         }
         model.addAttribute("entries", pageList);
