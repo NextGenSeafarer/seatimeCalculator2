@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"></html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type"
+          content="text/html; charset=UTF-8"/>
     <title>Trips</title>
 </head>
 
 <div class="cover-container d-flex w-100 h-100 mx-auto flex-column text-center">
-
 
 
     <div th:insert="~{blocks/header :: header}"></div>
@@ -22,32 +22,30 @@
 
         <div class="row justify-content-center">
             <h4 th:text="${entries.toList().size() == 0 ? 'So far nothing here...' : null}"></h4>
-
-
-
-            <div class="col-auto" th:each="el : ${entries}">
+            <div class="col-auto"
+                 th:each="el : ${entries}">
                 <div style="padding: 10px">
-                    <a style="font-size: 35px;" href="#" th:text="${el.shipName} "
+                    <a style="font-size: 35px;"
+                       href="#"
+                       th:text="${el.shipName} "
                        th:href="@{/trips/{id}(id=${el.id})}"></a>
                 </div>
             </div>
         </div>
         <div th:if="${entries.totalPages > 1}">
-        <label for="pages" class="mt-3">
-            Page:
-        </label>
-<!--        TODO: find the way to show pages in 1,2,3...last-->
-        <div id="pages" class="container-fluid d-inline"
-             th:each="pageNumber : ${pageNumbers}">
-            <a style="font-size: 20px" th:href="@{/trips(size=${entries.size}, page=${pageNumber})}"
-               th:text="${pageNumber}"
-               th:class="${pageNumber==entries.number+1} ? active"></a>
+            <label for="pages"
+                   class="mt-3">
+                Page:
+            </label>
+            <!--        TODO: find the way to show pages in 1,2,3...last-->
+            <div id="pages"
+                 class="container-fluid d-inline"
+                 th:each="pageNumber : ${pageNumbers}">
+                <a style="font-size: 20px"
+                   th:href="@{/trips(size=${entries.size}, page=${pageNumber})}"
+                   th:text="${pageNumber}"
+                   th:class="${pageNumber==entries.number+1} ? active"></a>
+            </div>
         </div>
-        </div>
-
     </main>
-
-
-
-
 </div>

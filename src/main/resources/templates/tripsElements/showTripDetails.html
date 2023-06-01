@@ -1,7 +1,8 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"></html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type"
+          content="text/html; charset=UTF-8"/>
     <title>Contract</title>
 </head>
 
@@ -10,7 +11,8 @@
     <div th:insert="~{blocks/header :: header}"></div>
 
     <main class="mt-5">
-        <h1 class="mb-3" th:text="${single_seatime.shipName}"></h1>
+        <h1 class="mb-3"
+            th:text="${single_seatime.shipName}"></h1>
         <th:block th:if="${success_editing}">
             <h6 th:text="'Changes saved successfully!'"></h6>
         </th:block>
@@ -20,12 +22,15 @@
                     th:text="'From: ' + ${#temporals.format(single_seatime.signOnDate,'dd-MM-yyyy')}"></h4>
                 <h4 class="col-auto mx-3"
                     th:text="'To: ' + ${#temporals.format(single_seatime.signOffDate,'dd-MM-yyyy')}"></h4>
-                <h4 class="col-auto mx-3" th:text="${single_seatime.contractLength}"></h4>
+                <h4 class="col-auto mx-3"
+                    th:text="${single_seatime.contractLength}"></h4>
                 <div class="nav col-lg-auto me-lg-auto mb-2 justify-content-center">
                     <form th:action="@{/trips/edit/{id}(id=${single_seatime.getId()})}"
                           th:object="${single_seatime}"
                           method="get">
-                        <input class="btn btn-outline-info" type="submit" value="Edit"/>
+                        <input class="btn btn-outline-info"
+                               type="submit"
+                               value="Edit"/>
                     </form>
                     <div th:insert="~{tripsElements/delete_modal::delete_modal}"></div>
                 </div>

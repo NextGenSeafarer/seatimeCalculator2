@@ -1,7 +1,6 @@
 package com.example.seatimecalculator2.entity.user;
 
 import com.example.seatimecalculator2.entity.SeaTimeEntity;
-import com.example.seatimecalculator2.entity.user.activationToken.AccountActivationToken;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

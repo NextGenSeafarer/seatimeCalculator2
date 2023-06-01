@@ -3,7 +3,8 @@
 
 <head>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type"
+          content="text/html; charset=UTF-8"/>
     <title>My account</title>
 
 </head>
@@ -19,20 +20,26 @@
 
         <br>
         <div th:if="${message !=null}">
-            <h5 class="text-light" th:text="${message}"></h5>
+            <h5 class="text-light"
+                th:text="${message}"></h5>
         </div>
-        <div class="mt-3" th:object="${user_info}">
+        <div class="mt-3"
+             th:object="${user_info}">
             <label for="name">Your name:</label>
-            <p id="name" th:text="*{firstname}"></p>
+            <p id="name"
+               th:text="*{firstname}"></p>
 
             <label for="surname">Your surname:</label>
-            <p id="surname" th:text="*{lastname}"></p>
+            <p id="surname"
+               th:text="*{lastname}"></p>
 
             <label for="email">Your email:</label>
-            <p id="email" th:text="*{username}"></p>
+            <p id="email"
+               th:text="*{username}"></p>
 
             <label for="email">Registration date:</label>
-            <p id="reg_date" th:text="${#temporals.format(user_info.registrationDateAndTime,'dd-MM-yyyy, HH:MM')}"></p>
+            <p id="reg_date"
+               th:text="${#temporals.format(user_info.registrationDateAndTime,'dd-MM-yyyy, HH:MM')}"></p>
 
 
             <div th:if="*{activationCode != null && activationCode.equals('activated')}">
@@ -41,6 +48,10 @@
             <div th:if="*{activationCode == null}">
                 <a th:href="@{/account/sendmail}">Activate your account</a>
             </div>
+            <a style="font-size: 25px;"
+               href="#"
+               th:text="'Change password'"
+               th:href="@{/forgot_password}"></a>
 
 
         </div>

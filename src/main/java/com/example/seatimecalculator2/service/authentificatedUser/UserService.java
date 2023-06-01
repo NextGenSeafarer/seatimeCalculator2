@@ -31,9 +31,11 @@ public interface UserService {
 
     boolean findAllByUserAndCheckIfContainsEntity(User user, Long sea_time_entity_id);
 
-    void sendActivationCode(User user);
+    void sendActivationCode(User user, String link);
 
     boolean activateAccount(String token);
+
+    User findUserByEmail(String email);
 
 
 }

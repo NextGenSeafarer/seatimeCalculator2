@@ -1,8 +1,10 @@
 package com.example.seatimecalculator2.controller;
 
 import com.example.seatimecalculator2.entity.user.User;
+import com.example.seatimecalculator2.service.authentificatedUser.UserService;
 import com.example.seatimecalculator2.service.authentificatedUser.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class AccountController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
+    @Value("${web.site.link.activation}")
+    String link;
 
 
     @GetMapping()
@@ -32,7 +36,8 @@ public class AccountController {
             model.addAttribute("message", "Your account already activated!");
         } else {
             model.addAttribute("message", "Activation code was send to you email successfully!");
-            userService.sendActivationCode(user);
+            userService.sendActivationCode(user, link);
+
         }
         return "myAccount";
     }

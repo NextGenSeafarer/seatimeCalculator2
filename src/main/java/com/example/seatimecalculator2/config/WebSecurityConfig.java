@@ -36,7 +36,9 @@ public class WebSecurityConfig {
                                                 "/contacts",
                                                 "/registration",
                                                 "/account/activation/*",
-                                                "/static/**").permitAll()
+                                                "/static/**",
+                                                "/forgot_password/**")
+                                        .permitAll()
                                         .anyRequest().authenticated();
 //                                        .and()
 //                                        .sessionManagement()

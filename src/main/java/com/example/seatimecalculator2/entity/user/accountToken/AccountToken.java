@@ -1,4 +1,4 @@
-package com.example.seatimecalculator2.entity.user.activationToken;
+package com.example.seatimecalculator2.entity.user.accountToken;
 
 
 import com.example.seatimecalculator2.entity.user.User;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AccountActivationToken {
+public class AccountToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -35,7 +35,7 @@ public class AccountActivationToken {
     @JoinColumn(nullable = false, name = "user_id")
     User user;
 
-    public AccountActivationToken(String token, LocalDateTime created_at, LocalDateTime expires_at, User user) {
+    public AccountToken(String token, LocalDateTime created_at, LocalDateTime expires_at, User user) {
         this.token = token;
         this.created_at = created_at;
         this.expires_at = expires_at;

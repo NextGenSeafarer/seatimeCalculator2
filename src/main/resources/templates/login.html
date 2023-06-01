@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"></html>
 <head>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type"
+          content="text/html; charset=UTF-8"/>
     <title>Login</title>
 
 </head>
@@ -12,9 +13,15 @@
     <div th:insert="~{blocks/header :: header}"></div>
 
     <div class="justify-content-center">
-        <form id="login" th:action="@{/login}" th:object="${user}" method="post">
-
+        <form id="login"
+              th:action="@{/login}"
+              th:object="${user}"
+              method="post">
             <h1 class="display-4 py-4">Sign in</h1>
+            <div th:if="${message != null}">
+                <p class="my-3"
+                   th:text="${message}"></p>
+            </div>
             <div th:if="${param.error}">
                 <h6 class="my-3">Incorrect username / password</h6>
             </div>
@@ -24,27 +31,46 @@
             <br>
             <div>
                 <label>
-                    <input type="text" class="form-control" th:field="*{username}" placeholder="username" required>
+                    <input type="text"
+                           class="form-control"
+                           th:field="*{username}"
+                           placeholder="username"
+                           required>
                 </label>
             </div>
 
             <div class="my-2">
                 <label>
-                    <input type="password" class="form-control" th:field="*{password}" placeholder="password" required>
+                    <input type="password"
+                           class="form-control"
+                           th:field="*{password}"
+                           placeholder="password"
+                           required>
                 </label>
             </div>
             <br>
 
         </form>
-        <form class="mt-2" id="registration" th:action="@{/registration}" method="get"></form>
-
+        <form class="mt-2"
+              id="registration"
+              th:action="@{/registration}"
+              method="get"></form>
         <div>
-            <button class="btn btn-warning" name="Sign in" type="submit" form="login">
+            <button class="btn btn-warning"
+                    name="Sign in"
+                    type="submit"
+                    form="login">
                 Login
             </button>
-            <button class="btn btn-secondary" name="Sign in" type="submit" form="registration">
+            <button class="btn btn-secondary"
+                    name="Sign in"
+                    type="submit"
+                    form="registration">
                 Create account
             </button>
         </div>
+        <br>
+        <a class="mt-2"
+           href="/forgot_password">Forgot password?</a>
     </div>
 </div>

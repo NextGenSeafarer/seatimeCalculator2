@@ -5,18 +5,16 @@ import com.example.seatimecalculator2.entity.SeaTimeEntity;
 import com.example.seatimecalculator2.entity.TotalSeaTimeCounter;
 import com.example.seatimecalculator2.entity.user.Role;
 import com.example.seatimecalculator2.entity.user.User;
-import com.example.seatimecalculator2.entity.user.activationToken.AccountActivationToken;
-import com.example.seatimecalculator2.repository.ActivationTokenRepository;
+import com.example.seatimecalculator2.entity.user.accountToken.AccountToken;
 import com.example.seatimecalculator2.repository.SeaTimeRepository;
 import com.example.seatimecalculator2.repository.TotalSeaTimeCounterRepository;
 import com.example.seatimecalculator2.repository.UserRepository;
-import com.example.seatimecalculator2.service.activationToken.ActivationTokenService;
+import com.example.seatimecalculator2.service.activationToken.AccountTokenService;
 import com.example.seatimecalculator2.service.mailSender.EmailServiceImpl;
 import com.example.seatimecalculator2.service.seaCountingLogic.SeaTimeCountingLogic;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -25,13 +23,14 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -42,44 +41,8 @@ public class UserServiceImpl implements UserService {
     private final SeaTimeRepository seaTimeRepo;
     private final TotalSeaTimeCounterRepository totalSeaTimeCounterRepository;
     private final EmailServiceImpl emailService;
-    private final ActivationTokenService activationTokenService;
+    private final AccountTokenService activationTokenService;
 
-
-    // Initial DB filling
-//    @PostConstruct
-//    public void fillDb() {
-//        Random random = new Random();
-//        List<LocalDate> signOnDate = new ArrayList<>();
-//        User user = userRepository.findById(4L).get();
-//        for (int i = 0; i < 150; i++) {
-//            signOnDate.add(
-//                    LocalDate.of(
-//                            random.nextInt(2000, 2025),
-//                            random.nextInt(1, 12),
-//                            random.nextInt(1, 25)));
-//        }
-//        List<LocalDate> signOffDate = new ArrayList<>();
-//        for (LocalDate localDate : signOnDate) {
-//            signOffDate
-//                    .add(localDate
-//                            .plusDays(random.nextInt(1, 260)));
-//        }
-//        List<String> ships = new ArrayList<>();
-//        for (int i = 0; i < 400; i++) {
-//            ships.add("Ship #" + random.nextInt(0, 1000));
-//        }
-//
-//        List<SeaTimeEntity> list = IntStream.rangeClosed(1, 1000000)
-//                .mapToObj(i -> new SeaTimeEntity(
-//                        signOnDate.get(random.nextInt(signOnDate.size())),
-//                        signOffDate.get(random.nextInt(signOffDate.size())),
-//                        ships.get(random.nextInt(ships.size())),
-//                        "1 month", 150,
-//                        user)).toList();
-//        user.setSeaTimeEntityList(list);
-//        userRepository.save(user);
-//
-//    }
     @PostConstruct
     public void createTotalCounterEntry() {
         if (totalSeaTimeCounterRepository.findById(1)
@@ -241,35 +204,29 @@ public class UserServiceImpl implements UserService {
                 .anyMatch(x -> x.equals(sea_time_entity_id));
     }
 
-    @Value("${web.site.link}")
-    String link;
+
 
     @Override
     @Async
-    public void sendActivationCode(User user) {
-        if (user.getActivationCode() != null && user.getActivationCode().equals("activated")) {
-            return;
-        }
-        AccountActivationToken activationToken = activationTokenService.createToken(user);
+    public void sendActivationCode(User user, String link) {
+        AccountToken activationToken = activationTokenService.createToken(user);
         if (activationToken.getCounterSendToEmail() >= 3) {
             return;
         }
         EmailDetails emailDetails = new EmailDetails();
         emailDetails.setTo(user.getEmail());
-        emailDetails.setSubject("Activation code for seatimecalculator.ru");
+        emailDetails.setSubject("Security code for seatimecalculator.ru");
         emailDetails.setMessage("Hello," + user.getFirstname() + "!" +
-                "\n\nHere is your activation code: " +
+                "\n\nHere is your security link: " +
                 link + activationToken.getToken());
+        System.out.println(emailDetails.getMessage());
         emailService.sendSimpleMail(emailDetails);
         activationTokenService.increaseCounterTimesSendToEmail(activationToken.getToken());
     }
 
     @Override
     public boolean activateAccount(String token) {
-        if (token.equals("activated")) {
-            return false;
-        }
-        AccountActivationToken tkn = activationTokenService.findByToken(token).orElseThrow();
+        AccountToken tkn = activationTokenService.findByToken(token).orElseThrow();
         if (tkn.getExpires_at().isAfter(LocalDateTime.now())) {
             User user = tkn.getUser();
             user.setActivationCode("activated");
@@ -277,9 +234,13 @@ public class UserServiceImpl implements UserService {
             activationTokenService.saveToken(tkn);
             userRepository.save(user);
             return true;
-        } else {
-            return false;
         }
+        return false;
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow();
     }
 
 
