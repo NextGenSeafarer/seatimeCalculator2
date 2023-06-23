@@ -39,11 +39,17 @@ public class HomePageController {
                                             @AuthenticationPrincipal User user) {
         if (userService.isSeaTimeEnteredValid(seaTimeEntity)) {
             String calculatedTime = userService.calculateContractLength(seaTimeEntity);
-            seaTimeEntity.setContractLength(calculatedTime);
-            seaTimeEntity.setDaysTotal(userService.calculateContractLengthInDays(seaTimeEntity));
             model.addAttribute("currentSeaTime", calculatedTime);
             if (isUserAuthenticated()) {
-                userService.addSeaTimeToUser(user.getId(), seaTimeEntity);
+                boolean isShipNameValid = !seaTimeEntity.getShipName().isEmpty() && !seaTimeEntity.getShipName().isBlank() &&
+                        seaTimeEntity.getShipName().length() >= 2;
+                if (isShipNameValid) {
+                    seaTimeEntity.setContractLength(calculatedTime);
+                    seaTimeEntity.setDaysTotal(userService.calculateContractLengthInDays(seaTimeEntity));
+                    userService.addSeaTimeToUser(user.getId(), seaTimeEntity);
+                } else {
+                    model.addAttribute("currentSeaTime", "Check ship name");
+                }
             }
         } else {
             model.addAttribute("currentSeaTime", "Check your dates");

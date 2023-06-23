@@ -2,6 +2,8 @@ package com.example.seatimecalculator2.controller;
 
 import com.example.seatimecalculator2.entity.user.User;
 import com.example.seatimecalculator2.service.authentificatedUser.UserService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,13 +26,14 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String registerUser(@Valid @ModelAttribute("user") User user,
-                               BindingResult bindingResult, Model model) {
+                               BindingResult bindingResult, Model model, HttpServletRequest httpServletRequest) throws ServletException {
         if (bindingResult.hasErrors()) {
             return "registration";
         }
         switch (userService.registerUser(user)) {
             case "success" -> {
                 model.addAttribute("success_registered", true);
+                httpServletRequest.logout();
                 return "login";
             }
             case "userExists" -> {

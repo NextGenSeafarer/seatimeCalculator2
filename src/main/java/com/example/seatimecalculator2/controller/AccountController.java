@@ -2,7 +2,8 @@ package com.example.seatimecalculator2.controller;
 
 import com.example.seatimecalculator2.entity.user.User;
 import com.example.seatimecalculator2.service.authentificatedUser.UserService;
-import com.example.seatimecalculator2.service.authentificatedUser.UserServiceImpl;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -43,10 +44,16 @@ public class AccountController {
     }
 
     @GetMapping("/activation/{code}")
-    public String activation(@PathVariable String code, Model model) {
+    public String activation(@PathVariable String code, Model model, HttpServletRequest httpServletRequest) {
         if (userService.activateAccount(code)) {
             model.addAttribute("message", "Account successfully activated!");
-        }else {
+            try {
+                httpServletRequest.logout();
+            } catch (ServletException e) {
+                throw new RuntimeException(e);
+            }
+            return "redirect:/";
+        } else {
             model.addAttribute("message", "Account is activated already!");
         }
         return "myAccount";

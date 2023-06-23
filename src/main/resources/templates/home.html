@@ -1,20 +1,21 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"></html>
+<html xmlns:th="http://www.thymeleaf.org"
+></html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type"
+          name="viewport"
+          content="text/html; charset=UTF-8; width=device-width, initial-scale=1.0"/>
     <title>Home</title>
 </head>
 
+<div th:insert="~{blocks/header :: header}"></div>
+<main class="text-center mt-5">
+    <h1>Sea time calculator</h1>
+    <br>
+    <h4 class="mb-5"
+        th:text="${currentSeaTime == null ? 'Enter dates below' : currentSeaTime}"></h4>
+    <div th:insert="~{blocks/inputForm :: input_form}"></div>
+    <br>
+</main>
 
-<div class="flex-wrap flex-column">
-    <div th:insert="~{blocks/header :: header}"></div>
-    <main class="text-center mt-5">
-        <h1>Sea time calculator</h1>
-        <br>
-        <div class="d-flex flex-row justify-content-center">
-            <div th:insert="~{blocks/inputForm :: input_form}"></div>
-        </div>
-        <br>
-    </main>
-</div>
 

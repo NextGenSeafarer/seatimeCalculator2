@@ -143,8 +143,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isSeaTimeEnteredValid(SeaTimeEntity seaTimeEntity) {
         log.info("Checking if seatime: {} valid", seaTimeEntity);
-        return countingLogic.validityOfEnteredDatesCheck(seaTimeEntity) && seaTimeEntity.getShipName()
-                .length() > 2;
+        return countingLogic.validityOfEnteredDatesCheck(seaTimeEntity);
     }
 
     @Override
@@ -217,9 +216,8 @@ public class UserServiceImpl implements UserService {
         emailDetails.setTo(user.getEmail());
         emailDetails.setSubject("Security code for seatimecalculator.ru");
         emailDetails.setMessage("Hello," + user.getFirstname() + "!" +
-                "\n\nHere is your security link: " +
+                "\nHere is your security link: " +
                 link + activationToken.getToken());
-        System.out.println(emailDetails.getMessage());
         emailService.sendSimpleMail(emailDetails);
         activationTokenService.increaseCounterTimesSendToEmail(activationToken.getToken());
     }
