@@ -9,4 +9,6 @@ public class ContactController {
     public String getContacts(){
         return "contacts";
     }
+
+    //TODO: finish contacts controller that allow to send email from user -> to my mail + response, that email is send successfully
 }

@@ -4,7 +4,6 @@ import com.example.seatimecalculator2.entity.user.User;
 import com.example.seatimecalculator2.entity.user.accountToken.AccountToken;
 import com.example.seatimecalculator2.repository.AccountTokenRepository;
 import com.example.seatimecalculator2.repository.UserRepository;
-import com.example.seatimecalculator2.service.authentificatedUser.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

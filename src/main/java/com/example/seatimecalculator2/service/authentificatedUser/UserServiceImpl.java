@@ -26,11 +26,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -55,6 +52,7 @@ public class UserServiceImpl implements UserService {
         totalSeaTimeCounterRepository.save(totalSeaTimeCounter);
     }
 
+    //TODO: Refactor code, split between user registration / forgot pass / activation, seatime manipulations,
     @Override
     public boolean isUserExistsWithSameEmail(String email) {
         log.info("Checking if user with email: {} exists", email);
