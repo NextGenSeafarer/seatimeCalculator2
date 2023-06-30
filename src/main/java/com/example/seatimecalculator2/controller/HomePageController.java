@@ -3,7 +3,6 @@ package com.example.seatimecalculator2.controller;
 import com.example.seatimecalculator2.entity.SeaTimeEntity;
 import com.example.seatimecalculator2.entity.user.User;
 import com.example.seatimecalculator2.repository.TotalSeaTimeCounterRepository;
-import com.example.seatimecalculator2.service.authentificatedUser.UserService;
 import com.example.seatimecalculator2.service.seatimeCRUD.SeatimeCRUD;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class HomePageController {
 
-    private final UserService userService;
     private final SeatimeCRUD crudService;
     private final TotalSeaTimeCounterRepository totalSeaTimeCounterRepository;
 
