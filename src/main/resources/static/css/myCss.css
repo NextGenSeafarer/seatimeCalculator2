@@ -18,7 +18,7 @@ h1 {
 }
 
 
-a, h6, h4, p {
+a:not(.git), h6, h4, p {
     background-image: linear-gradient(to right bottom, #ffc107, #ffb46f, #ffb9b8, #ffceec, #ffe6ff, #ffe6ff, #ffe6ff, #ffe6ff, #ffceec, #ffb9b8, #ffb46f, #ffc107);
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;

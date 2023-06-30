@@ -36,7 +36,7 @@ public class ForgotPasswordController {
             model.addAttribute("message", "Password reset link successfully send to: " + email);
             model.addAttribute("hide_input", true);
             User user = userService.findUserByEmail(email);
-            userService.sendActivationCode(user, link);
+            tokenService.sendActivationCode(user, link);
         } else {
             model.addAttribute("message", "User " + email + " not found");
         }

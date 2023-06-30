@@ -1,6 +1,7 @@
 package com.example.seatimecalculator2.controller;
 
 import com.example.seatimecalculator2.entity.user.User;
+import com.example.seatimecalculator2.service.activationToken.AccountTokenService;
 import com.example.seatimecalculator2.service.authentificatedUser.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AccountController {
 
     private final UserService userService;
+    private final AccountTokenService tokenService;
     @Value("${web.site.link.activation}")
     String link;
 
@@ -37,7 +39,7 @@ public class AccountController {
             model.addAttribute("message", "Your account already activated!");
         } else {
             model.addAttribute("message", "Activation code was send to you email successfully!");
-            userService.sendActivationCode(user, link);
+            tokenService.sendActivationCode(user, link);
 
         }
         return "myAccount";

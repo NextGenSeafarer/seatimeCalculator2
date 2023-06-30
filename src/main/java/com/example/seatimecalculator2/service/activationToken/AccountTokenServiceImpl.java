@@ -1,11 +1,14 @@
 package com.example.seatimecalculator2.service.activationToken;
 
+import com.example.seatimecalculator2.entity.EmailDetails;
 import com.example.seatimecalculator2.entity.user.User;
 import com.example.seatimecalculator2.entity.user.accountToken.AccountToken;
 import com.example.seatimecalculator2.repository.AccountTokenRepository;
 import com.example.seatimecalculator2.repository.UserRepository;
+import com.example.seatimecalculator2.service.mailSender.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,7 @@ import java.util.UUID;
 public class AccountTokenServiceImpl implements AccountTokenService {
     private final UserRepository userRepository;
     private final AccountTokenRepository accountTokenRepository;
+    private final EmailService emailService;
 
     @Override
     public AccountToken createToken(User user) {
@@ -74,6 +78,22 @@ public class AccountTokenServiceImpl implements AccountTokenService {
             return true;
         }
         return false;
+    }
 
+    @Override
+    @Async
+    public void sendActivationCode(User user, String link) {
+        AccountToken activationToken = createToken(user);
+        if (activationToken.getCounterSendToEmail() >= 3) {
+            return;
+        }
+        EmailDetails emailDetails = new EmailDetails();
+        emailDetails.setTo(user.getEmail());
+        emailDetails.setSubject("Security code for seatimecalculator.ru");
+        emailDetails.setMessage("Hello," + user.getFirstname() + "!" +
+                "\nHere is your security link: " +
+                link + activationToken.getToken());
+        emailService.sendSimpleMail(emailDetails);
+        increaseCounterTimesSendToEmail(activationToken.getToken());
     }
 }

@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"></html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"></html>
 
 <head>
-
+    <script src="https://kit.fontawesome.com/f69cb3375e.js"
+            crossorigin="anonymous"></script>
     <meta http-equiv="Content-Type"
           content="text/html; charset=UTF-8"/>
     <title>About seatimecalculator.ru</title>
@@ -32,28 +33,16 @@
     <div th:insert="~{blocks/header :: header}"></div>
 
     <main>
-
         <p class="pt-5 fs-3">Calculations are made in according with
             <em class="fw-bolder fw-light">STCW requirements</em>
         </p>
-
-        <p class="pt-3 fs-3">Service calculate days from sign-on to sign-off date inclusively
+        <p class="pt-3 fs-3">Service is calculating days from sign-on to sign-off date inclusively
             <em>*considering leap years*</em>
         </p>
-
-
-        <p class="pt-3 fs-3">Full month are counted 1st day of the month to 1st day of the next month</p>
-        <p class="pt-3 fs-3">Not full month is counted according to 30 days/month system</p>
-
-        <p class="pt-3 fs-3">Valid dates and vessel name are required
+        <p class="pt-3 fs-3">Full month is counted from 1st day of the month to 1st day of the next month</p>
+        <p class="pt-3 fs-3">Not full month is counted as 30 days = 1 month</p>
+        <p class="pt-3 fs-3">Valid dates are required
             <em>*data is collected for statistics only*</em>
-        </p>
-
-        <p>
-            <a href="https://github.com/NextGenSeafarer "
-               target="_blank">
-
-            </a>
         </p>
     </main>
 
