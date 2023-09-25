@@ -30,19 +30,6 @@ public class ForgotPasswordController {
         return "forgot_password";
     }
 
-    @PostMapping()
-    public String enterEmailPage(@RequestParam("email") String email, Model model) {
-        if (userService.isUserExistsWithSameEmail(email)) {
-            model.addAttribute("message", "Password reset link successfully send to: " + email);
-            model.addAttribute("hide_input", true);
-            User user = userService.findUserByEmail(email);
-            tokenService.sendActivationCode(user, link);
-        } else {
-            model.addAttribute("message", "User " + email + " not found");
-        }
-        return "forgot_password";
-    }
-
     @GetMapping("/reset/{code}")
     public String changePassword(@PathVariable String code, Model model) {
         AccountToken token = tokenService.findByToken(code).orElseThrow();

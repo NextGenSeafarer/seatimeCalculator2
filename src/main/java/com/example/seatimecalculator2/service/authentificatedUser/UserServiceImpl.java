@@ -1,15 +1,12 @@
 package com.example.seatimecalculator2.service.authentificatedUser;
 
 import com.example.seatimecalculator2.entity.SeaTimeEntity;
-import com.example.seatimecalculator2.entity.TotalSeaTimeCounter;
 import com.example.seatimecalculator2.entity.user.Role;
 import com.example.seatimecalculator2.entity.user.User;
 import com.example.seatimecalculator2.entity.user.accountToken.AccountToken;
 import com.example.seatimecalculator2.repository.SeaTimeRepository;
-import com.example.seatimecalculator2.repository.TotalSeaTimeCounterRepository;
 import com.example.seatimecalculator2.repository.UserRepository;
 import com.example.seatimecalculator2.service.activationToken.AccountTokenService;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,20 +20,7 @@ import java.time.LocalDateTime;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final SeaTimeRepository seaTimeRepo;
-    private final TotalSeaTimeCounterRepository totalSeaTimeCounterRepository;
     private final AccountTokenService activationTokenService;
-
-    @PostConstruct
-    public void createTotalCounterEntry() {
-        if (totalSeaTimeCounterRepository.findById(1)
-                .isPresent()) {
-            return;
-        }
-        TotalSeaTimeCounter totalSeaTimeCounter = new TotalSeaTimeCounter();
-        totalSeaTimeCounter.setLast_updated_at(LocalDateTime.now());
-        totalSeaTimeCounter.setCounter(0L);
-        totalSeaTimeCounterRepository.save(totalSeaTimeCounter);
-    }
 
     @Override
     public boolean isUserExistsWithSameEmail(String email) {
@@ -46,19 +30,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String registerUser(User user) {
-        if (isUserExistsWithSameEmail(user.getEmail())) {
-            return "userExists";
-        }
-        if (!user.getPassword().equals(user.getPasswordConfirm())) {
-            return "passwords not matching";
-        }
+    public void registerUser(User user) {
         user.setRegistrationDateAndTime(LocalDateTime.now());
         user.setPassword(encryptPassword(user.getPassword()));
         user.setRole(Role.USER);
         userRepository.save(user);
         log.info("User with id: {} saved to DB successfully", user.getId());
-        return "success";
 
     }
 

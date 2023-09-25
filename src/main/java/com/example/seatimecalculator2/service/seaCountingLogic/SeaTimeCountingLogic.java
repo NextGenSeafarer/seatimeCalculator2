@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -20,35 +21,23 @@ public class SeaTimeCountingLogic {
                 || seaTimeEntity.getSignOnDate().isEqual(seaTimeEntity.getSignOffDate());
     }
 
-    private String contractLengthCalculation(LocalDate sign_on, LocalDate sign_off) {
-        if (sign_on.isEqual(sign_off)) {
-            return "0:0:1";
+    private String contractLengthCalculation(LocalDate signOn, LocalDate signOff) {
+        int daysInFirstMonth = signOn.lengthOfMonth() - signOn.getDayOfMonth();
+        int daysInLastMonth = signOff.getDayOfMonth();
+        int totalFirstAndLastMonthDays = daysInFirstMonth + daysInLastMonth + 1;
+        int totalDaysBetweenDates = (int) ChronoUnit.DAYS.between(signOn, signOff) - totalFirstAndLastMonthDays;
+        int monthsBetween = totalDaysBetweenDates / 30;
+        if (totalFirstAndLastMonthDays >= 30) {
+            int month = totalFirstAndLastMonthDays / 30;
+            monthsBetween += month;
+            totalFirstAndLastMonthDays = totalFirstAndLastMonthDays % 30;
         }
-        if (sign_off.isEqual(sign_on.plusMonths(1))) {
-            return "0:1:0";
+        int yearsBetween = 0;
+        if (monthsBetween >= 12) {
+            yearsBetween = monthsBetween / 12;
+            monthsBetween = (monthsBetween - yearsBetween * 12) % 12;
         }
-
-        int years = sign_off.getYear() - sign_on.getYear();
-        int month = sign_off.getMonthValue() - sign_on.getMonthValue();
-        if (month < 0) {
-            years--;
-            month += 12;
-        }
-        int days = sign_off.getDayOfMonth() - sign_on.getDayOfMonth() + 1;
-        if (days < 0) {
-            if (month > 0) {
-                month--;
-            } else {
-                years--;
-                month = 11;
-            }
-            days += sign_on.lengthOfMonth();
-        }
-        if (days == 30) {
-            days = 0;
-            month++;
-        }
-        return years + ":" + month + ":" + days;
+        return yearsBetween + ":" + monthsBetween + ":" + totalFirstAndLastMonthDays;
     }
 
     private String formattingTheResultString(LocalDate beginContractDate, LocalDate endContractDate) {
@@ -62,7 +51,9 @@ public class SeaTimeCountingLogic {
         String monthOrMonths = month == 1 ? " month" : " months";
         String dayOrDays =
                 nonFormatedString.substring(nonFormatedString.indexOf(":") + 1).endsWith("1") ? " day" : " days";
-
+        if (day == 11) {
+            dayOrDays = " days";
+        }
         String resultYear;
         String resultMonth;
         String resultDay;

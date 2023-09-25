@@ -1,0 +1,637 @@
+* {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
+}
+
+.wrapper {
+    min-height: 100%;
+    width: 100%;
+    overflow: hidden;
+    max-width: 1260px;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+body {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: black;
+    color: white;
+}
+
+.header {
+    font-size: 1.5rem;
+    font-weight: 600;
+
+}
+
+.header__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 0;
+}
+
+.header__website_name {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-right: 50px;
+    max-width: 200px;
+    transition: 1s;
+    color: white;
+}
+
+.header__website_name:hover {
+    color: rgb(255, 128, 0);
+}
+
+.header__nav {
+    margin-right: auto;
+
+}
+
+.header__nav-list {
+    display: flex;
+}
+
+.header__nav-item {
+    display: flex;
+    margin-right: 50px;
+    white-space: nowrap;
+}
+
+.header__nav-link {
+    transition: 0.5s;
+
+}
+
+.header__nav-link:hover {
+    color: rgb(255, 128, 0);
+    transform: scale(1.05);
+}
+
+.header__btn-box {
+    display: flex;
+}
+
+.header__user-btn--profile {
+    margin-right: 50px;
+}
+
+.header__user-btn--profile:last-child {
+    margin-right: 0;
+}
+
+.header__profile-nav {
+    display: flex;
+    white-space: nowrap;
+    margin-right: 50px;
+}
+
+.header__user-btn--profile {
+    transition: all 0.5s;
+}
+
+.header__user-btn--profile:hover {
+    scale: 1.05;
+    color: rgb(255, 175, 175);
+}
+
+.header__user-nav {
+    position: relative;
+    display: inline;
+    white-space: nowrap;
+    padding-left: 28px;
+}
+
+.header__user-nav::before {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-45%);
+    content: "";
+    background: url(/static/icons/user-icon.svg) no-repeat;
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.header__user-btn {
+    transition: all 0.5s;
+}
+
+.header__user-btn:hover {
+    color: rgb(252, 144, 144);
+}
+
+.container {
+    animation: text-in 0.9s, slide-down 0.7s;
+    padding-top: 25px;
+    transition: 2s;
+}
+
+@keyframes text-in {
+    0% {
+        opacity: 0;
+    }
+    75% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-down {
+    0% {
+        padding-top: 0;
+    }
+    100% {
+        padding-top: 25px;
+    }
+}
+
+.container__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container__calculated_time {
+    color: rgb(255, 128, 0);
+    padding-bottom: 20px;
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+.container__input {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.container__content--label {
+    color: white;
+    padding: 20px;
+    position: relative;
+}
+
+.container__input--data {
+    width: 25vw;
+    min-width: 210px;
+    display: block;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 4px;
+    font-size: 1.5rem;
+    background-color: #ffffff;
+    color: black;
+
+}
+
+.container__input--data:focus {
+    scale: 1.01;
+    box-shadow: 0 0 1px 3px rgba(255, 128, 0, 0.744);
+    transition: 0.5s;
+}
+
+.container__input--btn {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 20px;
+    width: 25vw;
+    min-width: 180px;
+    margin-top: 15px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    transition: 0.7s;
+}
+
+.container__input--btn:hover {
+    background: rgba(255, 128, 0);
+    border-radius: 20px;
+    scale: 1.03;
+}
+
+/* ===========================================about/contact=========================================== */
+/* ===========================================about/contact=========================================== */
+
+.about__container {
+    position: absolute;
+    top: 110vh;
+    color: white;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+}
+
+.about__block {
+    min-width: 50%;
+}
+
+.about__header {
+    font-size: 3rem;
+    color: rgb(255, 128, 0);
+}
+
+.about__offtop {
+    font-size: 1rem;
+    padding-top: 5px;
+    padding-left: 3px;
+}
+
+.about__desc {
+    font-size: 1.5rem;
+    padding-top: 30px;
+    max-width: 700px;
+}
+
+.about__text-line--stc::first-letter {
+    line-height: 2.5rem;
+    padding-bottom: 15px;
+    font-weight: 800;
+    padding-right: 3px;
+    color: rgb(255, 128, 0);
+}
+
+.about__text-line {
+    line-height: 2rem;
+    padding-top: 30px;
+}
+
+.about__text-line::first-letter {
+    padding-top: 15px;
+    font-weight: 800;
+}
+
+.bold__text {
+    display: inline;
+    color: rgb(255, 128, 0);
+    font-weight: 500;
+}
+
+.about__contact {
+    margin-left: 75px;
+}
+
+.contact__form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 30px;
+}
+
+.contact__form--header {
+    font-size: 3rem;
+    color: rgb(255, 128, 0);
+}
+
+.contact__form--input {
+    font-size: 1rem;
+    display: block;
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    width: 25vw;
+    border-radius: 4px;
+    resize: none;
+}
+
+.contact__form--input:focus {
+    scale: 1.01;
+    box-shadow: 0 0 1px 3px rgba(255, 128, 0, 0.744);
+    transition: 0.5s;
+}
+
+.text_area {
+    height: 140px;
+}
+
+.container__input--btn-contact {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 20px;
+    width: 25vw;
+    min-width: 180px;
+    margin-top: 15px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    transition: 0.7s;
+}
+
+.container__input--btn-contact:hover {
+    background: rgba(255, 128, 0);
+    border-radius: 20px;
+    scale: 1.03;
+}
+
+/* ===========================================registration=========================================== */
+/* ===========================================registration=========================================== */
+.container__top {
+    margin-bottom: 50px;
+}
+
+.container__header {
+    font-size: 3rem;
+    font-weight: 800;
+    color: rgba(255, 128, 0);
+}
+
+.container__header--offtop {
+    font-size: 1rem;
+    padding-top: 5px;
+    padding-left: 3px;
+}
+
+.container__registration-form {
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    transition: 1s;
+}
+
+.container__form-input_label {
+    color: white;
+    padding-bottom: 15px;
+}
+
+.container__form-input {
+    display: block;
+    width: 25vw;
+    min-width: 210px;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #ffffff;
+    color: black;
+}
+
+.error {
+    animation: error_shake 0.05s 8 alternate-reverse;
+    transition: 0.1s;
+    box-shadow: 0 0 5px 3px rgba(253, 0, 0, 0.934);
+}
+
+.error::placeholder {
+    color: rgb(255, 55, 55);
+}
+
+@keyframes error_shake {
+    0% {
+        translate: 5px;
+    }
+}
+
+.forgot_password_link {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 5px;
+    color: rgba(255, 128, 0);
+    transition: 0.5s;
+}
+
+.forgot_password_link:hover {
+    transform: translateY(5px);
+    color: rgb(153, 100, 232);
+}
+
+
+.container__form-input:focus {
+    scale: 1.01;
+    box-shadow: 0 0 1px 3px rgba(255, 128, 0, 0.744);
+    transition: 0.5s;
+}
+
+.container__form-input_label--cb {
+    padding-top: 5px;
+    display: flex;
+    max-width: 25vw;
+}
+
+.container__form-input--checkbox {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+    margin-right: 7px;
+}
+
+.container__form-input--cb {
+    height: 16px;
+    width: 16px;
+    overflow: hidden;
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+}
+
+.container__form-input--cb:checked + .container__form-input--cb-custom {
+    background: rgba(255, 128, 0);
+}
+
+.container__form-input--cb-custom {
+    position: absolute;
+    display: flex;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    color: white;
+    border: 1px solid white;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.reg_btn {
+    align-self: center;
+}
+
+.registration {
+    animation-duration: 1.3s;
+}
+
+/* ===========================================login/forgot password=========================================== */
+/* ===========================================login/forgot password=========================================== */
+.log-in {
+    animation-duration: 0.7s;
+}
+
+.message {
+    display: flex;
+    position: relative;
+    animation: message_success 2s;
+    font-weight: 800;
+    transition: 1s;
+    margin-bottom: 50px;
+    justify-content: center;
+}
+
+.message_text {
+    font-size: 1.5rem;
+}
+
+.message_success {
+    color: rgb(125, 224, 121);
+}
+
+.message_fail {
+    color: #ff4b4b;
+}
+
+.message_success:before {
+    position: absolute;
+    left: -50px;
+    transform: translateY(-50%);
+    content: "";
+    background: url(/static/icons/ok-icon.png) no-repeat;
+    width: 50px;
+    height: 50px;
+    scale: 0.5;
+    display: flex;
+}
+
+.message_fail:before {
+    position: absolute;
+    left: -50px;
+    transform: translateY(-50%);
+    content: "";
+    background: url(/static/icons/fail-icon.png) no-repeat;
+    width: 50px;
+    height: 50px;
+    scale: 0.5;
+    display: flex;
+}
+
+@keyframes message_success {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+
+}
+
+.forgot_password {
+    max-width: fit-content;
+    color: rgba(255, 128, 0);
+    font-weight: 600;
+    transition: 0.6s;
+    margin: 10px 0;
+}
+
+.shake {
+    animation: error_shake 0.1s 10 alternate-reverse 1s;
+}
+
+.forgot_password:hover {
+    scale: 1.03;
+    color: white;
+}
+
+
+.fade_away {
+    opacity: 0;
+}
+
+.container__forgotPassword_form {
+    display: flex;
+    flex-direction: column;
+    transition: 1s;
+    align-items: center;
+}
+
+.forgotPassword-btn{
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 15px;
+    width: 25vw;
+    min-width: 210px;
+    margin-top: 15px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    transition: 0.7s;
+}
+
+
+/* ===========================================trips=========================================== */
+/* ===========================================trips=========================================== */
+
+.trips_content {
+    align-items: flex-start;
+    font-size: 1rem;
+}
+
+.trips__table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.trips__table-row {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 25px;
+    align-items: center;
+}
+
+.trips__table-data.default {
+    color: rgb(121, 49, 179);
+    font-weight: 800;
+    font-size: 1.5rem;
+}
+
+.trips__table-data {
+    background: transparent;
+    white-space: nowrap;
+    padding: 5px;
+    color: white;
+    font-size: 1rem;
+}
+
+.trips__table-data:focus {
+    scale: 1.03;
+    color: rgba(255, 128, 0);
+    transition: 0.5s;
+}
+
+.trips__table-data:nth-child(1) {
+    display: flex;
+    justify-content: space-between;
+    width: 20%;
+}
+
+.trips__table-data:nth-child(2) {
+    display: flex;
+    justify-content: space-between;
+    width: 15%;
+}
+
+.trips__table-data:nth-child(3) {
+    display: flex;
+    justify-content: space-between;
+    width: 15%;
+}
+
+.trips__table-data:nth-child(4) {
+    display: flex;
+    justify-content: space-between;
+    width: 20%;
+}
+
+.button-trip {
+    margin-left: 25px;
+    border: 1px rgba(255, 255, 255, 0.447) solid;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 1rem;
+}
+
+.btn-edit {
+    color: orange;
+}
+
+.btn-delete {
+    color: red;
+}

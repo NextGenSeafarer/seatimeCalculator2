@@ -1,10 +1,8 @@
 package com.example.seatimecalculator2.service.seatimeCRUD;
 
 import com.example.seatimecalculator2.entity.SeaTimeEntity;
-import com.example.seatimecalculator2.entity.TotalSeaTimeCounter;
 import com.example.seatimecalculator2.entity.user.User;
 import com.example.seatimecalculator2.repository.SeaTimeRepository;
-import com.example.seatimecalculator2.repository.TotalSeaTimeCounterRepository;
 import com.example.seatimecalculator2.repository.UserRepository;
 import com.example.seatimecalculator2.service.seaCountingLogic.SeaTimeCountingLogic;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,7 +25,6 @@ public class SeatimeCRUImplementation implements SeatimeCRUD{
     private final UserRepository userRepository;
     private final SeaTimeCountingLogic countingLogic;
     private final SeaTimeRepository seaTimeRepo;
-    private final TotalSeaTimeCounterRepository totalSeaTimeCounterRepository;
 
 
     @Override
@@ -37,11 +34,7 @@ public class SeatimeCRUImplementation implements SeatimeCRUD{
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         int days = calculateContractLengthInDays(seaTimeEntity);
-        seaTimeEntity.setDaysTotal(days);
         user.addSeaTimeEntityToTheList(seaTimeEntity);
-        totalSeaTimeCounterRepository.findById(1)
-                .orElseThrow()
-                .updateTotalCounter(days);
         seaTimeRepo.save(seaTimeEntity);
     }
 
@@ -60,15 +53,6 @@ public class SeatimeCRUImplementation implements SeatimeCRUD{
                 !(existed.getSignOffDate()
                         .equals(seaTimeEntity.getSignOffDate()))) {
             seaTimeEntity.setContractLength(calculateContractLength(seaTimeEntity));
-            int days = calculateContractLengthInDays(seaTimeEntity);
-            seaTimeEntity.setDaysTotal(days);
-            TotalSeaTimeCounter totalSeaTimeCounter = totalSeaTimeCounterRepository.findById(1)
-                    .orElseThrow();
-            long daysForUpdate = totalSeaTimeCounter.getCounter();
-            daysForUpdate = daysForUpdate - existed.getDaysTotal();
-            daysForUpdate = daysForUpdate + days;
-            totalSeaTimeCounter.setCounter(daysForUpdate);
-            totalSeaTimeCounterRepository.save(totalSeaTimeCounter);
         }
         seaTimeRepo.save(seaTimeEntity);
 
@@ -77,12 +61,6 @@ public class SeatimeCRUImplementation implements SeatimeCRUD{
     @Override
     public void deleteSeaTime(Long sea_time_entity_id) {
         log.info("Deleting sea time with id: {}", sea_time_entity_id);
-        int days = seaTimeRepo.findById(sea_time_entity_id)
-                .orElseThrow()
-                .getDaysTotal();
-        totalSeaTimeCounterRepository.findById(1)
-                .orElseThrow()
-                .updateTotalCounter(-days);
         seaTimeRepo.deleteById(sea_time_entity_id);
     }
 
@@ -130,13 +108,6 @@ public class SeatimeCRUImplementation implements SeatimeCRUD{
 
     @Override
     public int calculateContractLengthInDays(SeaTimeEntity seaTimeEntity) {
-        int days = 0;
-        LocalDate signOn = seaTimeEntity.getSignOnDate();
-        while (signOn.isBefore(seaTimeEntity.getSignOffDate()) ||
-                (signOn.isEqual(seaTimeEntity.getSignOffDate()))) {
-            signOn = signOn.plusDays(1);
-            days++;
-        }
-        return days;
+        return (int) ChronoUnit.DAYS.between(seaTimeEntity.getSignOnDate(), seaTimeEntity.getSignOffDate());
     }
 }

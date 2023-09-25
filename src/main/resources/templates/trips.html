@@ -1,63 +1,68 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="en"></html>
-<head>
-    <meta http-equiv="Content-Type"
-          content="text/html; charset=UTF-8"/>
-    <title>Trips</title>
-    <script async
-            src="https://www.googletagmanager.com/gtag/js?id=G-Y7G5XLZSWS"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
-        gtag('js', new Date());
-
-        gtag('config', 'G-Y7G5XLZSWS');
-    </script>
-</head>
-
-<div class="cover-container d-flex w-100 h-100 mx-auto flex-column text-center">
-
-
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/normalize.css" />
+    <link rel="stylesheet" href="../static/css/main.css" />
+    <title>STC trips</title>
+  </head>
+  <div class="wrapper">
     <div th:insert="~{blocks/header :: header}"></div>
-
-    <main class="mt-5">
-
-        <h1>Your contracts:</h1>
-
-        <th:block th:if="${deleted_success}">
-            <h6 th:text="'Entry successfully deleted!'"></h6>
-            <br>
-        </th:block>
-
-        <div class="row justify-content-center">
-            <h4 th:text="${entries.toList().size() == 0 ? 'So far nothing here...' : null}"></h4>
-            <div class="col-auto"
-                 th:each="el : ${entries}">
-                <div style="padding: 10px">
-                    <a style="font-size: 35px;"
-                       href="#"
-                       th:text="${el.shipName} "
-                       th:href="@{/trips/{id}(id=${el.id})}"></a>
-                </div>
+    <body>
+      <div class="container">
+        <div class="container__content trips_content">
+          <div class="container__top">
+            <div class="container__header">You are real old spice!</div>
+            <div class="container__header--offtop">
+              As always you can edit / delete any of the entries
             </div>
-        </div>
-        <div th:if="${entries.totalPages > 1}">
-            <label for="pages"
-                   class="mt-3">
-                Page:
-            </label>
-            <div id="pages"
-                 class="container-fluid d-inline"
-                 th:each="pageNumber : ${pageNumbers}">
-                <a style="font-size: 20px"
-                   th:href="@{/trips(size=${entries.size}, page=${pageNumber})}"
-                   th:text="${pageNumber}"
-                   th:class="${pageNumber==entries.number+1} ? active"></a>
+          </div>
+          <div class="trips__table">
+            <div class="trips__table-row">
+              <div class="trips__table-data default">Vessel</div>
+
+              <div class="trips__table-data default">Sign on</div>
+
+              <div class="trips__table-data default">Sign off</div>
+
+              <div class="trips__table-data default">Contract length</div>
             </div>
+            <form class="trips__table-row">
+              <input
+                type="text"
+                class="trips__table-data"
+                value="Georgiy Ushakov"
+                disabled
+              />
+              <input
+                type="date"
+                class="trips__table-data"
+                value="2023-06-03"
+                min="1990-01-01"
+                max="2050-01-01"
+                disabled
+              />
+              <input
+                type="date"
+                class="trips__table-data"
+                value="2023-05-05"
+                min="1990-01-01"
+                max="2050-01-01"
+                disabled
+              />
+              <div class="trips__table-data">5 month 4 days</div>
+              <button type="button" class="button-trip btn-edit" onclick="edit();">
+                Edit
+              </button>
+              <!-- <a href="#" class="button-trip btn-edit">Edit</a> -->
+              <a href="#" class="button-trip btn-delete">Delete</a>
+            </form>
+          </div>
         </div>
-    </main>
-</div>
+      </div>
+      <script src="/js/registration.js"></script>
+    </body>
+  </div>
+</html>

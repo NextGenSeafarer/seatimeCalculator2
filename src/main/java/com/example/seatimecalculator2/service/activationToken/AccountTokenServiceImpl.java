@@ -28,7 +28,7 @@ public class AccountTokenServiceImpl implements AccountTokenService {
     @Override
     public AccountToken createToken(User user) {
         LinkedList<AccountToken> tokenList = accountTokenRepository.findAllByUser(user);
-        if (tokenList.size() > 0) {
+        if (!tokenList.isEmpty()) {
             log.info("Sending existed token to User with ID: {}", user.getId());
             AccountToken lastToken = tokenList.getLast();
             if (lastToken.getExpires_at().isAfter(LocalDateTime.now()) && (lastToken.getConfirmed_at() == null)) {

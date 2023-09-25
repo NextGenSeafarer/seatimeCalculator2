@@ -28,13 +28,13 @@ public class SeaTimeEntity {
     @Column(name = "sign_off_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate signOffDate;
+
     @Column(name = "ship_name", length = 50)
     String shipName;
 
     @Column(name = "contract_length")
     String contractLength;
-    @Column(name = "days_total")
-    int daysTotal;
+
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     @ToString.Exclude
@@ -45,12 +45,11 @@ public class SeaTimeEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SeaTimeEntity that = (SeaTimeEntity) o;
-        return daysTotal == that.daysTotal && Objects.equals(id, that.id) && Objects.equals(signOnDate, that.signOnDate) && Objects.equals(signOffDate, that.signOffDate) && Objects.equals(shipName, that.shipName) && Objects.equals(contractLength, that.contractLength) && Objects.equals(user, that.user);
+        return Objects.equals(id, that.id) && Objects.equals(signOnDate, that.signOnDate) && Objects.equals(signOffDate, that.signOffDate) && Objects.equals(shipName, that.shipName) && Objects.equals(contractLength, that.contractLength) && Objects.equals(user, that.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, signOnDate, signOffDate, shipName, contractLength, daysTotal, user);
+        return Objects.hash(id, signOnDate, signOffDate, shipName, contractLength, user);
     }
-
 }

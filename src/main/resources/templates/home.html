@@ -1,138 +1,206 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
- lang="en"></html>
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type"
-          name="viewport"
-          content="text/html; charset=UTF-8; width=device-width, initial-scale=1.0"/>
-    <title>Seatime calculator, calculate your contract length</title>
-    <meta name="description"
-          content="For seafarers, fast and reliable seatime calculator, make your sign off documents within seconds and
-without mistakes">
-    <meta name="keywords"
-          content="seatime, calculator, seafarer, seatime calculator">
-    <script async
-            src="https://www.googletagmanager.com/gtag/js?id=G-Y7G5XLZSWS"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
-        gtag('js', new Date());
-
-        gtag('config', 'G-Y7G5XLZSWS');
-    </script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible"
+          content="ie=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+          href="../static/css/normalize.css"/>
+    <link rel="stylesheet"
+          href="../static/css/main.css"/>
+    <title>Seatime calculator</title>
 </head>
 
-<div th:insert="~{blocks/header :: header}"></div>
-<main class="text-center mt-5">
-    <h1>Sea time calculator</h1>
-    <br>
-    <h4 class="mb-5"
-        th:text="${currentSeaTime == null ? 'Enter dates below' : currentSeaTime}"></h4>
-    <div th:fragment="input_form">
-        <div class="mx-auto container-fluid justify-content-center row">
-            <div class="col-lg-2 col-md-3">
-                <form id="input_form"
-                      th:action="@{/}"
-                      th:object="${seatime}"
-                      method="post">
-                    <div class="form-group form-group-lg">
-                        <label class="control-label "
-                               for="sign_on">
-                            Sign on
-                        </label>
-                        <input class="form-control"
-                               id="sign_on"
-                               th:field="*{signOnDate}"
-                               type="date"
-                               min="1990-01-01"
-                               max="2050-01-01"
-                               required
-                               autofocus/>
-                    </div>
-                    <br>
-                    <div class="form-group form-group-lg">
-                        <label class="control-label "
-                               for="sign_off">
-                            Sign off
-                        </label>
-                        <input class="form-control"
-                               id="sign_off"
-                               th:field="*{signOffDate}"
-                               type="date"
-                               min="1990-01-01"
-                               max="2050-01-01"
-                               required/>
-                        <br>
-                    </div>
-
-                    <div xmlns:sec="http://www.w3.org/1999/xhtml"
-                         sec:authorize="isAuthenticated()"
-                         class="form-group form-group-lg">
-                        <label class="control-label "
-                               for="vessel_name">
-                            Vessel name
-                        </label>
-                        <input class="form-control"
-                               id="vessel_name"
-                               th:field="*{shipName}"
-                               placeholder="Enter vessel name"
-                               type="text"
-                               maxlength="20"
-                               required/>
-                        <br>
-                    </div>
-                </form>
-                <div>
-                    <button form="input_form"
-                            class="mt-3 btn btn-outline-light col-12 mx-auto"
-                            type="submit">
-                        Get seatime
-                    </button>
+<div class="wrapper">
+    <!--    <div th:insert="~{blocks/header :: header}"></div>-->
+    <header class="header">
+        <div class="header__inner">
+            <a class="header__website_name"
+               href="/">Seatime Calculator</a>
+            <nav class="header__nav">
+                <ul class="header__nav-list">
+                    <li class="header__nav-item">
+                        <a href="/"
+                           class="header__nav-link">Home</a>
+                    </li>
+                    <li class="header__nav-item">
+                        <a href="/#about__block"
+                           class="header__nav-link">About</a>
+                    </li>
+                    <li class="header__nav-item">
+                        <a href="/#contact__block"
+                           class="header__nav-link">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="header__btn-box">
+                <div class="header__profile-nav">
+                    <a href="/trips"
+                       class="header__user-btn--profile">Trips</a>
+                    <a href="/#"
+                       class="header__user-btn--profile">Profile</a>
                 </div>
-                <div class="toast-container position-fixed bottom-0 end-0 p-3">
-                    <div id="liveToast"
-                         class="toast"
-                         role="alert"
-                         aria-live="assertive"
-                         aria-atomic="true">
-                        <div class="toast-header">
-                            <img src="/static/seatimeCalculatorLogo.png"
-                                 class="rounded me-2"
-                                 width="30"
-                                 height="30"
-                                 alt="...">
-                            <strong class="me-auto">Part of the CREW</strong>
-                            <small>just now</small>
-                            <button type="button"
-                                    class="btn-close"
-                                    data-bs-dismiss="toast"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="toast-body">
-                            <h5 class="text-dark">All registered seafarers spend onboard:</h5>
-                            <h3 class="text-dark"
-                                th:text="${total_counter} + ' days!'"></h3>
-                        </div>
-                        <script>
-                            const toastTrigger = document.getElementById('liveToastBtn')
-                            const toastLiveExample = document.getElementById('liveToast')
-
-                            if (toastTrigger) {
-                                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-                                toastTrigger.addEventListener('click', () => {
-                                    toastBootstrap.show()
-                                })
-                            }
-                        </script>
-                    </div>
+                <div sec:authorize="isAnonymous()"
+                     class="header__user-nav">
+                    <a href="/login"
+                       class="header__user-btn">Login</a>
+                    /
+                    <a id="registration"
+                       href="/registration"
+                       class="header__user-btn">Register</a>
+                </div>
+                <div sec:authorize="isAuthenticated()"
+                     class="header__user-nav">
+                    <a href="/logout"
+                       class="header__user-btn">Logout</a>
                 </div>
             </div>
         </div>
+    </header>
+    <body>
+    <div class="container">
+        <div class="container__content">
+            <div id="headerText"
+                 class="container__header">Enter dates below
+            </div>
+            <form action="#"
+                  class="container__input"
+                  name="calculationForm">
+                <label class="container__content--label"
+                >Sign on
+                    <input
+                            name="signOnDate"
+                            class="container__input--data"
+                            type="date"
+                            min="1990-01-01"
+                            max="2050-01-01"
+                            autofocus
+                    />
+                </label>
+                <label class="container__content--label"
+                >Sign off
+                    <input
+                            name="signOffDate"
+                            class="container__input--data"
+                            type="date"
+                            min="1990-01-01"
+                            max="2050-01-01"
+                    />
+                </label>
+                <label sec:authorize="isAuthenticated()"
+                       class="container__content--label"
+                >Vessel name
+                    <input
+                            id="vesselName"
+                            name="vesselName"
+                            class="container__input--data"
+                            type="text"
+                            placeholder="LNG Arc-7"
+                            maxlength="20"
+                    />
+                </label>
+                <input  name="buttonCalculate"
+                        class="container__input--btn"
+                        type="submit"
+                        value="Get seatime"
+                />
+            </form>
+        </div>
     </div>
-</main>
-
-
+    <div class="about">
+        <div class="about__container">
+            <div class="about__block">
+                <div class="about__header">How does it work</div>
+                <div class="about__offtop">Made by seafarer for seafarers</div>
+                <div class="about__desc">
+                    <div class="about__text-line--stc">Seafarers like</div>
+                    <div class="about__text-line--stc">To</div>
+                    <div class="about__text-line--stc">
+                        Calculate seatime (not really)
+                    </div>
+                    <div class="about__text-line">
+                        This website allows to deal with it in easy way
+                    </div>
+                    <div class="about__text-line">
+                        All you need to know is the sign on and sign off dates
+                    </div>
+                    <div class="about__text-line">
+                        Full month is
+                        <div class="bold__text">30</div>
+                        days
+                    </div>
+                    <div class="about__text-line">
+                        So, if you sign on
+                        <div class="bold__text">17 August 2023</div>
+                        and sign off
+                        <div class="bold__text">14 November 2023</div>
+                        you contract length is
+                        <div class="bold__text">2</div>
+                        months and
+                        <div class="bold__text">29</div>
+                        days
+                    </div>
+                    <div id="about__block"
+                         class="about__text-line">
+                        Because you have
+                        <div class="bold__text">15</div>
+                        days in August, than full September
+                        <div class="bold__text">(1month)</div>
+                        , full October
+                        <div class="bold__text">(1month)</div>
+                        and
+                        <div class="bold__text">14</div>
+                        days in November
+                    </div>
+                </div>
+            </div>
+            <div id="contact__block"
+                 class="about__contact">
+                <div class="contact__form--header">Contact form</div>
+                <div class="about__offtop">If you have any doubts or ideas</div>
+                <form action="#"
+                      class="contact__form">
+                    <label class="contact__form--label"
+                    >Name*
+                        <input
+                                type="text"
+                                class="contact__form--input"
+                                placeholder="Your name here"
+                                required
+                        />
+                    </label>
+                    <label class="contact__form--label"
+                    >Email*
+                        <input
+                                type="email"
+                                class="contact__form--input"
+                                placeholder="Your email here"
+                                required
+                        />
+                    </label>
+                    <label class="contact__form--label"
+                    >Your question/suggestion*
+                        <textarea
+                                class="contact__form--input text_area"
+                                placeholder="Hi, it's Captain Morgan, just want to say that your website is loading amazingly fast at the middle of the ocean!"
+                                maxlength="250"
+                                required
+                        ></textarea>
+                    </label>
+                    <input
+                            class="container__input--btn-contact"
+                            type="submit"
+                            value="Contact me"
+                    />
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript"
+            src="../static/js/calculation.js"></script>
+    </body>
+</div>
+</html>

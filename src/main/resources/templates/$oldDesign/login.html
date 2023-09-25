@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"></html>
+<head>
+    <meta http-equiv="Content-Type"
+          content="text/html; charset=UTF-8"/>
+    <title>Login page seatimecalculator.ru</title>
+    <meta name="description"
+          content="Just login to seatimecalculator.ru and get all features for free!">
+    <meta name="keywords"
+          content="seatime, calculator, seafarer, seatime calculator login">
+    <script async
+            src="https://www.googletagmanager.com/gtag/js?id=G-Y7G5XLZSWS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-Y7G5XLZSWS');
+    </script>
+</head>
+
+<div class="cover-container d-flex w-100 h-100 mx-auto flex-column text-center">
+
+    <div th:insert="~{blocks/header :: header}"></div>
+
+    <div class="justify-content-center">
+        <form id="login"
+              th:action="@{/login}"
+              th:object="${user}"
+              method="post">
+            <h1 class="display-4 py-4">Sign in</h1>
+            <div th:if="${message != null}">
+                <p class="my-3"
+                   th:text="${message}"></p>
+            </div>
+            <div th:if="${param.error}">
+                <h6 class="my-3">Incorrect username / password</h6>
+            </div>
+            <div th:if="${success_registered}">
+                <h6 class="my-3">You are registered successfully</h6>
+            </div>
+            <br>
+            <div>
+                <label>
+                    <input type="text"
+                           class="form-control"
+                           th:field="*{username}"
+                           placeholder="username"
+                           required>
+                </label>
+            </div>
+
+            <div class="my-2">
+                <label>
+                    <input type="password"
+                           class="form-control"
+                           th:field="*{password}"
+                           placeholder="password"
+                           required>
+                </label>
+            </div>
+            <br>
+
+        </form>
+        <form class="mt-2"
+              id="registration"
+              th:action="@{/registration}"
+              method="get"></form>
+        <div>
+            <button class="btn btn-warning"
+                    name="Sign in"
+                    type="submit"
+                    form="login">
+                Login
+            </button>
+            <button class="btn btn-secondary"
+                    name="Sign in"
+                    type="submit"
+                    form="registration">
+                Create account
+            </button>
+        </div>
+        <br>
+        <a class="mt-2"
+           href="/forgot_password">Forgot password?</a>
+    </div>
+</div>

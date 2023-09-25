@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,24 +27,15 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String registerUser(@Valid @ModelAttribute("user") User user,
-                               BindingResult bindingResult, Model model, HttpServletRequest httpServletRequest) throws ServletException {
+                               BindingResult bindingResult,
+                               HttpServletRequest httpServletRequest,
+                               RedirectAttributes attributes) throws ServletException {
         if (bindingResult.hasErrors()) {
             return "registration";
         }
-        switch (userService.registerUser(user)) {
-            case "success" -> {
-                model.addAttribute("success_registered", true);
-                httpServletRequest.logout();
-                return "login";
-            }
-            case "userExists" -> {
-                model.addAttribute("email_taken", true);
-                return "registration";
-            }
-            case "passwords not matching" -> {
-                return "registration";
-            }
-        }
-        return "login";
+        attributes.addFlashAttribute("success", true);
+        userService.registerUser(user);
+        httpServletRequest.logout();
+        return "redirect:/login";
     }
 }
