@@ -8,9 +8,9 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet"
-          href="../static/css/normalize.css"/>
+          href="/static/css/normalize.css"/>
     <link rel="stylesheet"
-          href="../static/css/main.css"/>
+          href="/static/css/main.css"/>
     <title>STC login</title>
 </head>
 <div class="wrapper">
@@ -75,6 +75,10 @@
             <div class="message_fail message"
                  th:if="${param.error}">
                 <div class="message_text">Incorrect username / password</div>
+            </div>
+            <div class="message_success message"
+                 th:if="${success_password_change}">
+                <div class="message_text">Your password successfully changed</div>
             </div>
             <form action="/login"
                   method="post"

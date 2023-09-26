@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class ContactForm {
     String name;
     String email;

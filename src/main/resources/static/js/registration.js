@@ -3,11 +3,11 @@ let email = regForm.elements.email;
 let isErrorsPresent = false;
 //------------------------------------------------------------
 //------------------------------------------------------------
-//TODO: change on release
+
 let validationURL = new URL('http://localhost:8080/api/emailValidation');
 let forgotPasswordLink = 'http://localhost:8080/forgot_password';
-//------------------------------------------------------------
-//------------------------------------------------------------
+//-----------------------------------TODO: change--------------------------------------
+//-------------------------------------------------------------------------------------
 
 
 regForm.addEventListener('submit', function (event) {

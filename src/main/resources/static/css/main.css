@@ -364,7 +364,6 @@ body {
     margin-top: 10px;
     border-radius: 4px;
     font-size: 1rem;
-    background-color: #ffffff;
     color: black;
 }
 
@@ -542,7 +541,7 @@ body {
     align-items: center;
 }
 
-.forgotPassword-btn{
+.forgotPassword-btn {
     font-size: 1.2rem;
     font-weight: 600;
     padding: 15px;
@@ -552,6 +551,23 @@ body {
     border-radius: 10px;
     margin-bottom: 30px;
     transition: 0.7s;
+}
+
+.boxLoading {
+    animation: loading 0.8s ease-in-out infinite alternate-reverse;
+    font-size: 1.5rem;
+    transition: all 0.8s;
+    margin-bottom: 25px;
+}
+
+@keyframes loading {
+    0%{
+        color: rgba(255, 128, 0);
+    }
+    100% {
+        transform: translateX(-7px);
+
+    }
 }
 
 
