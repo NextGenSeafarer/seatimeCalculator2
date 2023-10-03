@@ -1,39 +1,59 @@
-<div th:fragment="header">
-    <header class="header">
-        <div class="header__inner">
-            <a class="header__website_name"
-               href="/">Seatime Calculator</a>
-            <nav class="header__nav">
-                <ul class="header__nav-list">
-                    <li class="header__nav-item">
-                        <a href="/"
-                           class="header__nav-link">Home</a>
-                    </li>
-                    <li class="header__nav-item">
-                        <a href="/#about__block"
-                           class="header__nav-link">About</a>
-                    </li>
-                    <li class="header__nav-item">
-                        <a href="/#contact__block"
-                           class="header__nav-link">Contact</a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="header__btn-box">
-                <div class="header__profile-nav">
+<div th:fragment="header"
+     xmlns:sec="http://www.w3.org/1999/xhtml">
+<header class="header">
+    <a class="burger"
+       href="#">
+        <span></span>
+    </a>
+    <a href="/"
+       class="header__logo_text shine">Seatime Calculator</a>
+    <div class="header__inner">
+        <div class="header__nav">
+            <ul class="header__nav-list">
+                <li class="header__nav-item">
+                    <a href="/"
+                       class="header-nav-link">Home</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="/#about__block"
+                       class="header-nav-link">About</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="/#contact__block"
+                       class="header-nav-link">Contact</a>
+                </li>
+                <li class="header__nav-item">
                     <a href="/trips"
-                       class="header__user-btn--profile">Trips</a>
-                    <a href="/#"
-                       class="header__user-btn--profile">Profile</a>
-                </div>
-                <div class="header__user-nav">
-                    <a href="/login"
-                       class="header__user-btn">Log in</a>
-                    /
-                    <a href="/registration"
-                       class="header__user-btn">Register</a>
-                </div>
-            </div>
+                       class="header-nav-link">Trips</a>
+                </li>
+                <li class="header__nav-item">
+                    <a href="/profile"
+                       class="header-nav-link">Profile</a>
+                </li>
+            </ul>
         </div>
-    </header>
+        <div sec:authorize="isAnonymous()"
+             class="user__nav">
+            <ul class="user__nav-list">
+                <li class="user__nav-item">
+                    <a href="/login"
+                       class="user__nav-link">Login</a>
+                </li>
+                <li class="user__nav-item">
+                    <a href="/registration"
+                       class="user__nav-link">Register</a>
+                </li>
+            </ul>
+        </div>
+        <div sec:authorize="isAuthenticated()"
+             class="user__nav">
+            <ul class="user__nav-list">
+                <li class="user__nav-item">
+                    <a href="/logout"
+                       class="user__nav-link">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
 </div>

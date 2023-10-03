@@ -1,23 +1,18 @@
-let form = document.querySelector('.container__forgotPassword_form')
-let forgotPasswordUrl = new URL('http://localhost:8080/api/resetPassword');
-//-----------------------------------TODO: change--------------------------------------
-//-------------------------------------------------------------------------------------
-let isLoading = false;
+import {resetPasswordURL} from "/static/js/staticLinks.js";
+import {createLoader, deleteLoader, enableElementsOfInput, disableElementsOfInput} from "/static/js/blocks/loader.js";
 
+let form = document.querySelector('.form')
+let isLoading = false;
 form.addEventListener('submit', function (event) {
     event.preventDefault();
-    let input = document.querySelector('.container__form-input');
-    let mailValue = input.value;
+    let mailValue = document.querySelector('.email').value;
+
     if (!isLoading) {
-        createLoader();
+        createLoader(form);
         (async function send() {
                 isLoading = true;
-                if (isLoading) {
-                    for (let element of form.elements) {
-                        element.disabled = true;
-                    }
-                }
-                let response = await fetch(forgotPasswordUrl, {
+                disableElementsOfInput(form);
+                let response = await fetch(resetPasswordURL, {
                     method: "post",
                     headers: {"Content-Type": "application/json"},
                     body: mailValue
@@ -29,17 +24,14 @@ form.addEventListener('submit', function (event) {
                     form.innerHTML = '';
                     form.classList.remove('fade_away');
                     form.innerHTML = '<div class="message_success message">\n' +
-                        '                <div class="message_text">Your link successfully send to ' + mailValue +
+                        '                <div class="message_text">Link delivered to: ' + mailValue +
                         ' </div>\n' +
                         '            </div>'
                     form.addEventListener('transitionend', function () {
-                        isLoading = false;
                     });
                 } else {
-                    for (let element of form.elements) {
-                        element.disabled = false;
-                    }
-                    document.querySelector('.loading_status').remove();
+                    enableElementsOfInput(form);
+                    deleteLoader(form);
                     if (document.querySelector('.message__exist') == null) {
                         let message = document.createElement('span');
                         message.classList.add('message__exist');
@@ -48,21 +40,11 @@ form.addEventListener('submit', function (event) {
                             '            </div>';
                         form.prepend(message);
                     }
-                    isLoading = false;
                 }
             }
         )();
+
+        isLoading = false;
+
     }
 })
-
-function createLoader() {
-    let loader = document.createElement('span');
-    if (document.querySelector('.loading_status') == null) {
-        if (document.querySelector('.message__exist') != null) {
-            document.querySelector('.message__exist').remove();
-        }
-        loader.innerHTML = `<div class="boxLoading">Im working on it..</div>`;
-        loader.classList.add('loading_status');
-        form.prepend(loader);
-    }
-}

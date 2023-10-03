@@ -13,6 +13,7 @@ public class HomePageController {
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("seatime", new SeaTimeEntity());
+
         return "home";
     }
 

@@ -1,25 +1,18 @@
-let regForm = document.forms.registrationForm;
-let email = regForm.elements.email;
+import {validationURL, forgotPasswordLink} from "/static/js/staticLinks.js";
+
+let regForm = document.querySelector('.form');
+let email = document.querySelector('.email');
 let isErrorsPresent = false;
-//------------------------------------------------------------
-//------------------------------------------------------------
-
-let validationURL = new URL('http://localhost:8080/api/emailValidation');
-let forgotPasswordLink = 'http://localhost:8080/forgot_password';
-//-----------------------------------TODO: change--------------------------------------
-//-------------------------------------------------------------------------------------
-
-
 regForm.addEventListener('submit', function (event) {
-    let password = regForm.elements.password;
-    let passwordConfirm = regForm.elements.password_confirm;
-    for (let input of regForm.getElementsByClassName('container__form-input')) {
+    let password = document.querySelector('.password')
+    let passwordConfirm = document.querySelector('.passwordConfirm')
+    for (let input of regForm.getElementsByClassName('form__input')) {
         if (input.value === '') {
             input.classList.add('error');
             input.placeholder = 'Please fill up';
             isErrorsPresent = true;
         }
-        input.addEventListener('focus', function (event) {
+        input.addEventListener('focus', function () {
             input.classList.remove('error');
         });
     }
@@ -39,7 +32,7 @@ regForm.addEventListener('submit', function (event) {
 });
 
 
-email.addEventListener('change', function (event) {
+email.addEventListener('change', function () {
     (async function () {
         let dataToSend = email.value;
         let isEmailExists = await fetch(validationURL, {
@@ -56,20 +49,19 @@ email.addEventListener('change', function (event) {
             email.classList.add('error');
             email.value = '';
             email.placeholder = 'Email is taken';
-            if (document.getElementById('forgot_link') === null) {
-                const a = document.createElement('a');
-                let forgotPassword = document.createTextNode("Forgot password?");
-                a.appendChild(forgotPassword);
-                a.href = forgotPasswordLink;
+            if (document.querySelector('.forgot_password_link') === null) {
+                let emailLabel = document.querySelector('.form__label--email');
+                let a = document.createElement('a');
                 a.classList.add('forgot_password_link');
-                a.id = 'forgot_link'
-                email.after(a);
+                a.href = '/forgot_password';
+                a.innerHTML = 'Forgot password';
+                emailLabel.after(a);
             }
         } else {
             isErrorsPresent = false;
-            email.nextSibling.remove();
+            document.querySelector('.forgot_password_link').remove();
         }
-        email.addEventListener('focus', function (event) {
+        email.addEventListener('focus', function () {
             email.classList.remove('error');
         })
     })();

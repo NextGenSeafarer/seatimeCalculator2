@@ -13,61 +13,16 @@
           href="/static/css/main.css"/>
     <title>STC login</title>
 </head>
-<div class="wrapper">
-    <!--    <div th:insert="~{blocks/header :: header}"></div>-->
-    <header class="header">
-        <div class="header__inner">
-            <a class="header__website_name"
-               href="/">Seatime Calculator</a>
-            <nav class="header__nav">
-                <ul class="header__nav-list">
-                    <li class="header__nav-item">
-                        <a href="/"
-                           class="header__nav-link">Home</a>
-                    </li>
-                    <li class="header__nav-item">
-                        <a href="/#about__block"
-                           class="header__nav-link">About</a>
-                    </li>
-                    <li class="header__nav-item">
-                        <a href="/#contact__block"
-                           class="header__nav-link">Contact</a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="header__btn-box">
-                <div class="header__profile-nav">
-                    <a href="/trips"
-                       class="header__user-btn--profile">Trips</a>
-                    <a href="/#"
-                       class="header__user-btn--profile">Profile</a>
-                </div>
-                <div sec:authorize="isAnonymous()"
-                     class="header__user-nav">
-                    <a href="/login"
-                       class="header__user-btn">Login</a>
-                    /
-                    <a id="registration"
-                       href="/registration"
-                       class="header__user-btn">Register</a>
-                </div>
-                <div sec:authorize="isAuthenticated()"
-                     class="header__user-nav">
-                    <a href="/logout"
-                       class="header__user-btn">Logout</a>
-                </div>
-            </div>
-        </div>
-    </header>
+<div class="wrapper"
+     id="page_top">
+    <div th:insert="~{blocks/header :: header}"></div>
     <body>
-    <div class="container log-in">
+    <div class="container">
         <div class="container__content">
-            <div class="container__top">
-                <div class="container__header">All we need is log in</div>
-                <div class="container__header--offtop">
-                    Don't share you personal information with others
+                <div class="header_text">Easy log in</div>
+                <div class="subheader_text">
+                    Don't share your personal information with others
                 </div>
-            </div>
             <div class="message_success message"
                  th:if="${success}">
                 <div class="message_text">You have successfully registered</div>
@@ -82,36 +37,34 @@
             </div>
             <form action="/login"
                   method="post"
-                  class="container__registration-form">
-                <label class="container__form-input_label"
+                  class="form">
+                <label class="form__label"
                 >Email
                     <input
                             name="username"
                             type="email"
-                            class="container__form-input"
+                            class="form__input"
                             required
                             placeholder="Your email here"
                     />
                 </label>
 
-                <label class="container__form-input_label"
+                <label class="form__label"
                 >Password
                     <input
                             name="password"
                             type="password"
-                            class="container__form-input"
+                            class="form__input"
                             maxlength="20"
                             required
                             placeholder="********"
                     />
                 </label>
-                <a id="forgot_password"
-                   href="/forgot_password"
-                   class="forgot_password">Forgot password?</a>
-                <input
-                        class="container__input--btn reg_btn"
-                        type="submit"
-                        value="Log in"
+                <a href="/forgot_password"
+                   class="forgot_password_link">Forgot password</a>
+                <input class="button"
+                       type="submit"
+                       value="Log in"
                 />
             </form>
         </div>
@@ -119,8 +72,16 @@
     <script>
         let params = new URLSearchParams(window.location.search)
         if (params.has('error')) {
-            document.getElementById('forgot_password').classList.add('shake');
+            document.querySelector('.forgot_password_link').classList.add('shake');
         }
+    </script>
+    <script type="module">
+        import {particles} from "/static/js/visuals/particles.js";
+        particles();
+    </script>
+    <script type="module">
+        import {burgerMenu} from "/static/js/burger.js";
+        burgerMenu();
     </script>
     </body>
 </div>

@@ -23,13 +23,14 @@ public class WebSecurityConfig {
                                         .requestMatchers(
                                                 "/api/**",
                                                 "/",
-                                                "/about",
-                                                "/contacts",
+                                                "/about/**",
+                                                "/contacts/**",
                                                 "/registration",
                                                 "/account/activation/*",
                                                 "/static/**",
                                                 "/forgot_password/**")
-                                        .permitAll().anyRequest().authenticated();
+                                        .permitAll()
+                                        .anyRequest().authenticated();
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
@@ -37,7 +38,7 @@ public class WebSecurityConfig {
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/",true)
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .logout().logoutSuccessUrl("/").permitAll();

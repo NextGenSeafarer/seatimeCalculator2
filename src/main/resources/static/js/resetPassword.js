@@ -1,9 +1,7 @@
-
-let form = document.querySelector('#reset_password');
-
+let form = document.querySelector('.form');
 form.addEventListener('submit', function (event) {
-    let password = document.querySelector('#password')
-    let passwordConfirm = document.querySelector('#password_confirm')
+    let password = document.querySelector('.password')
+    let passwordConfirm = document.querySelector('.passwordConfirm')
     if (password.value !== passwordConfirm.value) {
         if (document.querySelector('.message__exist') == null) {
             let message = document.createElement('span');

@@ -37,3 +37,6 @@ build/
 
 ### properties ###
 *.properties
+
+### SSL sert ###
+CRT.pfx

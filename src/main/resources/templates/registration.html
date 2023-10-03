@@ -17,101 +17,91 @@
     <body>
     <div class="container registration">
         <div class="container__content">
-            <div class="container__top">
-                <div class="container__header">Let's get closer</div>
-                <div class="container__header--offtop">
-                    Registration allows you to save the tips and helps with voyages
-                    tracking
+                <div class="header_text">Let's get closer</div>
+                <div class="subheader_text">
+                    Keep your journey records in one place
                 </div>
-            </div>
             <form th:object="${user}"
                   method="post"
                   action="/registration"
-                  class="container__registration-form"
+                  class="form form--registration"
                   name="registrationForm"
             >
-                <label class="container__form-input_label"
+                <label class="form__label"
                 >Name
                     <input
                             th:field="*{firstname}"
                             type="text"
-                            class="container__form-input"
-                            name="name"
+                            class="form__input"
                             placeholder="Your name here"
                             minlength="2"
                             maxlength="20"
                     />
                 </label>
-                <label class="container__form-input_label"
+                <label class="form__label"
                 >Surname
                     <input
                             th:field="*{lastname}"
                             type="text"
-                            class="container__form-input"
-                            name="surname"
+                            class="form__input"
                             placeholder="Your surname here"
                             minlength="2"
                             maxlength="20"
                     />
                 </label>
-                <label class="container__form-input_label"
+                <label class="form__label form__label--email"
                 >Email
                     <input
                             th:field="*{email}"
+                            class="form__input email"
                             type="email"
-                            class="container__form-input"
-                            name="email"
                             placeholder="Your email here"
                             autocomplete="off"
                     />
                 </label>
-                <label class="container__form-input_label"
+                <label class="form__label"
                 >Password
                     <input
                             th:field="*{password}"
+                            class="form__input password"
                             type="password"
-                            class="container__form-input"
-                            name="password"
                             placeholder="********"
                             minlength="8"
                             maxlength="20"
                             autocomplete="new-password"
                     />
                 </label>
-                <label class="container__form-input_label"
+                <label class="form__label"
                 >Password confirmation
                     <input
+                            class="form__input passwordConfirm"
                             type="password"
-                            class="container__form-input"
-                            name="password_confirm"
                             placeholder="********"
                             minlength="8"
                             maxlength="20"
                             autocomplete="new-password"
                     />
                 </label>
-                <label class="container__form-input_label--cb">
-                    <div class="container__form-input--checkbox">
+                <label class="form__label">
+                    <div class="form__cb">
                         <input
                                 type="checkbox"
-                                class="container__form-input--cb"
-                                name="checkbox"
                                 required
                         />
-                        <span class="container__form-input--cb-custom"></span>
+                        I allow to handle all requested information
                     </div>
-                    I allow to handle all requested information
+
                 </label>
                 <input
-                        class="container__input--btn reg_btn"
+                        class="button"
                         type="submit"
                         value="Register"
                 />
             </form>
         </div>
     </div>
-    <script type="text/javascript"
-            src="../static/js/registration.js"></script>
+    <script type="module"
+            src="/static/js/registration.js"></script>
     </body>
 </div>
 </html>

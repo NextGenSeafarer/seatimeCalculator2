@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible"
@@ -15,106 +16,58 @@
 </head>
 
 <div class="wrapper">
-    <!--    <div th:insert="~{blocks/header :: header}"></div>-->
-    <header class="header">
-        <div class="header__inner">
-            <a class="header__website_name"
-               href="/">Seatime Calculator</a>
-            <nav class="header__nav">
-                <ul class="header__nav-list">
-                    <li class="header__nav-item">
-                        <a href="/"
-                           class="header__nav-link">Home</a>
-                    </li>
-                    <li class="header__nav-item">
-                        <a href="/#about__block"
-                           class="header__nav-link">About</a>
-                    </li>
-                    <li class="header__nav-item">
-                        <a href="/#contact__block"
-                           class="header__nav-link">Contact</a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="header__btn-box">
-                <div class="header__profile-nav">
-                    <a href="/trips"
-                       class="header__user-btn--profile">Trips</a>
-                    <a href="/#"
-                       class="header__user-btn--profile">Profile</a>
-                </div>
-                <div sec:authorize="isAnonymous()"
-                     class="header__user-nav">
-                    <a href="/login"
-                       class="header__user-btn">Login</a>
-                    /
-                    <a id="registration"
-                       href="/registration"
-                       class="header__user-btn">Register</a>
-                </div>
-                <div sec:authorize="isAuthenticated()"
-                     class="header__user-nav">
-                    <a href="/logout"
-                       class="header__user-btn">Logout</a>
-                </div>
-            </div>
-        </div>
-    </header>
+        <div th:insert="~{blocks/header :: header}"></div>
     <body>
     <div class="container">
         <div class="container__content">
-            <div id="headerText"
-                 class="container__header">Enter dates below
+            <div class="header_text header_text-calculated">Enter dates below
             </div>
             <form action="#"
-                  class="container__input"
+                  class="form"
                   name="calculationForm">
-                <label class="container__content--label"
+                <label class="form__label"
                 >Sign on
-                    <input
-                            name="signOnDate"
-                            class="container__input--data"
-                            type="date"
-                            min="1990-01-01"
-                            max="2050-01-01"
-                            autofocus
+                    <input name="signOnDate"
+                           class="form__input calcFZ"
+                           type="date"
+                           min="1990-01-01"
+                           max="2050-01-01"
+                           autofocus
                     />
                 </label>
-                <label class="container__content--label"
+                <label class="form__label"
                 >Sign off
                     <input
                             name="signOffDate"
-                            class="container__input--data"
+                            class="form__input calcFZ"
                             type="date"
                             min="1990-01-01"
                             max="2050-01-01"
                     />
                 </label>
                 <label sec:authorize="isAuthenticated()"
-                       class="container__content--label"
+                       class="form__label"
                 >Vessel name
                     <input
-                            id="vesselName"
                             name="vesselName"
-                            class="container__input--data"
+                            class="form__input calcFZ"
                             type="text"
                             placeholder="LNG Arc-7"
                             maxlength="20"
                     />
                 </label>
-                <input  name="buttonCalculate"
-                        class="container__input--btn"
-                        type="submit"
-                        value="Get seatime"
+                <input class="button"
+                       type="submit"
+                       value="Get seatime"
                 />
             </form>
         </div>
     </div>
-    <div class="about">
+    <div class="about" id="about__block">
         <div class="about__container">
             <div class="about__block">
-                <div class="about__header">How does it work</div>
-                <div class="about__offtop">Made by seafarer for seafarers</div>
+                <div class="header_text">How does it work</div>
+                <div class="subheader_text">Made by seafarer for seafarers</div>
                 <div class="about__desc">
                     <div class="about__text-line--stc">Seafarers like</div>
                     <div class="about__text-line--stc">To</div>
@@ -143,7 +96,7 @@
                         <div class="bold__text">29</div>
                         days
                     </div>
-                    <div id="about__block"
+                    <div
                          class="about__text-line">
                         Because you have
                         <div class="bold__text">15</div>
@@ -159,42 +112,39 @@
             </div>
             <div id="contact__block"
                  class="about__contact">
-                <div class="contact__form--header">Contact form</div>
-                <div class="about__offtop">If you have any doubts or ideas</div>
+                <div class="header_text">Contact form</div>
+                <div class="subheader_text">If you have any doubts or ideas</div>
                 <form action="#"
-                      class="contact__form">
-                    <label class="contact__form--label"
+                      class="form contact">
+                    <label class="form__label"
                     >Name*
                         <input
-                                id="contactForm_name"
                                 type="text"
-                                class="contact__form--input"
+                                class="form__input contact_name"
                                 placeholder="Your name here"
                                 required
                         />
                     </label>
-                    <label class="contact__form--label"
+                    <label class="form__label"
                     >Email*
                         <input
-                                id="contactForm_email"
                                 type="email"
-                                class="contact__form--input"
+                                class="form__input contact_email"
                                 placeholder="Your email here"
                                 required
                         />
                     </label>
-                    <label class="contact__form--label"
+                    <label class="form__label"
                     >Your question/suggestion*
                         <textarea
-                                id="contactForm_text"
-                                class="contact__form--input text_area"
-                                placeholder="Hi, it's Captain Morgan, just want to say that your website is loading amazingly fast at the middle of the ocean!"
+                                class="form__input text_area contact_text"
+                                placeholder="I truly value your feedback and the time you took to evaluate my performance"
                                 maxlength="250"
                                 required
                         ></textarea>
                     </label>
                     <input
-                            class="container__input--btn-contact"
+                            class="button"
                             type="submit"
                             value="Contact me"
                     />
@@ -202,9 +152,10 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript"
-            src="/static/js/calculation.js"></script>
-    <script type="text/javascript"
+    <script type="module"
+            src="/static/js/calculation.js">
+    </script>
+    <script type="module"
             src="/static/js/contactForm.js"></script>
     </body>
 </div>
