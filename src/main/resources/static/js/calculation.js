@@ -33,7 +33,6 @@ inputForm.addEventListener('submit', function (event) {
         for (let input of inputFormElements) {
             input.classList.remove('error');
         }
-
         if (!isLoading) {
             (async function () {
                 isLoading = true;
@@ -51,12 +50,15 @@ inputForm.addEventListener('submit', function (event) {
                     body: dataToSend
                 })
                     .then(response => response.text())
-                    .catch(error => console.log(error));
+                    .catch(error => {
+                        console.log(error)
+                        return 'error'
+                    });
                 enableElementsOfInput(inputForm);
                 headerText.style.opacity = '0';
                 setTimeout(function () {
                     headerText.style.opacity = '1';
-                    dataReceived != null ? headerText.textContent = dataReceived : 'Error happened :(';
+                    dataReceived === 'error' ? headerText.textContent = 'Oops..error' : headerText.textContent = dataReceived;
                 }, 1000);
 
             })();

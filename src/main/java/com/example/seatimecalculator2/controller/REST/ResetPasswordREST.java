@@ -29,11 +29,7 @@ public class ResetPasswordREST {
         } catch (NoSuchElementException e) {
             return false;
         }
-        if (user != null) {
-            tokenService.sendActivationCode(user, link);
-            return true;
-        } else {
-            return false;
-        }
+        return tokenService.sendActivationCode(user, link);
+
     }
 }

@@ -4,6 +4,6 @@ import com.example.seatimecalculator2.entity.EmailDetails;
 
 public interface EmailService {
 
-    String sendSimpleMail(EmailDetails details);
+    boolean sendSimpleMail(EmailDetails details);
 }
 

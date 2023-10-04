@@ -3,6 +3,7 @@ package com.example.seatimecalculator2.service.mailSender;
 import com.example.seatimecalculator2.entity.EmailDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -17,19 +18,19 @@ public class EmailServiceImpl implements EmailService {
     @Value("${spring.mail.username}")
     private String sender;
 
-    public String sendSimpleMail(EmailDetails details) {
+    public boolean sendSimpleMail(EmailDetails details) {
+        SimpleMailMessage mailMessage
+                = new SimpleMailMessage();
+        mailMessage.setFrom(sender);
+        mailMessage.setTo(details.getTo());
+        mailMessage.setText(details.getMessage());
+        mailMessage.setSubject(details.getSubject());
         try {
-            SimpleMailMessage mailMessage
-                    = new SimpleMailMessage();
-            mailMessage.setFrom(sender);
-            mailMessage.setTo(details.getTo());
-            mailMessage.setText(details.getMessage());
-            mailMessage.setSubject(details.getSubject());
             javaMailSender.send(mailMessage);
-            return "success";
-        } catch (Exception e) {
-            return e.getMessage();
+        } catch (MailException e) {
+            return false;
         }
+        return true;
     }
 
 

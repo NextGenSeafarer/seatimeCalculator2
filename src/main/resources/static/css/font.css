@@ -1,0 +1,5 @@
+@font-face {
+    font-family: "Boston";
+    src: url("/static/fonts/Boston/boston_traffic.woff2");
+    font-display: fallback;
+}

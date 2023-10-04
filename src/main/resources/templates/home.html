@@ -9,6 +9,8 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet"
+          href="/static/css/font.css"/>
+    <link rel="stylesheet"
           href="/static/css/normalize.css"/>
     <link rel="stylesheet"
           href="/static/css/main.css"/>
@@ -28,7 +30,7 @@
                 <label class="form__label"
                 >Sign on
                     <input name="signOnDate"
-                           class="form__input calcFZ"
+                           class="form__input form__input-date"
                            type="date"
                            min="1990-01-01"
                            max="2050-01-01"
@@ -39,7 +41,7 @@
                 >Sign off
                     <input
                             name="signOffDate"
-                            class="form__input calcFZ"
+                            class="form__input form__input-date"
                             type="date"
                             min="1990-01-01"
                             max="2050-01-01"
@@ -50,7 +52,7 @@
                 >Vessel name
                     <input
                             name="vesselName"
-                            class="form__input calcFZ"
+                            class="form__input"
                             type="text"
                             placeholder="LNG Arc-7"
                             maxlength="20"
@@ -90,7 +92,7 @@
                         <div class="bold__text">17 August 2023</div>
                         and sign off
                         <div class="bold__text">14 November 2023</div>
-                        you contract length is
+                        your contract length will be
                         <div class="bold__text">2</div>
                         months and
                         <div class="bold__text">29</div>

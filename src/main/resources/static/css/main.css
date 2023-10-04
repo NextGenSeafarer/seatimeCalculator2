@@ -1,11 +1,16 @@
-@font-face {
-    font-family: "Boston";
-    src: url("/static/fonts/Boston/boston_traffic.woff");
-}
 
 html {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     scroll-behavior: smooth;
+}
+
+input, textarea {
+    background-color: #F4F5FF;
+}
+
+input:disabled, textarea:disabled {
+    background-color: dimgrey;
+    opacity: 1;
 }
 
 .wrapper {
@@ -22,7 +27,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-color: black;
-    color: white;
+    color: #F4F5FF;
 }
 
 .burger {
@@ -100,7 +105,7 @@ particle {
 .container {
     animation: text-in 0.9s, slide-down 0.7s;
     transition: 2s;
-    margin-top: 25px;
+    margin: 25px 0;
 }
 
 @keyframes text-in {
@@ -128,7 +133,6 @@ particle {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 100px;
 }
 
 .header_text {
@@ -158,13 +162,14 @@ particle {
 }
 
 .form__label {
-    color: white;
+    color: #F4F5FF;
     position: relative;
     align-self: start;
 }
 
 .form__input {
     min-width: 350px;
+    min-height: 52px;
     display: block;
     padding: 15px;
     margin-top: 10px;
@@ -172,6 +177,23 @@ particle {
     border-radius: 4px;
     font-size: 1rem;
     color: black;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    z-index: 2;
+}
+
+.form__input-date::after {
+    position: absolute;
+    right: -7px;
+    content: "";
+    background: url(/static/icons/anchor.png) no-repeat;
+    width: 64px;
+    height: 64px;
+    scale: 0.3;
+    z-index: 1;
 }
 
 .form__input:focus {
@@ -187,8 +209,8 @@ particle {
     min-width: 350px;
     margin-top: 15px;
     border-radius: 10px;
-    margin-bottom: 30px;
-    transition: 0.7s;
+    transition: 0.3s;
+    color: black;
 }
 
 .button:hover {
@@ -260,10 +282,11 @@ particle {
 .user__nav-list {
     display: flex;
     align-items: center;
+    flex-direction: column;
 }
 
 .user__nav-item:first-child {
-    margin-right: 1.5rem;
+    margin-bottom: 15px;
 }
 
 .user__nav-link {
@@ -283,7 +306,6 @@ particle {
 }
 
 .about__container {
-    color: white;
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -350,6 +372,15 @@ particle {
 .forgot_password_link:hover {
     transform: translateY(-2.5px);
     color: #4380b6;
+}
+
+.form__input-cb {
+    display: flex;
+    max-width: 335px;
+}
+
+.cb {
+    margin-right: 15px;
 }
 
 /* ===========================================login/forgot password=========================================== */
@@ -424,7 +455,7 @@ particle {
     display: block;
     position: absolute;
     top: 0;
-    left: 0;
+    left: 7%;
     content: "";
     background: url("/static/icons/404_fail.png") no-repeat;
     background-size: 300px;
@@ -543,7 +574,7 @@ particle {
         z-index: 100;
         opacity: 0;
         transition: opacity 0.5s;
-        padding-top: 75px;
+        padding-top: 100px;
     }
 
     .header__inner--open {
@@ -578,7 +609,7 @@ particle {
         display: block;
         width: 30px;
         height: 4px;
-        background-color: white;
+        background-color: #F4F5FF;
         border-radius: 3px;
         margin: 4px 0;
     }
@@ -589,7 +620,7 @@ particle {
         display: block;
         width: 30px;
         height: 4px;
-        background-color: white;
+        background-color: #F4F5FF;
         border-radius: 3px;
     }
 
@@ -618,20 +649,27 @@ particle {
 
 }
 
-/* ===========================================400=========================================== */
+/* ===========================================450=========================================== */
 @media (max-width: 450px) {
+    .header_text {
+        font-size: 2rem;
+    }
+    .header_text-calculated {
+        font-size: 1.5rem;
+    }
     .subheader_text {
         font-size: 0.7rem;
+    }
+
+    .form__input-cb {
+        display: flex;
+        max-width: 235px;
     }
 }
 
 /* ===========================================400=========================================== */
 @media (max-width: 400px) {
     .header_text {
-        font-size: 2rem;
-    }
-
-    .header_text-calculated {
         font-size: 1.5rem;
     }
 
@@ -660,7 +698,7 @@ particle {
     }
 
     .form__cb {
-        max-width: 270px;
+        max-width: 240px;
     }
 }
 

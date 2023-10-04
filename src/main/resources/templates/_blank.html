@@ -7,6 +7,8 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet"
+          href="/static/css/font.css"/>
+    <link rel="stylesheet"
           href="/static/css/normalize.css"/>
     <link rel="stylesheet"
           href="/static/css/main.css"/>
@@ -15,11 +17,11 @@
 <div class="wrapper">
     <div th:insert="~{blocks/header :: header}"></div>
     <body>
-    <div class="container log-in">
+    <div class="container">
         <div class="container__content">
             <div class="container__top">
-                <div class="container__header">The page will be ready soon..</div>
-                <div class="container__header--offtop">
+                <div class="header_text">The page will be ready soon..</div>
+                <div class="subheader_text">
                     I'm hardly working on it..
                 </div>
             </div>
@@ -28,6 +30,10 @@
             </div>
         </div>
     </div>
+    <script type="module">
+        import {burgerMenu} from "/static/js/burger.js";
+        burgerMenu();
+    </script>
     </body>
 </div>
 </html>

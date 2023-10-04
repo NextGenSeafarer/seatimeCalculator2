@@ -12,6 +12,7 @@ function createLoader(element) {
     }
 }
 
+
 function deleteLoader(loader) {
     document.querySelector('.loading_status').remove();
 }

@@ -36,7 +36,7 @@ form.addEventListener('submit', function (event) {
                         let message = document.createElement('span');
                         message.classList.add('message__exist');
                         message.innerHTML = '<div class="message_fail message">\n' +
-                            '                <div class="message_text">Email is not exist</div>\n' +
+                            '                <div class="message_text">Error happened</div>\n' +
                             '            </div>';
                         form.prepend(message);
                     }

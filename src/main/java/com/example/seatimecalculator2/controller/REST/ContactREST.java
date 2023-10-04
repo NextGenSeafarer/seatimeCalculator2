@@ -22,7 +22,7 @@ public class ContactREST {
     String serviceMailReceiver;
 
     @PostMapping("/contact")
-    String sendContactForm(@RequestBody ContactForm contactForm) {
+    boolean sendContactForm(@RequestBody ContactForm contactForm) {
         EmailDetails details = new EmailDetails();
         details.setTo(serviceMailReceiver);
         details.setMessage("New request from: " + contactForm.getEmail() + ", saying: \n" + contactForm.getMessage());

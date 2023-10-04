@@ -17,7 +17,7 @@ public interface AccountTokenService {
     void increaseCounterTimesSendToEmail(String token);
 
     boolean changeUserPassword(String token, String new_password, String new_password_confirm);
-    void sendActivationCode(User user, String link);
+    boolean sendActivationCode(User user, String link);
 
 
 }

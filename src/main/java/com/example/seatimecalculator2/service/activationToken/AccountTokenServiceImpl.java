@@ -8,7 +8,6 @@ import com.example.seatimecalculator2.repository.UserRepository;
 import com.example.seatimecalculator2.service.mailSender.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -81,11 +80,10 @@ public class AccountTokenServiceImpl implements AccountTokenService {
     }
 
     @Override
-    @Async
-    public void sendActivationCode(User user, String link) {
+    public boolean sendActivationCode(User user, String link) {
         AccountToken activationToken = createToken(user);
         if (activationToken.getCounterSendToEmail() >= 3) {
-            return;
+            return false;
         }
         EmailDetails emailDetails = new EmailDetails();
         emailDetails.setTo(user.getEmail());
@@ -93,7 +91,10 @@ public class AccountTokenServiceImpl implements AccountTokenService {
         emailDetails.setMessage("Hello," + user.getFirstname() + "!" +
                 "\nHere is your security link: " +
                 link + activationToken.getToken());
-        emailService.sendSimpleMail(emailDetails);
-        increaseCounterTimesSendToEmail(activationToken.getToken());
+        if (emailService.sendSimpleMail(emailDetails)) {
+            increaseCounterTimesSendToEmail(activationToken.getToken());
+            return true;
+        }
+        return false;
     }
 }

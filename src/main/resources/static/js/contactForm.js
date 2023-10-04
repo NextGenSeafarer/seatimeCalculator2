@@ -23,13 +23,20 @@ form.addEventListener('submit', function (event) {
                 headers: {"Content-Type": "application/json"},
                 body: dataToSend
             })
-                .then(response => response.text())
+                .then(response => response.json())
                 .catch(error => console.log(error));
-            if (dataReceived !== null) {
+            if (dataReceived === false) {
                 deleteLoader(form);
                 enableElementsOfInput(form);
-            }
-            if (dataReceived === 'success') {
+                if (document.querySelector('.message__exist') == null) {
+                    let message = document.createElement('span');
+                    message.classList.add('message__exist');
+                    message.innerHTML = '<div class="message_fail message">\n' +
+                        '                <div class="message_text">Something went wrong :(</div>\n' +
+                        '            </div>';
+                    form.prepend(message);
+                }
+            } else {
                 if (document.querySelector('.message__exist') == null) {
                     form.classList.add('fade_away');
                     form.innerHTML = '';
@@ -38,18 +45,6 @@ form.addEventListener('submit', function (event) {
                         '                <div class="message_text">I\'ll look into it right away' +
                         ' </div>\n' +
                         '            </div>';
-                }
-            } else {
-                for (let element of form.elements) {
-                    element.disabled = false;
-                }
-                if (document.querySelector('.message__exist') == null) {
-                    let message = document.createElement('span');
-                    message.classList.add('message__exist');
-                    message.innerHTML = '<div class="message_fail message">\n' +
-                        '                <div class="message_text">Something went wrong :(</div>\n' +
-                        '            </div>';
-                    form.prepend(message);
                 }
             }
         })();
