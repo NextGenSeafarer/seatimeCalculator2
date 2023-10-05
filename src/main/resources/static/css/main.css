@@ -158,7 +158,6 @@ particle {
 .form {
     display: flex;
     flex-direction: column;
-    align-items: end;
 }
 
 .form__label {
@@ -169,8 +168,8 @@ particle {
 
 .form__input {
     min-width: 350px;
-    min-height: 52px;
-    display: block;
+    height: 52px;
+    display: flex;
     padding: 15px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -367,6 +366,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     padding-top: 5px;
     transition: 0.3s;
     color: #d05d28;
+    align-self: end;
 }
 
 .forgot_password_link:hover {
@@ -391,7 +391,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-weight: 800;
     transition: 1s;
     margin-bottom: 25px;
-    align-self: center;
+}
+.message__exist{
+    align-self: end;
 }
 
 .message_text {
@@ -651,6 +653,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 /* ===========================================450=========================================== */
 @media (max-width: 450px) {
+
     .header_text {
         font-size: 2rem;
     }
@@ -660,10 +663,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .subheader_text {
         font-size: 0.7rem;
     }
-
     .form__input-cb {
         display: flex;
         max-width: 235px;
+    }
+    .message_fail::before {
+        display: none;
+    }
+
+    .message_success::before {
+        display: none;
     }
 }
 
@@ -671,14 +680,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 @media (max-width: 400px) {
     .header_text {
         font-size: 1.5rem;
-    }
-
-    .message_fail::before {
-        display: none;
-    }
-
-    .message_success::before {
-        display: none;
     }
 
     .burger {

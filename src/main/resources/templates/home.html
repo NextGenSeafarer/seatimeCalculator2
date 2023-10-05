@@ -24,6 +24,7 @@
         <div class="container__content">
             <div class="header_text header_text-calculated">Enter dates below
             </div>
+            <a hidden="hidden" class="calculationLink" th:href="${calculationLink}"></a>
             <form action="#"
                   class="form"
                   name="calculationForm">
@@ -34,7 +35,6 @@
                            type="date"
                            min="1990-01-01"
                            max="2050-01-01"
-                           autofocus
                     />
                 </label>
                 <label class="form__label"
@@ -116,6 +116,7 @@
                  class="about__contact">
                 <div class="header_text">Contact form</div>
                 <div class="subheader_text">If you have any doubts or ideas</div>
+                <a hidden="hidden" class="contactLink" th:href="${contactLink}"></a>
                 <form action="#"
                       class="form contact">
                     <label class="form__label"

@@ -1,5 +1,14 @@
-import {contactUrl} from "/static/js/staticLinks.js";
-import {createLoader, deleteLoader, disableElementsOfInput, enableElementsOfInput} from "/static/js/blocks/loader.js";
+import {
+    burgerMenu,
+    createLoader,
+    deleteLoader,
+    disableElementsOfInput,
+    enableElementsOfInput,
+    particles
+} from "/static/js/staticElements.js";
+
+burgerMenu();
+particles();
 
 let form = document.querySelector('.contact');
 let isLoading = false;
@@ -7,6 +16,7 @@ let isLoading = false;
 form.addEventListener('submit', function (event) {
     event.preventDefault();
     if (!isLoading) {
+        let contactUrl = new URL(document.querySelector(".contactLink").href);
         createLoader(form);
         (async function () {
             isLoading = true;
@@ -24,9 +34,12 @@ form.addEventListener('submit', function (event) {
                 body: dataToSend
             })
                 .then(response => response.json())
-                .catch(error => console.log(error));
+                .catch(error => {
+                    console.log(error)
+                    return false
+                });
             if (dataReceived === false) {
-                deleteLoader(form);
+                deleteLoader();
                 enableElementsOfInput(form);
                 if (document.querySelector('.message__exist') == null) {
                     let message = document.createElement('span');

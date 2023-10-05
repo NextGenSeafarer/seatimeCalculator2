@@ -22,11 +22,44 @@ public class SeaTimeCountingLogic {
     }
 
     private String contractLengthCalculation(LocalDate signOn, LocalDate signOff) {
-        int daysInFirstMonth = signOn.lengthOfMonth() - signOn.getDayOfMonth();
+        if (signOn.isEqual(signOff)) {
+            return "0:0:1";
+        }
+        int daysBetween = (int) ChronoUnit.DAYS.between(signOn, signOff);
+        if (signOn.getMonthValue() == signOff.getMonthValue() && signOn.getYear() == signOff.getYear()) {
+            int includeLastDay = daysBetween + 1;
+            switch (includeLastDay) {
+                case 31 -> {
+                    return "0:1:0";
+                }
+                case 30 -> {
+                    if (signOn.lengthOfMonth() == 30) {
+                        return "0:1:0";
+                    } else {
+                        return "0:0:30";
+                    }
+                }
+                case 29 -> {
+                    if (signOn.getMonthValue() == 2 && signOn.isLeapYear()) {
+                        return "0:1:0";
+                    }
+                }
+                case 28 -> {
+                    if (signOn.getMonthValue() == 2 && !signOn.isLeapYear()) {
+                        return "0:1:0";
+                    }
+                }
+                default -> {
+                    return "0:0:" + includeLastDay;
+                }
+            }
+        }
+        int daysInFirstMonth = (signOn.lengthOfMonth() - signOn.getDayOfMonth()) +1;
+
         int daysInLastMonth = signOff.getDayOfMonth();
-        int totalFirstAndLastMonthDays = daysInFirstMonth + daysInLastMonth + 1;
-        int totalDaysBetweenDates = (int) ChronoUnit.DAYS.between(signOn, signOff) - totalFirstAndLastMonthDays;
-        int monthsBetween = totalDaysBetweenDates / 30;
+        int totalFirstAndLastMonthDays = daysInFirstMonth + daysInLastMonth;
+        double totalDaysBetweenDates = daysBetween - totalFirstAndLastMonthDays;
+        int monthsBetween = (int) Math.round(totalDaysBetweenDates / 30);
         if (totalFirstAndLastMonthDays >= 30) {
             int month = totalFirstAndLastMonthDays / 30;
             monthsBetween += month;

@@ -1,4 +1,10 @@
-import {validationURL, forgotPasswordLink} from "/static/js/staticLinks.js";
+import {
+    burgerMenu,
+    particles
+} from "/static/js/staticElements.js";
+
+burgerMenu();
+particles();
 
 let regForm = document.querySelector('.form');
 let email = document.querySelector('.email');
@@ -34,6 +40,7 @@ regForm.addEventListener('submit', function (event) {
 
 email.addEventListener('change', function () {
     (async function () {
+        let validationURL = new URL(document.querySelector(".emailValidationLink").href);
         let dataToSend = email.value;
         let isEmailExists = await fetch(validationURL, {
             credentials: "same-origin",

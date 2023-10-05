@@ -1,9 +1,10 @@
-import {calculationURL} from "/static/js/staticLinks.js";
-import {disableElementsOfInput, enableElementsOfInput} from "/static/js/blocks/loader.js";
+import {
+    disableElementsOfInput,
+    enableElementsOfInput,
+} from "/static/js/staticElements.js";
 
 let inputForm = document.querySelector('.form');
 let isLoading = false;
-
 inputForm.addEventListener('submit', function (event) {
     event.preventDefault();
     let inputFormElements = inputForm.getElementsByClassName('form__input');
@@ -34,6 +35,7 @@ inputForm.addEventListener('submit', function (event) {
             input.classList.remove('error');
         }
         if (!isLoading) {
+            let calculationURL = new URL(document.querySelector(".calculationLink").href);
             (async function () {
                 isLoading = true;
                 disableElementsOfInput(inputForm);

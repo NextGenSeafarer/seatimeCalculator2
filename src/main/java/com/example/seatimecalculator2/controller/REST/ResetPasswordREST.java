@@ -18,8 +18,8 @@ import java.util.NoSuchElementException;
 public class ResetPasswordREST {
     private final UserService userService;
     private final AccountTokenService tokenService;
-    @Value("${web.site.link.password_reset}")
-    String link;
+    @Value("${link.resetPassword.mail}")
+    private String mailLink;
 
     @PostMapping("/resetPassword")
     public boolean resetPassword(@RequestBody String email) {
@@ -29,7 +29,7 @@ public class ResetPasswordREST {
         } catch (NoSuchElementException e) {
             return false;
         }
-        return tokenService.sendActivationCode(user, link);
+        return tokenService.sendActivationCode(user, mailLink);
 
     }
 }

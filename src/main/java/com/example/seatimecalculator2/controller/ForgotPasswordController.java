@@ -18,11 +18,12 @@ import java.time.LocalDateTime;
 public class ForgotPasswordController {
 
     private final AccountTokenService tokenService;
-    @Value("${web.site.link.password_reset}")
-    private String link;
+    @Value("${link.resetPassword.api}")
+    private String apiLink;
 
     @GetMapping
-    public String forgotPasswordPage() {
+    public String forgotPasswordPage(Model model) {
+        model.addAttribute("apiLink", apiLink);
         return "forgot_password";
     }
 

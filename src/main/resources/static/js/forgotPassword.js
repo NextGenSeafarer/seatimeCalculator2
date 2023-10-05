@@ -1,5 +1,14 @@
-import {resetPasswordURL} from "/static/js/staticLinks.js";
-import {createLoader, deleteLoader, enableElementsOfInput, disableElementsOfInput} from "/static/js/blocks/loader.js";
+import {
+    burgerMenu,
+    createLoader,
+    deleteLoader,
+    disableElementsOfInput,
+    enableElementsOfInput,
+    particles
+} from "/static/js/staticElements.js";
+
+burgerMenu();
+particles();
 
 let form = document.querySelector('.form')
 let isLoading = false;
@@ -8,6 +17,7 @@ form.addEventListener('submit', function (event) {
     let mailValue = document.querySelector('.email').value;
 
     if (!isLoading) {
+        let resetPasswordURL = new URL(document.querySelector(".resetLink").href);
         createLoader(form);
         (async function send() {
                 isLoading = true;
@@ -31,7 +41,7 @@ form.addEventListener('submit', function (event) {
                     });
                 } else {
                     enableElementsOfInput(form);
-                    deleteLoader(form);
+                    deleteLoader();
                     if (document.querySelector('.message__exist') == null) {
                         let message = document.createElement('span');
                         message.classList.add('message__exist');

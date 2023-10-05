@@ -21,10 +21,10 @@
     <body>
     <div class="container">
         <div class="container__content">
-                <div class="header_text">Easy log in</div>
-                <div class="subheader_text">
-                    Don't share your personal information with others
-                </div>
+            <div class="header_text">Easy log in</div>
+            <div class="subheader_text">
+                Don't share your personal information with others
+            </div>
             <div class="message_success message"
                  th:if="${success}">
                 <div class="message_text">You have successfully registered</div>
@@ -78,13 +78,11 @@
         }
     </script>
     <script type="module">
-        import {particles} from "/static/js/visuals/particles.js";
+        import {burgerMenu, particles} from "/static/js/staticElements.js";
+        burgerMenu();
         particles();
     </script>
-    <script type="module">
-        import {burgerMenu} from "/static/js/burger.js";
-        burgerMenu();
-    </script>
+
     </body>
 </div>
 </html>

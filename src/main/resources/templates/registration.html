@@ -23,6 +23,7 @@
             <div class="subheader_text">
                 Keep your journey records in one place
             </div>
+            <a hidden="hidden" class="emailValidationLink" th:href="${emailValidationLink}"></a>
             <form th:object="${user}"
                   method="post"
                   action="/registration"

@@ -1,3 +1,10 @@
+import {
+    burgerMenu,
+    particles
+} from "/static/js/staticElements.js";
+
+burgerMenu();
+particles();
 let form = document.querySelector('.form');
 form.addEventListener('submit', function (event) {
     let password = document.querySelector('.password')
@@ -15,10 +22,10 @@ form.addEventListener('submit', function (event) {
         password.classList.add('error');
         passwordConfirm.classList.add('error');
     }
-    password.addEventListener('focus', function (event) {
+    password.addEventListener('focus', function () {
         password.classList.remove('error');
     });
-    passwordConfirm.addEventListener('focus', function (event) {
+    passwordConfirm.addEventListener('focus', function () {
         passwordConfirm.classList.remove('error');
     });
 })
