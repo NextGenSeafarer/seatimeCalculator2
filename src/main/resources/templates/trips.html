@@ -1,72 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible"
+          content="ie=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet"
           href="/static/css/font.css"/>
     <link rel="stylesheet"
           href="/static/css/normalize.css"/>
     <link rel="stylesheet"
           href="/static/css/main.css"/>
-    <title>STC trips</title>
-  </head>
-  <div class="wrapper">
+    <title>Voyages</title>
+</head>
+
+<div class="wrapper">
     <div th:insert="~{blocks/header :: header}"></div>
     <body>
-      <div class="container">
-        <div class="container__content trips_content">
-          <div class="container__top">
-            <div class="container__header">You are real old spice!</div>
-            <div class="container__header--offtop">
-              As always you can edit / delete any of the entries
-            </div>
-          </div>
-          <div class="trips__table">
-            <div class="trips__table-row">
-              <div class="trips__table-data default">Vessel</div>
+    <div class="container">
+        <div class="container__content container__content--trips">
+            <a hidden="hidden"
+               class="tripsLink"
+               th:href="${tripsLink}"></a>
+            <th:block th:each="voyage: ${voyages}">
+                <form th:id="${voyage.id}"
+                      action="#"
+                      class="form form--trips">
+                    <label class="form__label">
+                        Vessel name
+                        <input
+                                name="vesselName"
+                                class="form__input form__input--name"
+                                type="text"
+                                th:value="${voyage.shipName}"
+                                disabled
+                        />
+                    </label>
+                    <label class="form__label"
+                    >Sign on
+                        <input name="signOnDate"
+                               class="form__input form__input-date form__input--signOn"
+                               type="text"
+                               th:value="${voyage.signOnDate}"
+                               disabled
+                        />
+                    </label>
+                    <label class="form__label"
+                    >Sign off
+                        <input
+                                name="signOffDate"
+                                class="form__input form__input-date form__input--signOff"
+                                type="text"
+                                th:value="${voyage.signOffDate}"
+                                disabled
+                        />
+                    </label>
+                    <div class="form__text form__input--contractLength"
+                         th:text="${voyage.contractLength}"></div>
+                    <div class="buttons_row">
+                        <input th:id="${voyage.id} + e"
+                               class="button-trips button-trips--edit"
+                               type="button"
+                        />
+                        <input th:id="${voyage.id} + d"
+                               class="button-trips button-trips--delete"
+                               type="button"
+                        />
+                    </div>
 
-              <div class="trips__table-data default">Sign on</div>
+                </form>
+            </th:block>
 
-              <div class="trips__table-data default">Sign off</div>
 
-              <div class="trips__table-data default">Contract length</div>
-            </div>
-            <form class="trips__table-row">
-              <input
-                type="text"
-                class="trips__table-data"
-                value="Georgiy Ushakov"
-                disabled
-              />
-              <input
-                type="date"
-                class="trips__table-data"
-                value="2023-06-03"
-                min="1990-01-01"
-                max="2050-01-01"
-                disabled
-              />
-              <input
-                type="date"
-                class="trips__table-data"
-                value="2023-05-05"
-                min="1990-01-01"
-                max="2050-01-01"
-                disabled
-              />
-              <div class="trips__table-data">5 month 4 days</div>
-              <button type="button" class="button-trip btn-edit" onclick="edit();">
-                Edit
-              </button>
-              <!-- <a href="#" class="button-trip btn-edit">Edit</a> -->
-              <a href="#" class="button-trip btn-delete">Delete</a>
-            </form>
-          </div>
         </div>
-      </div>
-      <script src="/js/registration.js"></script>
+    </div>
+    <script type="module"
+            src="/static/js/trips.js">
+    </script>
     </body>
-  </div>
+</div>
 </html>

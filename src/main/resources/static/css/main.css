@@ -162,11 +162,11 @@ particle {
 
 .form__label {
     color: #F4F5FF;
-    position: relative;
     align-self: start;
 }
 
 .form__input {
+    position: relative;
     min-width: 350px;
     height: 52px;
     display: flex;
@@ -195,6 +195,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     z-index: 1;
 }
 
+.form__input-ship::after {
+    position: absolute;
+    right: -7px;
+    content: "";
+    background: url(/static/icons/anchor.png) no-repeat;
+    width: 64px;
+    height: 64px;
+    scale: 0.3;
+    z-index: 1;
+}
+
 .form__input:focus {
     scale: 1.01;
     box-shadow: 0 0 1px 3px rgba(208, 93, 40, 0.75);;
@@ -205,6 +216,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-size: 1rem;
     font-weight: 600;
     padding: 20px;
+    height: 60px;
     min-width: 350px;
     margin-top: 15px;
     border-radius: 10px;
@@ -392,7 +404,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     transition: 1s;
     margin-bottom: 25px;
 }
-.message__exist{
+
+.message__exist {
     align-self: end;
 }
 
@@ -480,13 +493,95 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background: url("/static/icons/blankPage.png") no-repeat;
 }
 
-/* ===========================================particles=========================================== */
-/* ===========================================particles=========================================== */
+/* ===========================================trips=========================================== */
+/* ===========================================trips=========================================== */
+.container__content--trips {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+}
+
+.form--trips {
+    margin: 25px;
+    position: relative;
+}
+
+.form__text {
+    color: #d05d28;
+    margin: 5px 0;
+}
+
+.buttons_row {
+    margin-top: 15px;
+    align-self: end;
+}
+
+.button-trips {
+    background-color: #F4F5FF;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    margin-left: 7px;
+    position: relative;
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.2s;
+}
+
+
+.button-trips--edit {
+    background-image: url("/static/icons/edit.png");
+}
+
+.button-trips--edit:hover {
+    box-shadow: 0 0 10px 4px #4380b6;
+}
+
+.button-trips--delete {
+    background-image: url("/static/icons/delete.png");
+}
+
+.button-trips--delete:hover {
+    box-shadow: 0 0 10px 4px rgba(253, 0, 0);
+}
+
+.active {
+    background-image: url("/static/icons/success.png");
+    box-shadow: 0 0 10px 4px rgb(125, 224, 121);
+}
+
+.updating {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 105%;
+    height: 100%;
+    background: #000000;
+    color: white;
+    animation: updateMovement 1s infinite ease-in-out alternate-reverse;
+    transition: all 1s;
+    opacity: 1;
+}
+
+@keyframes updateMovement {
+    100% {
+        transform: translateX(-5px);
+    }
+}
 
 
 /* ===========================================media=========================================== */
 /* ===========================================media=========================================== */
 
+/* ===========================================1230=========================================== */
+@media (max-width: 1230px) {
+    .container__content--trips {
+        justify-content: center;
+    }
+}
 
 /* ===========================================1100=========================================== */
 @media (max-width: 1100px) {
@@ -523,6 +618,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .container__input--btn-contact {
         min-width: 400px;
     }
+
 
 }
 
@@ -657,16 +753,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .header_text {
         font-size: 2rem;
     }
+
     .header_text-calculated {
         font-size: 1.5rem;
     }
+
     .subheader_text {
         font-size: 0.7rem;
     }
+
     .form__input-cb {
         display: flex;
         max-width: 235px;
     }
+
     .message_fail::before {
         display: none;
     }

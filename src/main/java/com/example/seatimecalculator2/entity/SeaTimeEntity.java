@@ -1,6 +1,7 @@
 package com.example.seatimecalculator2.entity;
 
 import com.example.seatimecalculator2.entity.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -34,7 +35,7 @@ public class SeaTimeEntity {
 
     @Column(name = "contract_length")
     String contractLength;
-
+    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     @ToString.Exclude
@@ -45,11 +46,11 @@ public class SeaTimeEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SeaTimeEntity that = (SeaTimeEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(signOnDate, that.signOnDate) && Objects.equals(signOffDate, that.signOffDate) && Objects.equals(shipName, that.shipName) && Objects.equals(contractLength, that.contractLength) && Objects.equals(user, that.user);
+        return Objects.equals(id, that.id) && Objects.equals(signOnDate, that.signOnDate) && Objects.equals(signOffDate, that.signOffDate) && Objects.equals(shipName, that.shipName) && Objects.equals(contractLength, that.contractLength);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, signOnDate, signOffDate, shipName, contractLength, user);
+        return Objects.hash(id, signOnDate, signOffDate, shipName, contractLength);
     }
 }

@@ -7,21 +7,16 @@ import com.example.seatimecalculator2.repository.UserRepository;
 import com.example.seatimecalculator2.service.seaCountingLogic.SeaTimeCountingLogic;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class SeatimeCRUImplementation implements SeatimeCRUD{
+public class SeatimeCRUImplementation implements SeatimeCRUD {
     private final UserRepository userRepository;
     private final SeaTimeCountingLogic countingLogic;
     private final SeaTimeRepository seaTimeRepo;
@@ -33,29 +28,37 @@ public class SeatimeCRUImplementation implements SeatimeCRUD{
         log.info("Adding sea time {} to user with id: {}", seaTimeEntity, id);
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        int days = calculateContractLengthInDays(seaTimeEntity);
         user.addSeaTimeEntityToTheList(seaTimeEntity);
         seaTimeRepo.save(seaTimeEntity);
     }
 
     @Override
-    public void updateSeaTime(SeaTimeEntity seaTimeEntity) {
+    public String updateSeaTime(SeaTimeEntity seaTimeEntity) {
         log.info("Updating seatime: {}", seaTimeEntity);
-        SeaTimeEntity existed = seaTimeRepo.findById(seaTimeEntity.getId())
-                .orElseThrow();
-        seaTimeEntity.setUser(existed.getUser());
+        SeaTimeEntity existed;
+        try {
+            existed = seaTimeRepo.findById(seaTimeEntity.getId())
+                    .orElseThrow();
+        } catch (Exception e) {
+            return "error";
+        }
         if (existed.equals(seaTimeEntity)) {
-            log.info("No calculations required for seatime: {}", seaTimeEntity);
-            return;
+            log.info("No update required for seatime: {}", seaTimeEntity);
+            return seaTimeEntity.getContractLength();
         }
         if (!(existed.getSignOnDate()
                 .equals(seaTimeEntity.getSignOnDate())) ||
                 !(existed.getSignOffDate()
                         .equals(seaTimeEntity.getSignOffDate()))) {
-            seaTimeEntity.setContractLength(calculateContractLength(seaTimeEntity));
+            existed.setContractLength(calculateContractLength(seaTimeEntity));
+            existed.setSignOnDate(seaTimeEntity.getSignOnDate());
+            existed.setSignOffDate(seaTimeEntity.getSignOffDate());
         }
-        seaTimeRepo.save(seaTimeEntity);
-
+        if (!seaTimeEntity.getShipName().equals(existed.getShipName())) {
+            existed.setShipName(seaTimeEntity.getShipName());
+        }
+        seaTimeRepo.save(existed);
+        return existed.getContractLength();
     }
 
     @Override
@@ -71,26 +74,13 @@ public class SeatimeCRUImplementation implements SeatimeCRUD{
     }
 
     @Override
-    public Page<SeaTimeEntity> getListOfSeaTimeEntities(User user, Pageable pageable) {
+    public List<SeaTimeEntity> getListOfSeaTimeEntities(User user) {
         List<SeaTimeEntity> listOfEntities = userRepository.findById(user.getId())
                 .orElseThrow()
                 .getSeaTimeEntityList();
-        log.info("Getting list of seatime for user with id: {} page: {}, page_size: {}",
-                user.getId(),
-                pageable.getPageNumber(),
-                pageable.getPageSize());
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-        List<SeaTimeEntity> list;
-        if (listOfEntities.size() < startItem) {
-            list = Collections.emptyList();
-        } else {
-            int toIndex = Math.min(startItem + pageSize, listOfEntities.size());
-            list = listOfEntities.subList(startItem, toIndex);
-        }
-
-        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), listOfEntities.size());
+        log.info("Getting list of seatime for user with id: {}",
+                user.getId());
+        return listOfEntities;
     }
 
     @Override

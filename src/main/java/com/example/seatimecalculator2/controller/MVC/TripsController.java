@@ -1,39 +1,34 @@
-package com.example.seatimecalculator2.controller;
+package com.example.seatimecalculator2.controller.MVC;
 
-import com.example.seatimecalculator2.service.authentificatedUser.UserService;
+import com.example.seatimecalculator2.entity.SeaTimeEntity;
+import com.example.seatimecalculator2.entity.user.User;
 import com.example.seatimecalculator2.service.seatimeCRUD.SeatimeCRUD;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 
 public class TripsController {
 
-    private final UserService userService;
     private final SeatimeCRUD crudService;
+    @Value("${link.trips.api}")
+    String tripsLink;
 
     @GetMapping("/trips")
-    public String showAllTrips(){
-        return "_blank";
+    public String showAllTrips(@AuthenticationPrincipal User user,
+                               Model model) {
+        List<SeaTimeEntity> list = crudService.getListOfSeaTimeEntities(user);
+        model.addAttribute("voyages", list);
+        model.addAttribute("tripsLink", tripsLink);
+        return "trips";
     }
-//    @GetMapping("/trips")
-//    public String showAllTrips(@AuthenticationPrincipal User user,
-//                               @RequestParam(name = "page", defaultValue = "1", required = false) int page,
-//                               @RequestParam(name = "size", defaultValue = "6", required = false) int size,
-//                               Model model) {
-//        Page<SeaTimeEntity> pageList = crudService.getListOfSeaTimeEntities(user, PageRequest.of(page - 1, size));
-//        int totalPages = pageList.getTotalPages();
-//        if (totalPages > 0) {
-//            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-//                    .boxed()
-//                    .toList();
-//            model.addAttribute("pageNumbers", pageNumbers);
-//        }
-//        model.addAttribute("entries", pageList);
-//        return "trips";
-//    }
 //
 //    @GetMapping("/trips/{trip_id}")
 //    public String showTrip(@PathVariable Long trip_id, Model model, @AuthenticationPrincipal User user) {

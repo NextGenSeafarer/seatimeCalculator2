@@ -1,4 +1,4 @@
-package com.example.seatimecalculator2.controller;
+package com.example.seatimecalculator2.controller.MVC;
 
 import com.example.seatimecalculator2.entity.user.User;
 import com.example.seatimecalculator2.service.authentificatedUser.UserService;

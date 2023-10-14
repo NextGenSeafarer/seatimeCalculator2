@@ -2,19 +2,19 @@ package com.example.seatimecalculator2.service.seatimeCRUD;
 
 import com.example.seatimecalculator2.entity.SeaTimeEntity;
 import com.example.seatimecalculator2.entity.user.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface SeatimeCRUD {
     void addSeaTimeToUser(Long id, SeaTimeEntity seaTimeEntity);
 
-    void updateSeaTime(SeaTimeEntity seaTimeEntity);
+    String updateSeaTime(SeaTimeEntity seaTimeEntity);
 
     void deleteSeaTime(Long sea_time_entity_id);
 
     boolean isSeaTimeEnteredValid(SeaTimeEntity seaTimeEntity);
 
-    Page<SeaTimeEntity> getListOfSeaTimeEntities(User user, Pageable pageable);
+    List<SeaTimeEntity> getListOfSeaTimeEntities(User user);
 
     SeaTimeEntity getSingleSeaTime(Long sea_time_entity_id);
 
