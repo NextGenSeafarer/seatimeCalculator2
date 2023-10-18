@@ -1,3 +1,6 @@
+@font-face {
+    font-family: 'Boston Traffic', Tahoma, Geneva, Verdana, sans-serif;
+}
 
 html {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -136,8 +139,8 @@ particle {
 }
 
 .header_text {
-    font-family: "Boston", sans-serif;
-    font-size: 2.5rem;
+    font-family: "Boston Traffic", sans-serif;
+    font-size: 2rem;
     font-weight: 800;
     margin-bottom: 5px;
     transition: all 0.7s ease-in-out;
@@ -149,7 +152,7 @@ particle {
 }
 
 .subheader_text {
-    font-family: "Boston", sans-serif;
+    font-family: "Boston Traffic", sans-serif;
     font-size: 1rem;
     margin: 5px 0 25px 0;
 }
@@ -235,7 +238,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* ===========================================header=========================================== */
 
 .header {
-    font-family: "Boston", sans-serif;
+    font-family: "Boston Traffic", sans-serif;
     font-size: 1.5rem;
     font-weight: 600;
     margin-top: 25px;
@@ -374,7 +377,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* ===========================================registration=========================================== */
 
 .forgot_password_link {
-    font-family: "Boston", sans-serif;
+    font-family: "Boston Traffic", sans-serif;
     padding-top: 5px;
     transition: 0.3s;
     color: #d05d28;
@@ -499,11 +502,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: start;
+    transition: all 1s ease-in-out;
 }
 
 .form--trips {
     margin: 25px;
     position: relative;
+    transition: all 0.7s;
 }
 
 .form__text {
@@ -549,7 +554,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .active {
     background-image: url("/static/icons/success.png");
-    box-shadow: 0 0 10px 4px rgb(125, 224, 121);
+
 }
 
 .updating {
@@ -570,6 +575,64 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     100% {
         transform: translateX(-5px);
     }
+}
+
+.delete__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.2rem;
+
+}
+
+.buttons_row--delete {
+    align-self: inherit;
+}
+
+.button--delete {
+    width: 65px;
+    height: 45px;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.2s;
+}
+
+.button-trips--confirmDelete {
+    color: #F4F5FF;
+    background-color: #ff4b4b;
+    margin-right: 7px;
+}
+
+.button-trips--cancel {
+    background-color: #F4F5FF;
+    color: black;
+}
+
+.button-trips--confirmDelete:hover {
+    box-shadow: 0 0 10px 4px rgba(253, 0, 0, 0.5);
+    animation: error_shake 0.05s 8 alternate-reverse;
+}
+
+
+.button-trips--cancel:hover {
+    box-shadow: 0 0 2px 1px #F4F5FF;
+}
+
+.delete {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    color: white;
+    transition: all 0.3s;
+    opacity: 1;
 }
 
 
@@ -751,7 +814,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 @media (max-width: 450px) {
 
     .header_text {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
 
     .header_text-calculated {
@@ -779,7 +842,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* ===========================================400=========================================== */
 @media (max-width: 400px) {
     .header_text {
-        font-size: 1.5rem;
+        font-size: 1rem;
     }
 
     .burger {

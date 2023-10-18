@@ -10,16 +10,14 @@ public interface SeatimeCRUD {
 
     String updateSeaTime(SeaTimeEntity seaTimeEntity);
 
-    void deleteSeaTime(Long sea_time_entity_id);
+    boolean deleteSeaTime(Long sea_time_entity_id);
 
     boolean isSeaTimeEnteredValid(SeaTimeEntity seaTimeEntity);
 
     List<SeaTimeEntity> getListOfSeaTimeEntities(User user);
 
-    SeaTimeEntity getSingleSeaTime(Long sea_time_entity_id);
 
     String calculateContractLength(SeaTimeEntity seaTimeEntity);
 
-    int calculateContractLengthInDays(SeaTimeEntity seaTimeEntity);
 
 }

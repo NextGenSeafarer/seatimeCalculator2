@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -62,9 +61,15 @@ public class SeatimeCRUImplementation implements SeatimeCRUD {
     }
 
     @Override
-    public void deleteSeaTime(Long sea_time_entity_id) {
+    public boolean deleteSeaTime(Long sea_time_entity_id) {
         log.info("Deleting sea time with id: {}", sea_time_entity_id);
-        seaTimeRepo.deleteById(sea_time_entity_id);
+        try {
+            seaTimeRepo.deleteById(sea_time_entity_id);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+
     }
 
     @Override
@@ -84,20 +89,9 @@ public class SeatimeCRUImplementation implements SeatimeCRUD {
     }
 
     @Override
-    public SeaTimeEntity getSingleSeaTime(Long sea_time_entity_id) {
-        log.info("Getting single seatime with id: {}", sea_time_entity_id);
-        return seaTimeRepo.findById(sea_time_entity_id)
-                .orElseThrow();
-    }
-
-    @Override
     public String calculateContractLength(SeaTimeEntity seaTimeEntity) {
         log.info("Calculating sea time, sign_on: {}, sign_off: {}", seaTimeEntity.getSignOnDate(), seaTimeEntity.getSignOffDate());
         return countingLogic.countTheSeaTime(seaTimeEntity);
     }
 
-    @Override
-    public int calculateContractLengthInDays(SeaTimeEntity seaTimeEntity) {
-        return (int) ChronoUnit.DAYS.between(seaTimeEntity.getSignOnDate(), seaTimeEntity.getSignOffDate());
-    }
 }

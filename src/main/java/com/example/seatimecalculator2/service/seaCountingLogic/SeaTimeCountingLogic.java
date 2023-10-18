@@ -18,7 +18,7 @@ public class SeaTimeCountingLogic {
 
     public boolean validityOfEnteredDatesCheck(SeaTimeEntity seaTimeEntity) {
         return seaTimeEntity.getSignOnDate().isBefore(seaTimeEntity.getSignOffDate())
-                || seaTimeEntity.getSignOnDate().isEqual(seaTimeEntity.getSignOffDate());
+                || seaTimeEntity.getSignOnDate().isEqual(seaTimeEntity.getSignOffDate()) || !seaTimeEntity.getShipName().isEmpty();
     }
 
     private String contractLengthCalculation(LocalDate signOn, LocalDate signOff) {

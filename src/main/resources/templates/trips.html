@@ -8,8 +8,7 @@
           content="ie=edge">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"
-          href="/static/css/font.css"/>
+    <link href="https://fonts.cdnfonts.com/css/boston-traffic" rel="stylesheet">
     <link rel="stylesheet"
           href="/static/css/normalize.css"/>
     <link rel="stylesheet"
@@ -22,6 +21,7 @@
     <body>
     <div class="container">
         <div class="container__content container__content--trips">
+            <div th:if="${empty_list}" class="header_text">Nothing here so far..</div>
             <a hidden="hidden"
                class="tripsLink"
                th:href="${tripsLink}"></a>
@@ -64,10 +64,12 @@
                         <input th:id="${voyage.id} + e"
                                class="button-trips button-trips--edit"
                                type="button"
+                               value=""
                         />
                         <input th:id="${voyage.id} + d"
                                class="button-trips button-trips--delete"
                                type="button"
+                               value=""
                         />
                     </div>
 

@@ -13,6 +13,8 @@ function burgerMenu() {
 }
 
 function particles() {
+    let particlesContainer = document.createElement('particlesContainer');
+    document.body.appendChild(particlesContainer);
     if (document.body.animate) {
         pop()
     }
@@ -20,12 +22,13 @@ function particles() {
     function pop() {
         for (let i = 0; i < 75; i++) {
             createParticle(Math.random() * window.screen.width, Math.random() * window.screen.height);
+
         }
     }
 
     function createParticle(x, y) {
         const particle = document.createElement('particle');
-        document.body.appendChild(particle);
+        particlesContainer.append(particle);
         const size = Math.floor(Math.random() * 3);
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
